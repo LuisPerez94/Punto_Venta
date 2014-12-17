@@ -13,6 +13,8 @@ public class Detalle_fact {
     private int idDetalle_fact;
     private int idCab_fact;
     private int idProducto;
+    private String fechaVenta;
+    private int cantidaProducto;
 
     public Detalle_fact() {
     }
@@ -51,10 +53,30 @@ public class Detalle_fact {
         this.idProducto = idProducto;
     }
 
+    public String getFechaVenta() {
+        return fechaVenta;
+    }
+
+    public void setFechaVenta(String fechaVenta) {
+        this.fechaVenta = fechaVenta;
+    }
+
+    public int getCantidaProducto() {
+        return cantidaProducto;
+    }
+
+    public void setCantidaProducto(int cantidaProducto) {
+        this.cantidaProducto = cantidaProducto;
+    }
+
     @Override
     public String toString() {
-        return "Detalle_fact{" + "idDetalle_fact=" + idDetalle_fact + ", idCab_fact=" + idCab_fact + ", idProducto=" + idProducto + '}';
+        return "Detalle_fact{" + "idDetalle_fact=" + idDetalle_fact + ", idCab_fact=" + idCab_fact + ", idProducto=" + idProducto + ", fechaVenta=" + fechaVenta + ", cantidaProducto=" + cantidaProducto + '}';
     }
+    
+    
+
+    
     
     
 }
