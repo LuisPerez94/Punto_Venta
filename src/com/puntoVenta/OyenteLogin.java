@@ -30,7 +30,7 @@ public class OyenteLogin extends KeyAdapter implements ActionListener, WindowLis
         int opcion = JOptionPane.showConfirmDialog(panel, "Seguro que quieres salir?", "Advertencia", JOptionPane.OK_CANCEL_OPTION);
 
         if(opcion == JOptionPane.OK_OPTION){
-            JOptionPane.showMessageDialog(panel, "Pues no :c");
+           System.exit(0);
         }
     }
     
@@ -42,7 +42,7 @@ public class OyenteLogin extends KeyAdapter implements ActionListener, WindowLis
     }
     
     public void iniciarSesion(){
-        JOptionPane.showMessageDialog(panel, "You shall not pass", "No", JOptionPane.ERROR_MESSAGE);
+        
         System.out.println("Usuario: " + panel.getUsuario().getText()
                             + "\nContraseña: " + panel.getContrasena().getText());
     }

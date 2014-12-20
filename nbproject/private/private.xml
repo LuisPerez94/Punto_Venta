@@ -3,8 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group name="Practicas">
-            <file>file:/C:/Users/Luis/Documents/GitHub/Punto_Venta/src/com/puntoVenta/Login.java</file>
+            <file>file:/C:/Users/Luis/Documents/GitHub/Punto_Venta/src/com/puntoVenta/PanelProductos.java</file>
+            <file>file:/C:/Users/Luis/Documents/GitHub/Punto_Venta/src/com/puntoVenta/Reportes.java</file>
+            <file>file:/C:/Users/Luis/Documents/GitHub/Punto_Venta/src/com/puntoVenta/OyenteReportes.java</file>
             <file>file:/C:/Users/Luis/Documents/GitHub/Punto_Venta/src/com/puntoVenta/PanelLogin.java</file>
+            <file>file:/C:/Users/Luis/Documents/GitHub/Punto_Venta/src/com/puntoVenta/PanelVendedores.java</file>
+            <file>file:/C:/Users/Luis/Documents/GitHub/Punto_Venta/src/com/puntoVenta/Login.java</file>
+            <file>file:/C:/Users/Luis/Documents/GitHub/Punto_Venta/src/com/puntoVenta/Conexion.java</file>
             <file>file:/C:/Users/Luis/Documents/GitHub/Punto_Venta/src/com/puntoVenta/OyenteLogin.java</file>
         </group>
     </open-files>

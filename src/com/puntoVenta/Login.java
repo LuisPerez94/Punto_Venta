@@ -1,14 +1,6 @@
 package com.puntoVenta;
 
-import java.awt.BorderLayout;
-import java.awt.Graphics;
-import java.awt.Image;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 
 /**
  * @author Luis
@@ -25,13 +17,11 @@ public class Login extends JFrame{
         setLocationRelativeTo(null);
         setResizable(false);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        addComponents();
-        setVisible(true);
+       
+       
     }
 
-    private void addComponents() {
-        
-    }
+    
     
     
     public static void main(String[] args) {
@@ -40,7 +30,7 @@ public class Login extends JFrame{
         OyenteLogin oyente = new OyenteLogin(panel);
         log.addWindowListener(oyente);
         panel.addEventos(oyente);
-        
         log.add(panel);
+        log.setVisible(true);
     }
 }
