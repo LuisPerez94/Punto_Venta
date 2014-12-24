@@ -6,47 +6,97 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 /**
- * @author Luis
- * Created on 17/12/2014, 11:31:19 AM
+ * @author Luis Created on 17/12/2014, 11:31:19 AM
  */
+public class OyenteLogin extends KeyAdapter implements ActionListener, WindowListener {
 
-public class OyenteLogin extends KeyAdapter implements ActionListener, WindowListener{
     private final PanelLogin panel;
-    
-    OyenteLogin(PanelLogin panel){
+    private Conexion vendedor;
+    private final Login ventanaLogin;
+    OyenteLogin(PanelLogin panel,Login ventanaLogin) {
+        
         this.panel = panel;
+        this.ventanaLogin=ventanaLogin;
     }
-    
+
     @Override
-    public void actionPerformed(ActionEvent e){
+    public void actionPerformed(ActionEvent e) {
         iniciarSesion();
     }
-    
+
     @Override
     public void windowClosing(WindowEvent e) {
         int opcion = JOptionPane.showConfirmDialog(panel, "Seguro que quieres salir?", "Advertencia", JOptionPane.OK_CANCEL_OPTION);
 
-        if(opcion == JOptionPane.OK_OPTION){
-           System.exit(0);
+        if (opcion == JOptionPane.OK_OPTION) {
+            System.exit(0);
         }
     }
-    
+
     @Override
-    public void keyPressed(KeyEvent e){
-        if(e.getKeyCode() == KeyEvent.VK_ENTER){
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             iniciarSesion();
         }
     }
-    
-    public void iniciarSesion(){
+
+    public void iniciarSesion() {
+        int idUsuario = 0;
+        String isAdmin ="";
         
-        System.out.println("Usuario: " + panel.getUsuario().getText()
-                            + "\nContraseña: " + panel.getContrasena().getText());
+        //inicio sesion con root para ver si en vendedor hay un usuario valido
+        Conexion cprueba = new Conexion("root", "Itver94", "3306", "127.0.0.1", "punto_venta");
+        cprueba.iniciarConexion();
+        try {
+            cprueba.setResult(cprueba.getStament().executeQuery("select idVendedor,isAdmin \n"
+                    + "from  Vendedor v\n"
+                    + "where v.usuario=\'" + panel.getUsuario().getText() + "\' and v.contrasena=\'" + panel.getContrasena().getText() + "\';"));
+            //si el recordset tiene algo quiere decir que si hay un usuario 
+            if (cprueba.getResult().next()) {
+
+                idUsuario = cprueba.getResult().getInt(1);
+                isAdmin=cprueba.getResult().getNString(2);
+                cprueba.cerrarConexion(); //cierro a root
+                //creamos segun lo que haya en isAdmin 
+                if(isAdmin.equals("T")){
+                    vendedor=new Conexion("administrador", "123pass", "3306", "127.0.0.1", "punto_venta");
+                }else if(isAdmin.equals("F")){
+                      vendedor=new Conexion("vendedor", "123pass", "3306", "127.0.0.1", "punto_venta");
+                }
+                                
+                ventanaLogin.dispose();
+
+            } else {
+                JOptionPane.showMessageDialog(panel, "Usuario o Contraseña incorrectos");
+                limpiardatos();
+
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error" + ex);
+        }
+
+//        System.out.println("Usuario: " + panel.getUsuario().getText()
+//                + "\nContraseña: " + panel.getContrasena().getText());
+    }
+
+    public void limpiardatos() {
+        panel.getUsuario().setText("");
+        panel.getContrasena().setText("");
+    }
+
+    public Conexion getVendedor() {
+        return vendedor;
+    }
+
+    public void setVendedor(Conexion vendedor) {
+        this.vendedor = vendedor;
     }
     
+
     // Métodos sin usar de la implementación de WindowListener
     @Override
     public void windowOpened(WindowEvent e) {

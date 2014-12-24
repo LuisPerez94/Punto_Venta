@@ -2,6 +2,7 @@ package com.puntoVenta;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -18,6 +19,7 @@ public class Conexion {
     private final String url;
     private Connection conexion;
     private Statement stament;
+    private ResultSet result;
 
     public Conexion(String usuario, String password, String puerto, String host, String bd) {
         this.usuario = usuario;
@@ -32,15 +34,12 @@ public class Conexion {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             conexion = DriverManager.getConnection(url, usuario, password);
-            stament=conexion.createStatement();
-
+            stament = conexion.createStatement();
             return conexion != null;
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException e) {
             System.out.println(e);
-
         }
         return false;
-
     }
 
     public void cerrarConexion() {
@@ -49,7 +48,19 @@ public class Conexion {
         } catch (SQLException ex) {
             System.out.println("Error" + ex);
         }
-
     }
 
+    public Statement getStament() {
+        return stament;
+    }
+
+    public ResultSet getResult() {
+        return result;
+    }
+
+    public void setResult(ResultSet result) {
+        this.result = result;
+    }
+    
+    
 }

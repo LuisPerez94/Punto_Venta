@@ -98,18 +98,18 @@ public class Reportes extends JFrame{
     
     
 }
-
-class Main{
-    public static void main(String[] args) {
-        setLookAndFeel();
-        Reportes p  = new Reportes();
-    }
-    
-    public static void setLookAndFeel(){
-        try{
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        }catch(Exception E){}
-        
-    }
-    
-}
+//
+//class Main{
+//    public static void main(String[] args) {
+//        setLookAndFeel();
+//        Reportes p  = new Reportes();
+//    }
+//    
+//    public static void setLookAndFeel(){
+//        try{
+//            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//        }catch(Exception E){}
+//        
+//    }
+//    
+//}

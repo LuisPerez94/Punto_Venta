@@ -20,17 +20,4 @@ public class Login extends JFrame{
        
        
     }
-
-    
-    
-    
-    public static void main(String[] args) {
-        Login log = new Login();
-        PanelLogin panel = new PanelLogin();
-        OyenteLogin oyente = new OyenteLogin(panel);
-        log.addWindowListener(oyente);
-        panel.addEventos(oyente);
-        log.add(panel);
-        log.setVisible(true);
-    }
 }
