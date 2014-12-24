@@ -12,7 +12,7 @@ package com.puntoVenta;
 public class Producto {
     private int idProducto;
     private String nombreProducto;
-    private int precio;
+    private float precio;
 
     public Producto() {
     }

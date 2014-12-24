@@ -11,6 +11,19 @@ package com.puntoVenta;
  */
 public class Vendedor {
     private int idVendedor;
+    private String nombreVendedor;
+    private String apPaterno;
+    private String apMaterno;
+    private String fechaNac;
+    private String correoVendedor;
+    private char sexo;
+    private float sueldo;
+    private String fechaIngresoVendedor;
+    private String nombUsuario;
+    private String contrasena;
+    private boolean isAdministrador;
+    
+    
 
     public Vendedor() {
     }
@@ -27,6 +40,96 @@ public class Vendedor {
         this.idVendedor = idVendedor;
     }
 
+    public String getNombreVendedor() {
+        return nombreVendedor;
+    }
+
+    public void setNombreVendedor(String nombreVendedor) {
+        this.nombreVendedor = nombreVendedor;
+    }
+
+    public String getApPaterno() {
+        return apPaterno;
+    }
+
+    public void setApPaterno(String apPaterno) {
+        this.apPaterno = apPaterno;
+    }
+
+    public String getApMaterno() {
+        return apMaterno;
+    }
+
+    public void setApMaterno(String apMaterno) {
+        this.apMaterno = apMaterno;
+    }
+
+    public String getFechaNac() {
+        return fechaNac;
+    }
+
+    public void setFechaNac(String fechaNac) {
+        this.fechaNac = fechaNac;
+    }
+
+    public String getCorreoVendedor() {
+        return correoVendedor;
+    }
+
+    public void setCorreoVendedor(String correoVendedor) {
+        this.correoVendedor = correoVendedor;
+    }
+
+    public char getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(char sexo) {
+        this.sexo = sexo;
+    }
+
+    public float getSueldo() {
+        return sueldo;
+    }
+
+    public void setSueldo(float sueldo) {
+        this.sueldo = sueldo;
+    }
+
+    public String getFechaIngresoVendedor() {
+        return fechaIngresoVendedor;
+    }
+
+    public void setFechaIngresoVendedor(String fechaIngresoVendedor) {
+        this.fechaIngresoVendedor = fechaIngresoVendedor;
+    }
+
+    public String getNombUsuario() {
+        return nombUsuario;
+    }
+
+    public void setNombUsuario(String nombUsuario) {
+        this.nombUsuario = nombUsuario;
+    }
+
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
+
+    public boolean isIsAdministrador() {
+        return isAdministrador;
+    }
+
+    public void setIsAdministrador(boolean isAdministrador) {
+        this.isAdministrador = isAdministrador;
+    }
+    
+    
+    
     @Override
     public String toString() {
         return "Vendedor{" + "idVendedor=" + idVendedor + '}';
