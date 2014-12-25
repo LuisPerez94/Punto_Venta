@@ -46,6 +46,7 @@ public class PanelVentas extends JPanel{
         
         this.add(norte, BorderLayout.NORTH);
         this.add(sur, BorderLayout.SOUTH);
+      
     }
     
     

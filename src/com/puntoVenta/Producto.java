@@ -13,27 +13,35 @@ public class Producto {
     private int idProducto;
     private String nombreProducto;
     private float precio;
+    private String ruta;
+    private String descripcion;
 
-    public Producto() {
-    }
-
-    public Producto(int idProducto) {
+    public Producto(int idProducto, String nombreProducto, float precio, String ruta, String descripcion) {
         this.idProducto = idProducto;
-    }
-
-    public Producto(String nombreProducto) {
         this.nombreProducto = nombreProducto;
-    }
-    
-    
-
-    public int getIdProducto() {
-        return idProducto;
+        this.precio = precio;
+        this.ruta = ruta;
+        this.descripcion = descripcion;
     }
 
-    public void setIdProducto(int idProducto) {
-        this.idProducto = idProducto;
+    public String getNombreProducto() {
+        return nombreProducto;
     }
+
+    public float getPrecio() {
+        return precio;
+    }
+
+    public String getRuta() {
+        return ruta;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    
+   
 
     @Override
     public String toString() {

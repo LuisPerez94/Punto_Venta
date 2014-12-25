@@ -61,26 +61,46 @@ public class OyenteLogin extends KeyAdapter implements ActionListener, WindowLis
                 idUsuario = cprueba.getResult().getInt(1);
                 isAdmin=cprueba.getResult().getNString(2);
                 cprueba.cerrarConexion(); //cierro a root
-                //creamos segun lo que haya en isAdmin 
-                if(isAdmin.equals("T")){
-                    vendedor=new Conexion("administrador", "123pass", "3306", "127.0.0.1", "punto_venta");
-                }else if(isAdmin.equals("F")){
-                      vendedor=new Conexion("vendedor", "123pass", "3306", "127.0.0.1", "punto_venta");
+                //creamos segun lo que haya en isAdmin
+                switch (isAdmin) {
+                    case "T":
+                        {
+                            vendedor=new Conexion("administrador", "123pass", "3306", "127.0.0.1", "punto_venta");
+                            Reportes reporte=new Reportes(isAdmin);
+                            OyenteReportes or=new OyenteReportes(reporte,vendedor);
+                            reporte.addEventos(or);
+                            ventanaLogin.dispose();
+                            break;
+                        }
+                    case "F":
+                        {
+                            vendedor=new Conexion("vendedor", "123pass", "3306", "127.0.0.1", "punto_venta");
+                            Reportes reporte=new Reportes(isAdmin);
+                            OyenteReportes or=new OyenteReportes(reporte,vendedor);
+                            reporte.addEventos(or);
+                            ventanaLogin.dispose();
+                            break;
+                        }
                 }
                                 
-                ventanaLogin.dispose();
+             
+             
+                
+            
 
             } else {
                 JOptionPane.showMessageDialog(panel, "Usuario o Contraseña incorrectos");
                 limpiardatos();
 
             }
+            
+            
+            System.out.println("FIN");
         } catch (SQLException ex) {
             System.out.println("Error" + ex);
         }
 
-//        System.out.println("Usuario: " + panel.getUsuario().getText()
-//                + "\nContraseña: " + panel.getContrasena().getText());
+
     }
 
     public void limpiardatos() {

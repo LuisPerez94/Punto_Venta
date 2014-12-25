@@ -16,59 +16,84 @@ import javax.swing.UIManager;
  *
  * @author JR
  */
-public class Reportes extends JFrame{
-    private JMenuItem ventas, ventasVendedor, productosMas, acercaDe, salir;
-    private PanelVentas pVentas=null; 
-    private PanelVendedores pVendedores=null; 
-    private PanelProductos pProductos=null;
-    
-    public Reportes(){
-        super("Reportes");
-        setSize(640, 520);
-        setLocationRelativeTo(null);
-        setResizable(false);
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+public class Reportes extends JFrame {
+
+    private JMenuItem ventas, ventasVendedor, productosMas, acercaDe, salir,
+            nuevaVenta, productos;
+    private PanelVentas pVentas = null;
+    private PanelVendedores pVendedores = null;
+    private PanelProductos pProductos = null;
+    private final String isAdmin;
+
+    Reportes(String isAdmin) {
+        this.isAdmin = isAdmin;
+        salir = new JMenuItem("Salir");
+        acercaDe = new JMenuItem("Acerca de");
+        this.setTitle("Bienvenido");
+        this.setSize(640, 520);
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         addComponents();
-        addEventos();
+        
         this.setVisible(true);
     }
 
     private void addComponents() {
-        JMenu archivo = new JMenu ("Archivo");
-        JMenu ayuda = new JMenu ("Ayuda");
-        
-        ventas = new JMenuItem("Ventas");
-        ventasVendedor = new JMenuItem("Ventas por Vendedor");
-        productosMas = new JMenuItem ("Productos mas vendidos");
-        salir = new JMenuItem("Salir");
-        acercaDe = new JMenuItem ("Acerca de");
-        
-        archivo.add(ventas);
-        archivo.add(ventasVendedor);
-        archivo.add(productosMas);
-        archivo.add(new JSeparator());
+
+        JMenu archivo = new JMenu("Archivo");
+        JMenu ayuda = new JMenu("Ayuda");
+        if (isAdmin.equals("T")) {
+
+            ventas = new JMenuItem("Ventas");
+            ventasVendedor = new JMenuItem("Ventas por Vendedor");
+            productosMas = new JMenuItem("Productos mas vendidos");
+
+            archivo.add(ventas);
+            archivo.add(ventasVendedor);
+            archivo.add(productosMas);
+            archivo.add(new JSeparator());
+        } else {
+            nuevaVenta = new JMenuItem("Nueva Venta");
+            productos = new JMenuItem("Catalogo de Productos");
+
+            archivo.add(nuevaVenta);
+            archivo.add(productos);
+
+        }
+
         archivo.add(salir);
-        
         ayuda.add(acercaDe);
-        
+
         JMenuBar menuP = new JMenuBar();
         menuP.add(archivo);
         menuP.add(ayuda);
-        
+
         this.setJMenuBar(menuP);
-        
+
     }
-    
-    private void addEventos(){
-        OyenteReportes o = new OyenteReportes(this);
-        ventas.addActionListener(o);
-        ventasVendedor.addActionListener(o);
-        productosMas.addActionListener(o);
+
+    public void addEventos(OyenteReportes o) {
+
+        
         salir.addActionListener(o);
         acercaDe.addActionListener(o);
         
+        if (isAdmin.equals("T")) {
+            ventas.addActionListener(o);
+            ventasVendedor.addActionListener(o);
+            productosMas.addActionListener(o);
+        } else if (isAdmin.equals("F")) {
+            nuevaVenta.addActionListener(o);
+            productos.addActionListener(o);
+        }
+
     }
 
+    
+    
+    
+    
+    
     public PanelVentas getpVentas() {
         return pVentas;
     }
@@ -92,24 +117,7 @@ public class Reportes extends JFrame{
     public void setpProductos(PanelProductos pProductos) {
         this.pProductos = pProductos;
     }
-    
-    
-    
-    
-    
+
 }
-//
-//class Main{
-//    public static void main(String[] args) {
-//        setLookAndFeel();
-//        Reportes p  = new Reportes();
-//    }
-//    
-//    public static void setLookAndFeel(){
-//        try{
-//            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-//        }catch(Exception E){}
-//        
-//    }
-//    
-//}
+
+
