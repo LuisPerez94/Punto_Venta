@@ -5,15 +5,16 @@
  */
 package com.puntoVenta;
 
+import Tablas.TablaModeloProducto;
+import Tablas.TablaRenderizadorProducto;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
 import javax.swing.SwingUtilities;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -114,10 +115,10 @@ public class OyenteReportes implements ActionListener {
             case "Buscar":
                 System.out.println("Con esto buscara");
                 break;
-                
-                
+
             case "Catalogo de Productos":
                 productos = generarCatalogo();
+               
                 catalogo = new PanelCatalogo(productos);
                 ventanaReporte.add(catalogo, "Center");
                 SwingUtilities.updateComponentTreeUI(ventanaReporte);
@@ -125,57 +126,52 @@ public class OyenteReportes implements ActionListener {
         }
     }
 
+    private JTable generarCatalogo() {
+
+        String query = "SELECT * FROM Producto";
+        Tablas.TablaModeloProducto modelo = new TablaModeloProducto();
+        TablaRenderizadorProducto render =new TablaRenderizadorProducto();
+        JTable tabla = new JTable(modelo);
+        tabla.setRowHeight(100);
+        tabla.setDefaultRenderer(ImageIcon.class, render);
+       
+
+        try {
+            usuario.iniciarConexion();
+            usuario.setResult(usuario.getStament().executeQuery(query));
+
+//            // Bucle para cada resultado en la consulta
+            while (usuario.getResult().next()) {
+                // Se crea un array que será una de las filas de la tabla.
+                Object[] fila = new Object[modelo.getColumnCount()]; // Hay tres columnas en la tabla
+
+                // Se rellena cada posición del array con una de las columnas de la tabla en base de datos.
+                for (int i = 0; i < modelo.getColumnCount(); i++) {
+                    fila[i] = usuario.getResult().getObject(i + 1); // El primer indice en rs es el 1, no el cero, por eso se suma 1.
+                }
+                Producto p = new Producto(fila);
+                modelo.agregarProducto(p);
+
+            }
+            usuario.getStament().close();
+        } catch (SQLException ex) {
+            System.out.println("Error" + ex);
+        } finally {
+
+            usuario.cerrarConexion();
+        }
+
+        return tabla;
+
+    }
+     
+    ////////////////////////////GETTER Y SETTER ////////////////////////////////////    
     public Conexion getUsuario() {
         return usuario;
     }
 
     public void setUsuario(Conexion usuario) {
         this.usuario = usuario;
-    }
-
-    private JTable generarCatalogo() {
-
-        String query = "SELECT * FROM Producto";
-        DefaultTableModel modelo = new DefaultTableModel();
-        JTable tabla = new JTable(modelo);
-        try {
-            usuario.iniciarConexion();
-            usuario.setResult(usuario.getStament().executeQuery(query));
-            ResultSetMetaData metaDatos = usuario.getResult().getMetaData();
-            // Se obtiene el número de columnas.
-            int numeroColumnas = metaDatos.getColumnCount();
-
-            // Se crea un array de etiquetas para rellenar
-            Object[] etiquetas = new Object[numeroColumnas];
-
-            // Se obtiene cada una de las etiquetas para cada columna
-            for (int i = 0; i < numeroColumnas; i++) {
-                // Nuevamente, para ResultSetMetaData la primera columna es la 1.
-                etiquetas[i] = metaDatos.getColumnLabel(i + 1);
-            }
-
-            modelo.setColumnIdentifiers(etiquetas);
-            // Bucle para cada resultado en la consulta
-            while (usuario.getResult().next()) {
-                // Se crea un array que será una de las filas de la tabla.
-                Object[] fila = new Object[numeroColumnas]; // Hay tres columnas en la tabla
-
-                // Se rellena cada posición del array con una de las columnas de la tabla en base de datos.
-                for (int i = 0; i < numeroColumnas; i++) {
-                    fila[i] = usuario.getResult().getObject(i + 1); // El primer indice en rs es el 1, no el cero, por eso se suma 1.
-                }
-                // Se añade al modelo la fila completa.
-                modelo.addRow(fila);
-            }
-            usuario.getStament().close();
-        } catch (SQLException ex) {
-            System.out.println("Error" + ex);
-        }finally{
-            
-            usuario.cerrarConexion();
-        }
-        
-        return tabla;
     }
 
 }

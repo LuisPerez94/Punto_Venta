@@ -33,6 +33,11 @@ public class PanelCatalogo extends JPanel {
         addComponentes();
     }
 
+    public PanelCatalogo() {
+        addComponentes();
+    }
+    
+
     private void addComponentes() {
         this.setLayout(new BorderLayout());
         JPanel panelNorte = new JPanel();
