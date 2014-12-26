@@ -9,18 +9,23 @@ import Tablas.TablaModeloProducto;
 import Tablas.TablaRenderizadorProducto;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.SQLException;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.RowFilter;
 
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
  * @author JR
  */
-public class OyenteReportes implements ActionListener {
+public class OyenteReportes implements KeyListener, ActionListener  {
 
     private Conexion usuario;
     static Reportes ventanaReporte;
@@ -29,7 +34,9 @@ public class OyenteReportes implements ActionListener {
     PanelVendedores p1;
     PanelProductos p2;
     PanelCatalogo catalogo;
-
+     private DefaultTableModel tabladatos;
+    private TableRowSorter trsfiltro;
+    private Tablas.TablaModeloProducto modelo;
     OyenteReportes() {
 
     }
@@ -116,24 +123,55 @@ public class OyenteReportes implements ActionListener {
                 System.out.println("Con esto buscara");
                 break;
 
+                
+                
+                
             case "Catalogo de Productos":
-                productos = generarCatalogo();
-               
+               generarCatalogo();
                 catalogo = new PanelCatalogo(productos);
+                catalogo.addEventos(this);
+                trsfiltro =new TableRowSorter(modelo);
+                productos.setRowSorter(trsfiltro);
                 ventanaReporte.add(catalogo, "Center");
                 SwingUtilities.updateComponentTreeUI(ventanaReporte);
                 break;
         }
+        
+        
     }
-
+     
+   
+    public void filtro(){
+        String filtro =catalogo.getTbusqueda().getText();
+        switch(catalogo.getBusqueda().getSelectedIndex()){
+            case 0:
+                 trsfiltro.setRowFilter(RowFilter.regexFilter("(?i)"+filtro, 0));
+                break;
+            case 1:
+                 trsfiltro.setRowFilter(RowFilter.regexFilter("(?i)"+filtro, 1));
+                break;
+            case 2:
+                 trsfiltro.setRowFilter(RowFilter.regexFilter("(?i)"+filtro, 2));
+                 break;
+            case 3: 
+                 trsfiltro.setRowFilter(RowFilter.regexFilter("(?i)"+filtro, 4));
+                 break;
+                    
+        }
+       
+    }
+    
+    
+    
+    
     private JTable generarCatalogo() {
 
         String query = "SELECT * FROM Producto";
-        Tablas.TablaModeloProducto modelo = new TablaModeloProducto();
+         modelo = new TablaModeloProducto();
         TablaRenderizadorProducto render =new TablaRenderizadorProducto();
-        JTable tabla = new JTable(modelo);
-        tabla.setRowHeight(100);
-        tabla.setDefaultRenderer(ImageIcon.class, render);
+        productos = new JTable(modelo);
+        productos.setRowHeight(100);
+        productos.setDefaultRenderer(ImageIcon.class, render);
        
 
         try {
@@ -161,7 +199,7 @@ public class OyenteReportes implements ActionListener {
             usuario.cerrarConexion();
         }
 
-        return tabla;
+        return productos;
 
     }
      
@@ -172,6 +210,20 @@ public class OyenteReportes implements ActionListener {
 
     public void setUsuario(Conexion usuario) {
         this.usuario = usuario;
+    }//////////
+    @Override
+    public void keyTyped(KeyEvent e) {
+      filtro();
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        filtro();
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+       filtro();
     }
 
 }

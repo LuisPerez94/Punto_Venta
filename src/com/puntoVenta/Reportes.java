@@ -30,7 +30,7 @@ public class Reportes extends JFrame {
         salir = new JMenuItem("Salir");
         acercaDe = new JMenuItem("Acerca de");
         this.setTitle("Bienvenido");
-        this.setSize(640, 520);
+        this.setSize(900, 500);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         addComponents();

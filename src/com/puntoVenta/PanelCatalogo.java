@@ -8,6 +8,7 @@ package com.puntoVenta;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -24,7 +25,7 @@ import javax.swing.border.TitledBorder;
 public class PanelCatalogo extends JPanel {
 
     private final JLabel titulo = new JLabel("Catalogo de productos");
-    private JButton busqueda;
+    private JComboBox busqueda;
     private JTextField tbusqueda;
     private JTable productos;
 
@@ -40,6 +41,7 @@ public class PanelCatalogo extends JPanel {
 
     private void addComponentes() {
         this.setLayout(new BorderLayout());
+        String busquedas[]=new String []{"Id","Nombre","Precio","Descripción"};
         JPanel panelNorte = new JPanel();
         JPanel panelCentro =new JPanel();
         panelCentro.setBackground(Color.cyan);
@@ -47,17 +49,18 @@ public class PanelCatalogo extends JPanel {
         
         Border bordejpanel = new TitledBorder(new EtchedBorder(), "Realizar una Busqueda");
         panelNorte.setBorder(bordejpanel);
-        busqueda = new JButton("Buscar");
+        busqueda = new JComboBox(busquedas);
         tbusqueda = new JTextField("Ingresa el texto a buscar", 35);
         try {
             panelCentro.add(add(new JScrollPane(productos)));
         } catch (Exception e) {
             panelCentro.add(new JLabel("No hay registros"));
         }
-        
+        busqueda.setSelectedIndex(1);
         
         panelNorte.add(lbusqueda);
         panelNorte.add(tbusqueda);
+        panelNorte.add(new JLabel("Buscar por:"));
         panelNorte.add(busqueda);
 
         this.add(panelNorte, "North");
@@ -66,14 +69,15 @@ public class PanelCatalogo extends JPanel {
 
     }
     
-    public void addEventos(){
+    public void addEventos(OyenteReportes o){
+        tbusqueda.addKeyListener(o);
             }
 
-    public JButton getBusqueda() {
+    public JComboBox getBusqueda() {
         return busqueda;
     }
 
-    public void setBusqueda(JButton busqueda) {
+    public void setBusqueda(JComboBox busqueda) {
         this.busqueda = busqueda;
     }
 
