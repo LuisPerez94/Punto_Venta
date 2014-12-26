@@ -30,8 +30,8 @@ public class PanelLogin extends JPanel{
         JPanel sur = new JPanel();
         sur.setBorder(BorderFactory.createLineBorder(this.getBackground(), 10));
         ok = new JButton("Ok");
-        usuario = new JTextField(10);
-        contrasena = new JPasswordField(10);
+        usuario = new JTextField(9);
+        contrasena = new JPasswordField(9);
         
         JLabel etUsuario = new JLabel("Usuario");
         JLabel etPass = new JLabel("Contraseña");

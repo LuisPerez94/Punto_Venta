@@ -7,6 +7,8 @@ package com.puntoVenta;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -23,14 +25,14 @@ import javax.swing.border.TitledBorder;
  * @author luis
  */
 public class PanelCatalogo extends JPanel {
-
     private final JLabel titulo = new JLabel("Catalogo de productos");
     private JComboBox busqueda;
     private JTextField tbusqueda;
     private JTable productos;
+    private JScrollPane scrollProductos;
 
     public PanelCatalogo(JTable productos) {
-        this.productos=productos;
+        this.productos = productos;
         addComponentes();
     }
 
@@ -41,9 +43,9 @@ public class PanelCatalogo extends JPanel {
 
     private void addComponentes() {
         this.setLayout(new BorderLayout());
-        String busquedas[]=new String []{"Id","Nombre","Precio","Descripción"};
+        String busquedas[] = new String []{"Id","Nombre","Precio","Descripción"};
         JPanel panelNorte = new JPanel();
-        JPanel panelCentro =new JPanel();
+        JPanel panelCentro = new JPanel();
         panelCentro.setBackground(Color.cyan);
         JLabel lbusqueda = new JLabel("Buscar : ");
         
@@ -51,11 +53,22 @@ public class PanelCatalogo extends JPanel {
         panelNorte.setBorder(bordejpanel);
         busqueda = new JComboBox(busquedas);
         tbusqueda = new JTextField("Ingresa el texto a buscar", 35);
+        
         try {
-            panelCentro.add(add(new JScrollPane(productos)));
+            scrollProductos = new JScrollPane(productos);
+            scrollProductos.setBorder(BorderFactory.createLineBorder(Color.CYAN, 10));
+            scrollProductos.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            scrollProductos.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+           
+            scrollProductos.setPreferredSize(new Dimension(900, 430));
+            
+            panelCentro.add(scrollProductos);
+//            panelCentro.add(add(new JScrollPane(productos)));
+        
         } catch (Exception e) {
             panelCentro.add(new JLabel("No hay registros"));
         }
+        
         busqueda.setSelectedIndex(1);
         
         panelNorte.add(lbusqueda);
