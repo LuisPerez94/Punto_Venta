@@ -20,33 +20,32 @@ import javax.swing.table.DefaultTableModel;
  * @author JR
  */
 public class PanelVendedores extends JPanel{
-    JTable tabla;
-    DefaultTableModel modelo ;
+    JTable tabla = new JTable();
+    
     JScrollPane desplazar ;
-    JLabel idVendedorL;
-    JTextField idVendedorT;
-    JButton buscar = new JButton ("Buscar");
-    public PanelVendedores(){
-        this.setLayout(new BorderLayout());
-        tabla = new JTable ();
-        modelo = new DefaultTableModel();
-        desplazar = new JScrollPane(tabla);
-        tabla.setModel(modelo);
-        
-        idVendedorL = new JLabel("id del Vendedor");
-        idVendedorT = new JTextField(20);
-        buscar.addActionListener(new OyenteReportes());
-        
-        JPanel panelNorte = new JPanel();
-        panelNorte.add(idVendedorL);
-        panelNorte.add(idVendedorT);
-        panelNorte.add(buscar);
-        this.add(panelNorte, BorderLayout.NORTH);
-        
-        JPanel panelSur = new JPanel();
-        panelSur.add(desplazar);
-        this.add(panelSur, BorderLayout.SOUTH);
-        
-        
+    
+    
+
+    public PanelVendedores() {
+        addComponents();
+    }
+
+   
+    
+
+    public PanelVendedores(JTable tabla) {
+        this.tabla = tabla;
+        addComponents();
+    }
+    
+    
+    public void addComponents(){
+       
+       desplazar = new JScrollPane(tabla);
+      
+       JPanel panelInt = new JPanel(new BorderLayout());
+       panelInt.add(desplazar, BorderLayout.NORTH);
+      
+       this.add(panelInt);
     }
 }

@@ -49,7 +49,7 @@ public class OyenteLogin extends KeyAdapter implements ActionListener, WindowLis
         String isAdmin = "";
         
         //inicio sesion con root para ver si en vendedor hay un usuario valido
-        Conexion cprueba = new Conexion("root", "Itver94", "3306", "127.0.0.1", "punto_venta");
+        Conexion cprueba = new Conexion("root", "root", "3306", "127.0.0.1", "punto_venta");
         cprueba.iniciarConexion();
         try {
             cprueba.setResult(cprueba.getStament().executeQuery("select idVendedor,isAdmin \n"

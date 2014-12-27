@@ -81,7 +81,26 @@ public class OyenteReportes implements KeyListener, ActionListener  {
                 
             case "Ventas por Vendedor":
                 System.out.println("aqui se muestra las ventas por vendedor");
-                p1 = new PanelVendedores();
+                String busca="";
+                boolean isID=true;
+                do {                    
+                    busca = JOptionPane.showInputDialog("Escribe la id o el nombre de usuario que se buscará");
+                    isID=true;
+                    int id;
+                    if(busca== null ||busca.equals(""))
+                        JOptionPane.showMessageDialog(null, "El campo de texto esta vacio", "!", JOptionPane.OK_OPTION);
+                    else
+                        try {
+                            id = Integer.parseInt(busca);
+                            isID = true;
+                        } catch (Exception ex) {
+                            isID = false;
+                        }
+                } while (busca==null || busca.equals(""));
+                
+                
+                p1 = new PanelVendedores(vVendedor(busca, isID));
+                ventanaReporte.getContentPane().setSize(640, 600);
                 try {
                     ventanaReporte.remove(p);
                     ventanaReporte.remove(p1);
@@ -130,10 +149,7 @@ public class OyenteReportes implements KeyListener, ActionListener  {
                 System.out.println("Aqui actualizara");
                 break;
                 
-            case "Buscar":
-                System.out.println("Con esto buscara");
-                break;
-
+            
             case "Nueva Venta":
                 System.out.println("NUEVA VENTA! YEY");
                 panelNuevaVenta = new PanelNuevaVenta();
@@ -240,6 +256,71 @@ public class OyenteReportes implements KeyListener, ActionListener  {
         return tablaProductos;
 
     }
+    
+    private JTable vVendedor(String busca, boolean isID){
+        //busca sera la cadena que buscara la consulta
+        //isID buscara en true si se buscará por id y false si se bucara por nombre de usuario 
+        DefaultTableModel modeloTabla = new DefaultTableModel();
+        JTable tablaVendedor = new JTable();
+        String query;
+        //depende del id, hara la consulta
+        if(isID)
+            query = "select detalle_fact.idDetalle_fact, producto.nombreProducto, producto.precio " +
+            "from detalle_fact, producto, cab_fact " +
+            "where producto.idProducto = detalle_fact.Producto_idProducto and " +
+            "cab_fact.idCab_fact = detalle_fact.Cab_fact_idCab_fact and " +
+            "cab_fact.Vendedor_idVendedor = "+busca+";";
+        else{
+             query = "select detalle_fact.idDetalle_fact, producto.nombreProducto, producto.precio " +
+            "from detalle_fact, producto, cab_fact, vendedor " +
+            "where producto.idProducto = detalle_fact.Producto_idProducto and " +
+            "cab_fact.idCab_fact = detalle_fact.Cab_fact_idCab_fact and " +
+            "cab_fact.Vendedor_idVendedor = vendedor.idVendedor and "+
+            "vendedor.usuario = '"+busca+"';";
+             System.out.println(query);
+        }
+        
+       
+        try {
+            usuario.iniciarConexion();
+            usuario.setResult(usuario.getStament().executeQuery(query));
+                String columnas [] = new String [usuario.getResult().getMetaData().getColumnCount()];
+                for (int i = 0; i < usuario.getResult().getMetaData().getColumnCount(); i++) {
+                    columnas[i] = usuario.getResult().getMetaData().getColumnName(i + 1);
+                    System.out.println(usuario.getResult().getMetaData().getColumnName(i + 1));
+                }
+
+                modeloTabla.setColumnIdentifiers(columnas);
+                
+                
+                String fila[] = new String[usuario.getResult().getMetaData().getColumnCount()];
+
+                while (usuario.getResult().next()) {
+                    for (int i = 0; i < usuario.getResult().getMetaData().getColumnCount(); i++) {
+                        fila[i] = usuario.getResult().getString(i + 1);
+                        System.out.println(usuario.getResult().getString(i + 1));
+                    }
+
+                    modeloTabla.addRow(fila);
+                }
+//            // Bucle para cada resultado en la consulta
+           
+            tablaVendedor.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+            tablaVendedor.setFillsViewportHeight(true);
+            tablaVendedor.setModel(modeloTabla);
+          
+            
+            usuario.getStament().close();
+        } catch (SQLException ex) {
+            System.out.println("Error" + ex);
+        } finally {
+            usuario.cerrarConexion();
+        }
+
+        return tablaVendedor;
+
+        
+    }
      
     ////////////////////////////GETTER Y SETTER ////////////////////////////////////    
     public Conexion getUsuario() {
@@ -249,6 +330,9 @@ public class OyenteReportes implements KeyListener, ActionListener  {
     public void setUsuario(Conexion usuario) {
         this.usuario = usuario;
     }//////////
+
+    
+    
     @Override
     public void keyTyped(KeyEvent e) {
       filtro();

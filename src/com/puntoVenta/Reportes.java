@@ -24,7 +24,7 @@ public class Reportes extends JFrame {
     private PanelVendedores pVendedores = null;
     private PanelProductos pProductos = null;
     private final String isAdmin;
-
+    
     Reportes(String isAdmin) {
         this.isAdmin = isAdmin;
         salir = new JMenuItem("Salir");
@@ -32,7 +32,7 @@ public class Reportes extends JFrame {
         this.setTitle("Bienvenido");
         this.setSize(900, 500);
         this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         addComponents();
         
         this.setVisible(true);
