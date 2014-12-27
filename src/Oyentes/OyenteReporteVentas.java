@@ -1,0 +1,115 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Oyentes;
+
+import Tablas.VentanaDeTabla;
+import com.puntoVenta.Conexion;
+import com.puntoVenta.PanelVentas;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+
+/**
+ *
+ * @author luis
+ */
+public class OyenteReporteVentas implements ActionListener {
+
+    private PanelVentas p;
+    private Conexion usuario;
+    JTable tabla;
+    private Double totalArticulos;
+    private Double totalEfectivo;
+
+    public OyenteReporteVentas(PanelVentas p, Conexion usuario) {
+        this.totalEfectivo = 0.0;
+        this.totalArticulos = 0.0;
+        this.p = p;
+        this.usuario = usuario;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String accion = e.getActionCommand();
+        String fecha2 = p.getAnio2().getSelectedItem()+"/"+(p.getMes2().getSelectedIndex()+1)+"/"+p.getDia2().getSelectedItem();
+        String fecha1= p.getAnio1().getSelectedItem()+"/"+(p.getMes1().getSelectedIndex()+1)+"/"+p.getDia1().getSelectedItem();
+
+        System.out.println(fecha1 + " " + fecha2);
+        if (accion.equals("Ver el reporte")) {
+            if (isDate(fecha1) && isDate(fecha2)) {
+                //CONSULTA DE VENTAS POR DIA 
+                String query = "SELECT Producto.idProducto, Producto.nombreProducto,Producto.precio, SUM(Detalle_fact.cantidadProducto) vendidos,"
+                        + "SUM(Producto.precio * Detalle_fact.cantidadProducto) ventaPorProducto " + "FROM Cab_fact, Detalle_fact, Producto"
+                        + " WHERE Cab_fact.idCab_fact = Detalle_fact.Cab_fact_idCab_fact AND Detalle_fact.Producto_idProducto = Producto.idProducto "
+                        + "AND Detalle_fact.fechaVenta BETWEEN '" + fecha1 + "' AND '" + fecha2 + "' GROUP BY Producto.idProducto";
+
+                generarTabla(query);
+               VentanaDeTabla vt=new VentanaDeTabla(tabla,totalArticulos,totalEfectivo);
+                totalArticulos=0.0;
+                totalEfectivo=0.0;
+            
+                
+                
+                
+
+            } else {
+                JOptionPane.showMessageDialog(p, "Las Fechas no son validas");
+            }
+
+        }
+    }
+
+    public boolean isDate(String fechax) {
+        try {
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy/MM/dd");
+            formatoFecha.setLenient(false);
+            java.util.Date fecha = formatoFecha.parse(fechax);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    private void generarTabla(String query) {
+        DefaultTableModel modelo = new DefaultTableModel();
+        tabla = new JTable(modelo);
+        try {
+            usuario.iniciarConexion();
+            usuario.setResult(usuario.getStament().executeQuery(query));
+            modelo.addColumn("IdProducto");
+            modelo.addColumn("Producto");
+            modelo.addColumn("Precio unitario");
+            modelo.addColumn("Total Vendidos");
+            modelo.addColumn("Total $ Vendidos");
+
+            // Bucle para cada resultado en la consulta
+            while (usuario.getResult().next()) {
+                // Se crea un array que será una de las filas de la tabla.
+                Object[] fila = new Object[5]; // Hay tres columnas en la tabla
+
+                // Se rellena cada posición del array con una de las columnas de la tabla en base de datos.
+                for (int i = 0; i < 5; i++) {
+                    fila[i] = usuario.getResult().getObject(i + 1); // El primer indice en rs es el 1, no el cero, por eso se suma 1.
+                }
+                // Se añade al modelo la fila completa.
+                totalArticulos=totalArticulos+Double.parseDouble(fila[3].toString());
+                totalEfectivo=totalEfectivo+Double.parseDouble(fila[4].toString());
+                
+                modelo.addRow(fila);
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Error"+ex);
+        }
+
+    }
+
+}

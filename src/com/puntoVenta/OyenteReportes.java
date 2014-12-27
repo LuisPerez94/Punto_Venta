@@ -5,6 +5,7 @@
  */
 package com.puntoVenta;
 
+import Oyentes.OyenteReporteVentas;
 import Tablas.TablaModeloProducto;
 import Tablas.TablaRenderizadorProducto;
 import java.awt.event.ActionEvent;
@@ -60,6 +61,7 @@ public class OyenteReportes implements KeyListener, ActionListener  {
 
                 System.out.println("Ventas");
                 p = new PanelVentas();
+                p.addEventos(new OyenteReporteVentas(p,usuario));
                 try {
                     ventanaReporte.remove(p);
                     ventanaReporte.remove(p1);
