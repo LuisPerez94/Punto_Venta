@@ -16,7 +16,7 @@ import javax.swing.JTextField;
  * Created on 17/12/2014, 11:14:57 AM
  */
 
-public class PanelLogin extends JPanel{
+public class PanelLogin extends PanelImagen{
     private JButton ok;
     private JTextField usuario;
     private JPasswordField contrasena;

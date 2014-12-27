@@ -12,8 +12,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.sql.SQLException;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
@@ -27,7 +30,7 @@ import javax.swing.table.TableRowSorter;
  *
  * @author JR
  */
-public class OyenteReportes implements KeyListener, ActionListener  {
+public class OyenteReportes implements KeyListener, ActionListener, WindowListener  {
 
     private Conexion usuario;
     static Reportes ventanaReporte;
@@ -37,7 +40,7 @@ public class OyenteReportes implements KeyListener, ActionListener  {
     private PanelProductos p2;
     private PanelCatalogo catalogo;
     private PanelNuevaVenta panelNuevaVenta;
-    private DefaultTableModel tabladatos;
+    private VentanaEmergente ventana;
     private TableRowSorter trsfiltro;
     private Tablas.TablaModeloProducto modelo;
     
@@ -62,18 +65,22 @@ public class OyenteReportes implements KeyListener, ActionListener  {
                 System.out.println("Ventas");
                 p = new PanelVentas();
                 p.addEventos(new OyenteReporteVentas(p,usuario));
-                try {
-                    ventanaReporte.remove(p);
-                    ventanaReporte.remove(p1);
-                    ventanaReporte.remove(p2);
-
-                } catch (Exception ex) {
-                    ventanaReporte.add(p);
-
-                }
-
-                ventanaReporte.add(p);
-                ventanaReporte.setpVentas(p);
+//                try {
+//                    ventanaReporte.remove(p);
+//                    ventanaReporte.remove(p1);
+//                    ventanaReporte.remove(p2);
+//
+//                } catch (Exception ex) {
+//                    ventanaReporte.add(p);
+//
+//                }
+//
+//                ventanaReporte.add(p);
+//                ventanaReporte.setpVentas(p);
+                ventana = new VentanaEmergente("Ventas");
+                ventana.add(p);
+                ventana.addWindowListener(this);
+                ventana.setVisible(true);
                 SwingUtilities.updateComponentTreeUI(ventanaReporte);
                 ventanaReporte.validate();
 
@@ -82,54 +89,76 @@ public class OyenteReportes implements KeyListener, ActionListener  {
             case "Ventas por Vendedor":
                 System.out.println("aqui se muestra las ventas por vendedor");
                 String busca="";
+                int x, y;
                 boolean isID=true;
+                boolean noSalir=true; //Para salir del do-while
                 do {                    
                     busca = JOptionPane.showInputDialog("Escribe la id o el nombre de usuario que se buscará");
                     isID=true;
                     int id;
-                    if(busca== null ||busca.equals(""))
-                        JOptionPane.showMessageDialog(null, "El campo de texto esta vacio", "!", JOptionPane.OK_OPTION);
+                    if(busca== null ||busca.equals("")){
+                        x = JOptionPane.showConfirmDialog(null, "El campo de texto esta vacio", "Aviso", JOptionPane.OK_CANCEL_OPTION);
+                        if(x != JOptionPane.OK_OPTION){
+                            if(JOptionPane.showConfirmDialog(null, "Vas hacer la consulta sin datos, ¿Deseas seguir haciendola?", "Aviso", JOptionPane.YES_NO_OPTION)
+                                    != JOptionPane.YES_OPTION){
+                                noSalir = false;
+                            }
+                            
+                            
+                        }
+                    }
                     else
                         try {
                             id = Integer.parseInt(busca);
                             isID = true;
+                            noSalir=false;
                         } catch (Exception ex) {
                             isID = false;
+                            noSalir=false;
                         }
-                } while (busca==null || busca.equals(""));
+                } while (noSalir);
                 
                 
                 p1 = new PanelVendedores(vVendedor(busca, isID));
-                ventanaReporte.getContentPane().setSize(640, 600);
-                try {
-                    ventanaReporte.remove(p);
-                    ventanaReporte.remove(p1);
-                    ventanaReporte.remove(p2);
-                    ventanaReporte.remove(panelNuevaVenta);
 
-                } catch (Exception ex) {
-                    ventanaReporte.add(p1);
-
-                }
-                ventanaReporte.add(p1);
-                ventanaReporte.setpVendedores(p1);
-                SwingUtilities.updateComponentTreeUI(ventanaReporte);
+//                try {
+//                    ventanaReporte.remove(p);
+//                    ventanaReporte.remove(p1);
+//                    ventanaReporte.remove(p2);
+//                    ventanaReporte.remove(panelNuevaVenta);
+//
+//                } catch (Exception ex) {
+//                    ventanaReporte.add(p1);
+//
+//                }
+//                ventanaReporte.add(p1);
+//                ventanaReporte.setpVendedores(p1);
+//                SwingUtilities.updateComponentTreeUI(ventanaReporte);
+                ventana = new VentanaEmergente("Ventas por vendedores");
+                ventana.add(p1);
+                ventana.addWindowListener(this);
+                ventana.setSize(640, 480);
+                ventana.setVisible(true);
                 ventanaReporte.validate();
                 break;
             case "Productos mas vendidos":
                 System.out.println("Aqui se muestran los productos mas vendidos");
                 p2 = new PanelProductos();
-                try {
-                    ventanaReporte.remove(p);
-                    ventanaReporte.remove(p1);
-                    ventanaReporte.remove(p2);
-
-                } catch (Exception ex) {
-                    ventanaReporte.add(p2);
-
-                }
-                ventanaReporte.add(p2);
-                ventanaReporte.setpProductos(p2);
+//                try {
+//                    ventanaReporte.remove(p);
+//                    ventanaReporte.remove(p1);
+//                    ventanaReporte.remove(p2);
+//
+//                } catch (Exception ex) {
+//                    ventanaReporte.add(p2);
+//
+//                }
+//                ventanaReporte.add(p2);
+//                ventanaReporte.setpProductos(p2);
+                ventana = new VentanaEmergente("Ventas");
+                ventana.add(p2);
+                ventana.addWindowListener(this);
+                ventana.setVisible(true);
                 SwingUtilities.updateComponentTreeUI(ventanaReporte);
                 ventanaReporte.validate();
                 break;
@@ -153,18 +182,22 @@ public class OyenteReportes implements KeyListener, ActionListener  {
             case "Nueva Venta":
                 System.out.println("NUEVA VENTA! YEY");
                 panelNuevaVenta = new PanelNuevaVenta();
-                try {
-                    ventanaReporte.remove(p);
-                    ventanaReporte.remove(p1);
-                    ventanaReporte.remove(p2);
-                    ventanaReporte.remove(catalogo);
-                    ventanaReporte.remove(panelNuevaVenta);
-
-                } catch (Exception ex) {
-                    ventanaReporte.add(panelNuevaVenta);
-                }
-                
-                ventanaReporte.add(panelNuevaVenta);
+//                try {
+//                    ventanaReporte.remove(p);
+//                    ventanaReporte.remove(p1);
+//                    ventanaReporte.remove(p2);
+//                    ventanaReporte.remove(catalogo);
+//                    ventanaReporte.remove(panelNuevaVenta);
+//
+//                } catch (Exception ex) {
+//                    ventanaReporte.add(panelNuevaVenta);
+//                }
+//                
+//                ventanaReporte.add(panelNuevaVenta);
+                ventana = new VentanaEmergente("Ventas");
+                ventana.add(panelNuevaVenta);
+                ventana.addWindowListener(this);
+                ventana.setVisible(true);
                 
                 SwingUtilities.updateComponentTreeUI(ventanaReporte);
 
@@ -177,8 +210,12 @@ public class OyenteReportes implements KeyListener, ActionListener  {
                 catalogo.addEventos(this);
                 trsfiltro = new TableRowSorter(modelo);
                 productos.setRowSorter(trsfiltro);
-                ventanaReporte.add(catalogo, "Center");
-                ventanaReporte.setSize(900, 555);
+//                ventanaReporte.add(catalogo, "Center");
+//                ventanaReporte.setSize(900, 555);
+                ventana = new VentanaEmergente("Ventas");
+                ventana.add(catalogo);
+                ventana.addWindowListener(this);
+                ventana.setVisible(true);
                 SwingUtilities.updateComponentTreeUI(ventanaReporte);
                 break;
         }
@@ -346,6 +383,45 @@ public class OyenteReportes implements KeyListener, ActionListener  {
     @Override
     public void keyReleased(KeyEvent e) {
        filtro();
+    }
+    
+    @Override
+    public void windowOpened(WindowEvent e) {
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        if (e.getSource().getClass().isInstance(ventana)) {
+            ventana.dispose();
+
+            
+        } else if (e.getSource().getClass().isInstance(ventanaReporte)) {
+            int opcion = JOptionPane.showConfirmDialog(null, "Se cerrará el programa", "Advertencia", JOptionPane.OK_CANCEL_OPTION);
+
+            if (opcion == JOptionPane.OK_OPTION) {
+                System.exit(-1);
+            }
+        }
     }
 
 }

@@ -23,6 +23,7 @@ public class Reportes extends JFrame {
     private PanelVentas pVentas = null;
     private PanelVendedores pVendedores = null;
     private PanelProductos pProductos = null;
+    private PanelImagen i = new PanelImagen();
     private final String isAdmin;
     
     Reportes(String isAdmin) {
@@ -30,16 +31,22 @@ public class Reportes extends JFrame {
         salir = new JMenuItem("Salir");
         acercaDe = new JMenuItem("Acerca de");
         this.setTitle("Bienvenido");
-        this.setSize(900, 500);
+        this.setSize(500, 500);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         addComponents();
-        
+        addWindowListener(new OyenteReportes());
         this.setVisible(true);
     }
 
-    private void addComponents() {
+    public Reportes() {
+        this.isAdmin = "";
+    }
+    
+    
 
+    private void addComponents() {
+        add(i);
         JMenu archivo = new JMenu("Archivo");
         JMenu ayuda = new JMenu("Ayuda");
         if (isAdmin.equals("T")) {
@@ -58,7 +65,7 @@ public class Reportes extends JFrame {
 
             archivo.add(nuevaVenta);
             archivo.add(productos);
-
+            
         }
 
         archivo.add(salir);
