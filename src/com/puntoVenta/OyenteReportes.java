@@ -31,7 +31,6 @@ import javax.swing.table.TableRowSorter;
  * @author JR
  */
 public class OyenteReportes implements KeyListener, ActionListener, WindowListener  {
-
     private Conexion usuario;
     static Reportes ventanaReporte;
     private JTable productos;
@@ -43,6 +42,8 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
     private VentanaEmergente ventana;
     private TableRowSorter trsfiltro;
     private Tablas.TablaModeloProducto modelo;
+    private String nombreVendedor;
+
     
     OyenteReportes() {
 
@@ -181,21 +182,18 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
             
             case "Nueva Venta":
                 System.out.println("NUEVA VENTA! YEY");
-                panelNuevaVenta = new PanelNuevaVenta();
-//                try {
-//                    ventanaReporte.remove(p);
-//                    ventanaReporte.remove(p1);
-//                    ventanaReporte.remove(p2);
-//                    ventanaReporte.remove(catalogo);
-//                    ventanaReporte.remove(panelNuevaVenta);
-//
-//                } catch (Exception ex) {
-//                    ventanaReporte.add(panelNuevaVenta);
-//                }
-//                
-//                ventanaReporte.add(panelNuevaVenta);
+                JTable prods = generarCatalogo();
+                panelNuevaVenta = new PanelNuevaVenta(prods, usuario);
+                panelNuevaVenta.getTextAtiende().setText(nombreVendedor);
+                
+                OyenteNuevaVenta oyenteNV = new OyenteNuevaVenta(panelNuevaVenta);
+                
+                panelNuevaVenta.addEventos(oyenteNV);
+                
                 ventana = new VentanaEmergente("Ventas");
                 ventana.add(panelNuevaVenta);
+                ventana.setSize(900, 555);
+                ventana.setLocationRelativeTo(null);
                 ventana.addWindowListener(this);
                 ventana.setVisible(true);
                 
@@ -366,9 +364,17 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
 
     public void setUsuario(Conexion usuario) {
         this.usuario = usuario;
-    }//////////
+    }
 
-    
+    public String getNombreVendedor() {
+        return nombreVendedor;
+    }
+
+    public void setNombreVendedor(String nombreVendedor) {
+        this.nombreVendedor = nombreVendedor;
+    }
+
+    /* **********   */
     
     @Override
     public void keyTyped(KeyEvent e) {

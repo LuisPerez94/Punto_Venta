@@ -1,6 +1,7 @@
 package com.puntoVenta;
 
 import java.awt.*;
+import java.sql.SQLException;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.table.*;
@@ -14,6 +15,7 @@ public class PanelNuevaVenta extends JPanel{
     private JTable ticket;
     private DefaultTableModel modelo;
     private JPanel productos;
+    private JPanel panelProductos;
     private JScrollPane scrollTicket;
     private JScrollPane scrollProductos;
     private JTextField textPartida;
@@ -27,11 +29,17 @@ public class PanelNuevaVenta extends JPanel{
     private JButton buttonNuevo;
     private JButton buttonGuardar;
     private JButton buttonPagar;
+    private final ArrayList<ProductoNuevaVenta> listaProductos;
+    private final JTable catalogo;
     private final int anchoBorde;
+    private final Conexion conexion;
     
     
-    public PanelNuevaVenta(){
+    public PanelNuevaVenta(JTable catalogo, Conexion conexion){
+        this.catalogo = catalogo;
+        this.conexion = conexion;
         anchoBorde = 20;
+        listaProductos = new ArrayList<>();
         addComponentes();
     }
 
@@ -39,16 +47,18 @@ public class PanelNuevaVenta extends JPanel{
         this.setLayout(new BorderLayout());
         
         JPanel este;
-        JPanel centro;
+//        JPanel centro;
         
         /* Catalogo */
-        centro = generarCatalogo();
+        productos = generarCatalogo();
         
         /* Ticket de compra ... */
         este = generarTicket();
 
-        this.add(centro, "Center");
+        this.add(productos, "Center");
         this.add(este, "East");
+        
+        colocarEncabezado();
     }
     
     private JPanel generarCatalogo(){
@@ -57,7 +67,7 @@ public class PanelNuevaVenta extends JPanel{
         panelCatalogo.setBorder(BorderFactory.createLineBorder(this.getBackground(), anchoBorde));
         
         JPanel norte = new JPanel();
-        JPanel centro = new JPanel();
+        panelProductos = new JPanel();
         
         /* #Partida, fecha y atiende.... */
         JPanel subNorte1 = new JPanel();
@@ -66,13 +76,13 @@ public class PanelNuevaVenta extends JPanel{
         
         textPartida = new JTextField(4);
         textPartida.setEditable(false);
-        textPartida.setText("3426");
+//        textPartida.setText("3426");
         subNorte1.add(new JLabel("Partida #"));
         subNorte1.add(textPartida);
         
         textAtiende = new JTextField(5);
         textAtiende.setEditable(false);
-        textAtiende.setText("Fernando");
+//        textAtiende.setText("Fernando");
         subNorte2.add(new JLabel("Atiende: "));
         subNorte2.add(textAtiende);
         
@@ -89,33 +99,41 @@ public class PanelNuevaVenta extends JPanel{
         
         
         /* Buscar artículos por ID... */
-        textBuscar = new JTextField(20);
+        textBuscar = new JTextField();
+        textBuscar.setPreferredSize(new Dimension(350, 30));
         textBuscar.setText("Buscar producto...");
         buttonBuscar = new JButton("Buscar");
         buttonAgregar = new JButton("Agregar");
         
         norte.add(textBuscar);
         norte.add(buttonBuscar);
-        norte.add(buttonAgregar);
+//        norte.add(buttonAgregar);
 
         norte.setPreferredSize(new Dimension(400, 90));
         
         /* Panel con la lista de productos */
-        centro.setLayout(new GridLayout(10,5));
-        JPanel panelProducto;
+//        centro.setLayout(new GridLayout(5,5));
+        panelProductos.setLayout(new GridLayout(catalogo.getRowCount()/3, 3));
+        ProductoNuevaVenta panelProducto;
         
-        for(int i = 0; i < 10; i++){
-            for(int j = 0; j < 5; j++){
-                panelProducto = new JPanel();
-                panelProducto.setBackground(new Color((int) (Math.random() * 255),
-                                                (int) (Math.random() * 255),
-                                                    (int) (Math.random() * 255)));
-                panelProducto.setPreferredSize(new Dimension(85, 75));
-                centro.add(panelProducto);
-            }
+        for(int i = 0; i < catalogo.getRowCount(); i++){
+                panelProducto = new ProductoNuevaVenta();
+                panelProducto.getId().setText(catalogo.getModel().getValueAt(i, 0) + "");
+                panelProducto.getNombre().setText(catalogo.getModel().getValueAt(i, 1) + "");
+                panelProducto.setRutaImg((catalogo.getModel().getValueAt(i, 10) + "").replace("src",""));
+
+                panelProducto.getImagen().repaint();
+                
+                panelProducto.setPrecio(Double.parseDouble(catalogo.getModel().getValueAt(i, 2) + ""));
+                panelProducto.setDescripcion(catalogo.getModel().getValueAt(i,4) + "");
+                
+                listaProductos.add(panelProducto);
+                panelProductos.add(panelProducto);
         }
         
-        scrollProductos = new JScrollPane(centro);
+        panelProductos.updateUI();
+        
+        scrollProductos = new JScrollPane(panelProductos);
         scrollProductos.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollProductos.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         
@@ -138,31 +156,26 @@ public class PanelNuevaVenta extends JPanel{
         JPanel subSurS = new JPanel();
         
         String[] columnas = {"ID", "Descripción", "Precio", "Cantidad", "Importe"};
-        Object[][] filas = {
-                                {1, "Camiseta de algodón talla M", 200, 2, 400}, 
-                                {2, "Balón de basquetbol tamaño 5", 250, 1, 250}, 
-                                {3, "Rodilleras de bronce", 300, 3, 900}, 
-                                {4, "Coderas de bronce", 300, 3, 900},
-                                {5, "SmartBand marca Microsoft", 4000, 1, 4000}
-                            };
+        // Filas va vacío para que el ticket aparezca vacío...
+        Object[][] filas = {};
         
-        // Indicamos que solo las celdas de la columna 3 serán editables...
+        // Indicamos que las celdas de la tabla no serán editables...
         modelo = new DefaultTableModel(filas, columnas){
             @Override
             public boolean isCellEditable(int row, int column) {
-                if (column == 3) return true;
-                else return false;
+                return false;
             }
         };
         
         ticket = new JTable(modelo);
         
         // Anchos individuales a las columnas...
+        // Ancho total: 360
         ticket.getColumnModel().getColumn(0).setPreferredWidth(20);
-        ticket.getColumnModel().getColumn(1).setPreferredWidth(185);
-        ticket.getColumnModel().getColumn(2).setPreferredWidth(45);
-        ticket.getColumnModel().getColumn(3).setPreferredWidth(55);
-        ticket.getColumnModel().getColumn(4).setPreferredWidth(55);
+        ticket.getColumnModel().getColumn(1).setPreferredWidth(181);
+        ticket.getColumnModel().getColumn(2).setPreferredWidth(53);
+        ticket.getColumnModel().getColumn(3).setPreferredWidth(43);
+        ticket.getColumnModel().getColumn(4).setPreferredWidth(63);
         
         scrollTicket = new JScrollPane(ticket);
         
@@ -170,21 +183,62 @@ public class PanelNuevaVenta extends JPanel{
         
         panelTicket.add(new JLabel("PinaSports ©"), "North");
         
-        Font fuenteTotal = new Font("Arial", Font.BOLD, 20);
+        Font fuenteTotal = new Font("Arial", Font.PLAIN, 20);
+        Font fuentePago = new Font("Arial", Font.PLAIN, 16);
+        Font fuenteEt = new Font("Arial", Font.PLAIN, 14);
         
-        textTotal = new JTextField("$6450.00");
+        JPanel subSurPago = new JPanel();
+        JPanel subSurCambio = new JPanel();
+        
+        JLabel labelPago = new JLabel("Su pago:");
+        labelPago.setFont(fuenteEt);
+        subSurPago.add(labelPago);
+
+        JLabel labelCambio = new JLabel("Su cambio:");
+        labelCambio.setFont(fuenteEt);
+        subSurCambio.add(labelCambio);
+        
+        textPago = new JTextField("$ 0.00");
+        textCambio = new JTextField("$ 0.00");
+        
+        textPago.setFont(fuentePago);
+        textPago.setEnabled(false);
+        textPago.setColumns(6);
+        textCambio.setFont(fuentePago);
+        textCambio.setEnabled(false);
+        textCambio.setEditable(false);
+        textCambio.setColumns(6);
+        
+        subSurPago.add(textPago);
+        subSurCambio.add(textCambio);
+        
+        JPanel subSurCompra = new JPanel();
+        subSurCompra.add(subSurPago);
+        subSurCompra.add(subSurCambio);
+        
+        textTotal = new JTextField("$ 0.00");
+//        textTotal.setColumns(18);
+        textTotal.setPreferredSize(new Dimension(100, 30));
+        textTotal.setHorizontalAlignment(JTextField.RIGHT);
         textTotal.setEditable(false);
-        textTotal.setBorder(null);
-        textTotal.setBackground(new Color(235, 231, 236));
+        textTotal.setBackground(this.getBackground());
+        textTotal.setBorder(BorderFactory.createEmptyBorder());
         textTotal.setFont(fuenteTotal);
         
+        JPanel subSurTotal = new JPanel();
+        JLabel labelTotal = new JLabel("Su total es de: ");
+        labelTotal.setFont(fuentePago);
+        
+        subSurTotal.add(labelTotal);
+        subSurTotal.add(textTotal);
+        
         subSurC.setLayout(new BorderLayout());
-        subSurC.add(textTotal, "East");
-        subSurC.setPreferredSize(new Dimension(360, 70));
-        subSurC.setBackground(new Color(235, 231, 236));
+        subSurC.add(subSurCompra, "North");
+        subSurC.add(subSurTotal, "East");
+        subSurC.setPreferredSize(new Dimension(360, 90));
         
         sur.add(subSurC, "Center");
-        
+        sur.setBackground(new Color(235, 231, 236));
         
         buttonNuevo = new JButton("Nueva");
         buttonGuardar = new JButton("Guardar");
@@ -193,7 +247,7 @@ public class PanelNuevaVenta extends JPanel{
         buttonGuardar.setEnabled(false);
         
         subSurS.add(buttonNuevo);
-        subSurS.add(buttonGuardar);
+//        subSurS.add(buttonGuardar);
         subSurS.add(buttonPagar);
         
         sur.add(subSurS, "South");
@@ -202,5 +256,110 @@ public class PanelNuevaVenta extends JPanel{
         panelTicket.add(sur, "South");
         
         return panelTicket;
+    }
+    
+    // Colocamos el nombre de la persona que atiende y el número de partida...
+    public final void colocarEncabezado(){
+        String consulta = "SELECT MAX(idCab_fact) FROM Cab_fact";
+        int idPartida = 0;
+        
+        try{
+            conexion.iniciarConexion();
+            conexion.setResult(conexion.getStament().executeQuery(consulta));
+            
+            if(conexion.getResult().next()){
+                System.out.println("Numero de partida: " + conexion.getResult().getObject(1) + " + 1");
+                // Parseo intenso... Recuperamos el valor más alto de idCab_fact y le sumamos 1
+                // porque será una nueva partida...
+
+                // Pero si no hay partidas guardadas tratará de parsea un null...
+                // entonces lo tomaríamos como un 1.
+                try{
+                    idPartida = Integer.parseInt(conexion.getResult().getObject(1)+"") + 1;
+                }catch(NumberFormatException e){
+                    idPartida = 1;
+                }finally{
+                    textPartida.setText(idPartida+"");
+                }
+            }
+            
+            conexion.getStament().close();
+        }catch(SQLException e){
+            System.out.println("Hubo un error al colocar el encabezado en PanelNuevaVenta: " + e.getMessage());
+
+        } finally{
+            conexion.cerrarConexion();
+        }
+    }
+    
+    public void addEventos(OyenteNuevaVenta onv){
+        textBuscar.addKeyListener(onv);
+        textPago.addKeyListener(onv);
+        
+        textBuscar.addMouseListener(onv);
+        textPago.addMouseListener(onv);
+        
+        ticket.addKeyListener(onv);
+        
+        buttonBuscar.addActionListener(onv);
+        buttonNuevo.addActionListener(onv);
+        buttonPagar.addActionListener(onv);
+        
+        for(ProductoNuevaVenta pnv: listaProductos){
+            pnv.addMouseListener(onv);
+        }
+//    private JTextField textBuscar;
+//    private JButton buttonBuscar;
+//    private JButton buttonAgregar;
+//    private JButton buttonNuevo;
+//    private JButton buttonPagar;
+    }
+
+    public JButton getButtonPagar() {
+        return buttonPagar;
+    }
+    
+    public JTextField getTextPartida() {
+        return textPartida;
+    }
+
+    public JTextField getTextBuscar() {
+        return textBuscar;
+    }
+
+    public JTextField getTextAtiende() {
+        return textAtiende;
+    }
+
+    public JTextField getTextTotal() {
+        return textTotal;
+    }
+
+    public JTextField getTextPago() {
+        return textPago;
+    }
+
+    public JTextField getTextCambio() {
+        return textCambio;
+    }
+
+    public JTable getTicket() {
+        return ticket;
+    }
+
+    public ArrayList<ProductoNuevaVenta> getListaProductos() {
+        return listaProductos;
+    }
+
+    public JPanel getPanelProductos() {
+        return panelProductos;
+    }
+
+    public void setPanelProductos(JPanel panelProductos) {
+        this.panelProductos = panelProductos;
+    }
+    
+    public Conexion getConexion() {
+        return conexion;
     }
 }

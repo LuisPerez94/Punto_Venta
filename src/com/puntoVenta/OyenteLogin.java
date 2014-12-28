@@ -13,12 +13,11 @@ import javax.swing.JOptionPane;
  * @author Luis Created on 17/12/2014, 11:31:19 AM
  */
 public class OyenteLogin extends KeyAdapter implements ActionListener, WindowListener {
-
     private final PanelLogin panel;
     private Conexion vendedor;
     private final Login ventanaLogin;
+    
     OyenteLogin(PanelLogin panel,Login ventanaLogin) {
-        
         this.panel = panel;
         this.ventanaLogin=ventanaLogin;
     }
@@ -65,28 +64,25 @@ public class OyenteLogin extends KeyAdapter implements ActionListener, WindowLis
                 switch (isAdmin) {
                     case "T":
                         {
-                            vendedor=new Conexion("administrador", "123pass", "3306", "127.0.0.1", "punto_venta");
-                            Reportes reporte=new Reportes(isAdmin);
-                            OyenteReportes or=new OyenteReportes(reporte,vendedor);
+                            vendedor = new Conexion("administrador", "123pass", "3306", "127.0.0.1", "punto_venta");
+                            Reportes reporte = new Reportes(isAdmin);
+                            OyenteReportes or = new OyenteReportes(reporte,vendedor);
+                            or.setNombreVendedor(panel.getUsuario().getText());
                             reporte.addEventos(or);
                             ventanaLogin.dispose();
                             break;
                         }
                     case "F":
                         {
-                            vendedor=new Conexion("vendedor", "123pass", "3306", "127.0.0.1", "punto_venta");
-                            Reportes reporte=new Reportes(isAdmin);
-                            OyenteReportes or=new OyenteReportes(reporte,vendedor);
+                            vendedor = new Conexion("vendedor", "123pass", "3306", "127.0.0.1", "punto_venta");
+                            Reportes reporte = new Reportes(isAdmin);
+                            OyenteReportes or = new OyenteReportes(reporte,vendedor);
+                            or.setNombreVendedor(panel.getUsuario().getText());
                             reporte.addEventos(or);
                             ventanaLogin.dispose();
                             break;
                         }
                 }
-                                
-             
-             
-                
-            
 
             } else {
                 JOptionPane.showMessageDialog(panel, "Usuario o Contraseña incorrectos");

@@ -64,7 +64,8 @@ public class TablaModeloProducto extends AbstractTableModel {
                 return productos.get(rowIndex).getImg();
             case 4:
                 return productos.get(rowIndex).getDescripcion();
-
+            case 10:
+                return productos.get(rowIndex).getRuta();
             default:
                 return null;
         }
