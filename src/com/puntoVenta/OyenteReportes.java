@@ -5,6 +5,12 @@
  */
 package com.puntoVenta;
 
+import Formularios.AgregarCliente;
+import Formularios.AgregarProducto;
+import Formularios.AgregarVendedor;
+import Oyentes.OyenteAgregarCliente;
+import Oyentes.OyenteAgregarProducto;
+import Oyentes.OyenteAgregarVendedor;
 import Oyentes.OyenteReporteVentas;
 import Tablas.TablaModeloProducto;
 import Tablas.TablaRenderizadorProducto;
@@ -16,7 +22,6 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.sql.SQLException;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
@@ -66,18 +71,7 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
                 System.out.println("Ventas");
                 p = new PanelVentas();
                 p.addEventos(new OyenteReporteVentas(p,usuario));
-//                try {
-//                    ventanaReporte.remove(p);
-//                    ventanaReporte.remove(p1);
-//                    ventanaReporte.remove(p2);
-//
-//                } catch (Exception ex) {
-//                    ventanaReporte.add(p);
-//
-//                }
-//
-//                ventanaReporte.add(p);
-//                ventanaReporte.setpVentas(p);
+
                 ventana = new VentanaEmergente("Ventas");
                 ventana.add(p);
                 ventana.addWindowListener(this);
@@ -88,7 +82,7 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
                 break;
                 
             case "Ventas por Vendedor":
-                System.out.println("aqui se muestra las ventas por vendedor");
+                
                 String busca="";
                 int x, y;
                 boolean isID=true;
@@ -122,19 +116,7 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
                 
                 p1 = new PanelVendedores(vVendedor(busca, isID));
 
-//                try {
-//                    ventanaReporte.remove(p);
-//                    ventanaReporte.remove(p1);
-//                    ventanaReporte.remove(p2);
-//                    ventanaReporte.remove(panelNuevaVenta);
-//
-//                } catch (Exception ex) {
-//                    ventanaReporte.add(p1);
-//
-//                }
-//                ventanaReporte.add(p1);
-//                ventanaReporte.setpVendedores(p1);
-//                SwingUtilities.updateComponentTreeUI(ventanaReporte);
+
                 ventana = new VentanaEmergente("Ventas por vendedores");
                 ventana.add(p1);
                 ventana.addWindowListener(this);
@@ -145,17 +127,7 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
             case "Productos mas vendidos":
                 System.out.println("Aqui se muestran los productos mas vendidos");
                 p2 = new PanelProductos();
-//                try {
-//                    ventanaReporte.remove(p);
-//                    ventanaReporte.remove(p1);
-//                    ventanaReporte.remove(p2);
-//
-//                } catch (Exception ex) {
-//                    ventanaReporte.add(p2);
-//
-//                }
-//                ventanaReporte.add(p2);
-//                ventanaReporte.setpProductos(p2);
+
                 ventana = new VentanaEmergente("Ventas");
                 ventana.add(p2);
                 ventana.addWindowListener(this);
@@ -181,7 +153,7 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
                 
             
             case "Nueva Venta":
-                System.out.println("NUEVA VENTA! YEY");
+               
                 JTable prods = generarCatalogo();
                 panelNuevaVenta = new PanelNuevaVenta(prods, usuario);
                 panelNuevaVenta.getTextAtiende().setText(nombreVendedor);
@@ -208,14 +180,30 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
                 catalogo.addEventos(this);
                 trsfiltro = new TableRowSorter(modelo);
                 productos.setRowSorter(trsfiltro);
-//                ventanaReporte.add(catalogo, "Center");
-//                ventanaReporte.setSize(900, 555);
+
                 ventana = new VentanaEmergente("Ventas");
                 ventana.add(catalogo);
                 ventana.addWindowListener(this);
                 ventana.setVisible(true);
                 SwingUtilities.updateComponentTreeUI(ventanaReporte);
                 break;
+                case "Agrega un Producto":
+                    AgregarProducto aP =new AgregarProducto();
+                    usuario.iniciarConexion();
+                    
+                    aP.addEventos(new OyenteAgregarProducto(aP, usuario));
+                   
+                    break;
+                case "Agregar un Cliente":
+                    AgregarCliente aC=new AgregarCliente();
+                    usuario.iniciarConexion();
+                    aC.addEventos(new OyenteAgregarCliente(aC, usuario));
+                    break;
+                case "Agregar un Vendedor":
+                    AgregarVendedor aV=new AgregarVendedor();
+                    usuario.iniciarConexion();
+                    aV.addEventos(new OyenteAgregarVendedor(usuario,aV));
+                    break;
         }
         
         
@@ -300,18 +288,18 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
         String query;
         //depende del id, hara la consulta
         if(isID)
-            query = "select detalle_fact.idDetalle_fact, producto.nombreProducto, producto.precio " +
-            "from detalle_fact, producto, cab_fact " +
-            "where producto.idProducto = detalle_fact.Producto_idProducto and " +
-            "cab_fact.idCab_fact = detalle_fact.Cab_fact_idCab_fact and " +
-            "cab_fact.Vendedor_idVendedor = "+busca+";";
+            query = "select Detalle_fact.idDetalle_fact, Producto.nombreProducto, Producto.precio " +
+            "from Detalle_fact, Producto, Cab_fact " +
+            "where Producto.idProducto = Detalle_fact.Producto_idProducto and " +
+            "Cab_fact.idCab_fact = Detalle_fact.Cab_fact_idCab_fact and " +
+            "Cab_fact.Vendedor_idVendedor = "+busca+";";
         else{
-             query = "select detalle_fact.idDetalle_fact, producto.nombreProducto, producto.precio " +
-            "from detalle_fact, producto, cab_fact, vendedor " +
-            "where producto.idProducto = detalle_fact.Producto_idProducto and " +
-            "cab_fact.idCab_fact = detalle_fact.Cab_fact_idCab_fact and " +
-            "cab_fact.Vendedor_idVendedor = vendedor.idVendedor and "+
-            "vendedor.usuario = '"+busca+"';";
+             query = "select Detalle_fact.idDetalle_fact, Producto.nombreProducto, Producto.precio " +
+            "from Detalle_fact, Producto, Cab_fact, Vendedor " +
+            "where Producto.idProducto = Detalle_fact.Producto_idProducto and " +
+            "Cab_fact.idCab_fact = Detalle_fact.Cab_fact_idCab_fact and " +
+            "Cab_fact.Vendedor_idVendedor = Vendedor.idVendedor and "+
+            "Vendedor.usuario = '"+busca+"';";
              System.out.println(query);
         }
         

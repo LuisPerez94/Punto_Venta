@@ -19,7 +19,7 @@ import javax.swing.UIManager;
 public class Reportes extends JFrame {
 
     private JMenuItem ventas, ventasVendedor, productosMas, acercaDe, salir,
-            nuevaVenta, productos;
+            nuevaVenta, productos,agregarCliente,agregarProducto,agregarVendedor;
     private PanelVentas pVentas = null;
     private PanelVendedores pVendedores = null;
     private PanelProductos pProductos = null;
@@ -49,12 +49,19 @@ public class Reportes extends JFrame {
         add(i);
         JMenu archivo = new JMenu("Archivo");
         JMenu ayuda = new JMenu("Ayuda");
+        JMenu insertar=new JMenu("Insertar..");
         if (isAdmin.equals("T")) {
 
             ventas = new JMenuItem("Ventas");
             ventasVendedor = new JMenuItem("Ventas por Vendedor");
             productosMas = new JMenuItem("Productos mas vendidos");
-
+            agregarCliente=new JMenuItem("Agregar un Cliente");
+            agregarVendedor=new JMenuItem("Agregar un Vendedor");
+            agregarProducto=new JMenuItem("Agrega un Producto");
+            insertar.add(agregarCliente);
+            insertar.add(agregarProducto);
+            insertar.add(agregarVendedor);
+            
             archivo.add(ventas);
             archivo.add(ventasVendedor);
             archivo.add(productosMas);
@@ -73,8 +80,9 @@ public class Reportes extends JFrame {
 
         JMenuBar menuP = new JMenuBar();
         menuP.add(archivo);
+        menuP.add(insertar);
         menuP.add(ayuda);
-
+        
         this.setJMenuBar(menuP);
 
     }
@@ -89,6 +97,10 @@ public class Reportes extends JFrame {
             ventas.addActionListener(o);
             ventasVendedor.addActionListener(o);
             productosMas.addActionListener(o);
+           agregarCliente.addActionListener(o);
+           agregarProducto.addActionListener(o);
+           agregarVendedor.addActionListener(o);
+           
         } else if (isAdmin.equals("F")) {
             nuevaVenta.addActionListener(o);
             productos.addActionListener(o);

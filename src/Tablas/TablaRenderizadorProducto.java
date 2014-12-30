@@ -23,31 +23,16 @@ public class TablaRenderizadorProducto implements TableCellRenderer{
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         JLabel etiqueta = new JLabel();
         etiqueta.setOpaque(true);
-        if (row % 2 == 0) {
-            etiqueta.setBackground(new Color(255, 255, 200));
-        } else {
-            etiqueta.setBackground(Color.white);
-        }
-        if (value instanceof String) {
-            String nombre = (String) value;
-            etiqueta.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-            if (nombre.startsWith("#")) { //Hombre
-                etiqueta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/blogspot/rolandopalermo/recursos/user.png"))); // NOI18N
-            } else if (nombre.startsWith("&")) { //Mujer
-                etiqueta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/blogspot/rolandopalermo/recursos/user2.png"))); // NOI18N
-            }
-            etiqueta.setText(value.toString().substring(1, nombre.length()));
-        } else {
-            etiqueta.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-            etiqueta.setText(value.toString());
-        }
+        
+        etiqueta.setBackground(Color.WHITE);
+     
          
         if (value  instanceof  ImageIcon) {
-             ImageIcon icon = (ImageIcon) value;
+          
+            ImageIcon icon = (ImageIcon) value;
             etiqueta.setIcon(icon);
             
         }
-        
         if (isSelected) {
             etiqueta.setBackground(new Color(151, 193, 215));
         }

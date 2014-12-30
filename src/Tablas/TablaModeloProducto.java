@@ -73,11 +73,12 @@ public class TablaModeloProducto extends AbstractTableModel {
 
     @Override
     public Class getColumnClass(int columnIndex) {
-//        return getValueAt(0, columnIndex).getClass();
-        if(columnIndex==3){
+
+        if (columnIndex == 3) {
             return ImageIcon.class;
-        }else
-        return String.class;
+        } else {
+            return String.class;
+        }
     }
 
     @Override
@@ -104,7 +105,7 @@ public class TablaModeloProducto extends AbstractTableModel {
         }
         fireTableCellUpdated(rowIndex, columnIndex);
     }
-    
+
     public String[] getNombreColumnas() {
         return nombreColumnas;
     }
@@ -112,7 +113,5 @@ public class TablaModeloProducto extends AbstractTableModel {
     public void setNombreColumnas(String[] nombreColumnas) {
         this.nombreColumnas = nombreColumnas;
     }
-    
-    
 
 }
