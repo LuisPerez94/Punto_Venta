@@ -75,6 +75,7 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
                 ventana = new VentanaEmergente("Ventas");
                 ventana.add(p);
                 ventana.addWindowListener(this);
+                ventana.setSize(700, 400);
                 ventana.setVisible(true);
                 SwingUtilities.updateComponentTreeUI(ventanaReporte);
                 ventanaReporte.validate();
@@ -83,46 +84,7 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
                 
             case "Ventas por Vendedor":
                 
-                String busca="";
-                int x, y;
-                boolean isID=true;
-                boolean noSalir=true; //Para salir del do-while
-                do {                    
-                    busca = JOptionPane.showInputDialog("Escribe la id o el nombre de usuario que se buscará");
-                    isID=true;
-                    int id;
-                    if(busca== null ||busca.equals("")){
-                        x = JOptionPane.showConfirmDialog(null, "El campo de texto esta vacio", "Aviso", JOptionPane.OK_CANCEL_OPTION);
-                        if(x != JOptionPane.OK_OPTION){
-                            if(JOptionPane.showConfirmDialog(null, "Vas hacer la consulta sin datos, ¿Deseas seguir haciendola?", "Aviso", JOptionPane.YES_NO_OPTION)
-                                    != JOptionPane.YES_OPTION){
-                                noSalir = false;
-                            }
-                            
-                            
-                        }
-                    }
-                    else
-                        try {
-                            id = Integer.parseInt(busca);
-                            isID = true;
-                            noSalir=false;
-                        } catch (Exception ex) {
-                            isID = false;
-                            noSalir=false;
-                        }
-                } while (noSalir);
-                
-                
-                p1 = new PanelVendedores(vVendedor(busca, isID));
-
-
-                ventana = new VentanaEmergente("Ventas por vendedores");
-                ventana.add(p1);
-                ventana.addWindowListener(this);
-                ventana.setSize(640, 480);
-                ventana.setVisible(true);
-                ventanaReporte.validate();
+                BuscarVendedor busqueda = new BuscarVendedor();
                 break;
             case "Productos mas vendidos":
                 System.out.println("Aqui se muestran los productos mas vendidos");
@@ -280,70 +242,7 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
 
     }
     
-    private JTable vVendedor(String busca, boolean isID){
-        //busca sera la cadena que buscara la consulta
-        //isID buscara en true si se buscará por id y false si se bucara por nombre de usuario 
-        DefaultTableModel modeloTabla = new DefaultTableModel();
-        JTable tablaVendedor = new JTable();
-        String query;
-        //depende del id, hara la consulta
-        if(isID)
-            query = "select Detalle_fact.idDetalle_fact, Producto.nombreProducto, Producto.precio " +
-            "from Detalle_fact, Producto, Cab_fact " +
-            "where Producto.idProducto = Detalle_fact.Producto_idProducto and " +
-            "Cab_fact.idCab_fact = Detalle_fact.Cab_fact_idCab_fact and " +
-            "Cab_fact.Vendedor_idVendedor = "+busca+";";
-        else{
-             query = "select Detalle_fact.idDetalle_fact, Producto.nombreProducto, Producto.precio " +
-            "from Detalle_fact, Producto, Cab_fact, Vendedor " +
-            "where Producto.idProducto = Detalle_fact.Producto_idProducto and " +
-            "Cab_fact.idCab_fact = Detalle_fact.Cab_fact_idCab_fact and " +
-            "Cab_fact.Vendedor_idVendedor = Vendedor.idVendedor and "+
-            "Vendedor.usuario = '"+busca+"';";
-             System.out.println(query);
-        }
-        
-       
-        try {
-            usuario.iniciarConexion();
-            usuario.setResult(usuario.getStament().executeQuery(query));
-                String columnas [] = new String [usuario.getResult().getMetaData().getColumnCount()];
-                for (int i = 0; i < usuario.getResult().getMetaData().getColumnCount(); i++) {
-                    columnas[i] = usuario.getResult().getMetaData().getColumnName(i + 1);
-                    System.out.println(usuario.getResult().getMetaData().getColumnName(i + 1));
-                }
-
-                modeloTabla.setColumnIdentifiers(columnas);
-                
-                
-                String fila[] = new String[usuario.getResult().getMetaData().getColumnCount()];
-
-                while (usuario.getResult().next()) {
-                    for (int i = 0; i < usuario.getResult().getMetaData().getColumnCount(); i++) {
-                        fila[i] = usuario.getResult().getString(i + 1);
-                        System.out.println(usuario.getResult().getString(i + 1));
-                    }
-
-                    modeloTabla.addRow(fila);
-                }
-//            // Bucle para cada resultado en la consulta
-           
-            tablaVendedor.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-            tablaVendedor.setFillsViewportHeight(true);
-            tablaVendedor.setModel(modeloTabla);
-          
-            
-            usuario.getStament().close();
-        } catch (SQLException ex) {
-            System.out.println("Error" + ex);
-        } finally {
-            usuario.cerrarConexion();
-        }
-
-        return tablaVendedor;
-
-        
-    }
+    
      
     ////////////////////////////GETTER Y SETTER ////////////////////////////////////    
     public Conexion getUsuario() {

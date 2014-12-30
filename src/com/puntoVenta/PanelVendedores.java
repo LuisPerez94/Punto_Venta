@@ -21,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class PanelVendedores extends JPanel{
     JTable tabla = new JTable();
-    
+    JPanel datos;
     JScrollPane desplazar ;
     
     
@@ -33,19 +33,21 @@ public class PanelVendedores extends JPanel{
    
     
 
-    public PanelVendedores(JTable tabla) {
+    public PanelVendedores(JTable tabla, JPanel datos) {
         this.tabla = tabla;
+        this.datos = datos;
         addComponents();
     }
     
     
     public void addComponents(){
-       
+       this.setLayout(new BorderLayout());
        desplazar = new JScrollPane(tabla);
       
-       JPanel panelInt = new JPanel(new BorderLayout());
-       panelInt.add(desplazar, BorderLayout.NORTH);
+       JPanel panelInt = new JPanel();
+       panelInt.add(desplazar);
       
-       this.add(panelInt);
+       this.add(panelInt, BorderLayout.SOUTH);
+       this.add(datos, BorderLayout.NORTH);
     }
 }

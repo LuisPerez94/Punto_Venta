@@ -46,6 +46,8 @@ private JLabel nombreImagen;
         tprecio=new JTextField(30);
         tprecio.setName("precio");
         descripcion=new JTextArea(15, 30);
+        descripcion.setWrapStyleWord(true);
+        descripcion.setLineWrap(true);
         imagen=new JLabel();
         nombreImagen=new JLabel();
         elegir=new JButton("Elegir Imagen...");
