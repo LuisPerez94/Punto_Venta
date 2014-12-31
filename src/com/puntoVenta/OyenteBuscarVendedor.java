@@ -75,6 +75,7 @@ class OyenteBuscarVendedor implements ActionListener, WindowListener, KeyListene
             ventana.add(p1);
             ventana.addWindowListener(this);
             ventana.setSize(640, 480);
+            ventana.setLocationRelativeTo(null);
             ventana.pack();
             ventana.setVisible(true);
             

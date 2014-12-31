@@ -28,9 +28,9 @@ public class BuscarVendedor extends JFrame{
         super("Buscar vendedor");
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.setLocationRelativeTo(null);
         addComponents();
         addListeners();
+        this.setLocationRelativeTo(null);
         this.addWindowListener(new OyenteBuscarVendedor(this));
         setVisible(true);
     }

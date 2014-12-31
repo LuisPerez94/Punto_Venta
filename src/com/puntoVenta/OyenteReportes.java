@@ -41,6 +41,7 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
     private JTable productos;
     private PanelVentas p;
     private PanelVendedores p1;
+    private PanelProductosMasVendidos ppmv;
     private PanelProductos p2;
     private PanelCatalogo catalogo;
     private PanelNuevaVenta panelNuevaVenta;
@@ -78,6 +79,7 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
                 ventana.add(p);
                 ventana.addWindowListener(this);
                 ventana.setSize(700, 400);
+                ventana.setLocationRelativeTo(null);
                 ventana.setVisible(true);
                 SwingUtilities.updateComponentTreeUI(ventanaReporte);
                 ventanaReporte.validate();
@@ -85,17 +87,27 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
                 break;
                 
             case "Ventas por Vendedor":
-                
                 BuscarVendedor busqueda = new BuscarVendedor();
+                
                 break;
             case "Productos mas vendidos":
+                
                 System.out.println("Aqui se muestran los productos mas vendidos");
-                p2 = new PanelProductos();
+                
+                ppmv = new PanelProductosMasVendidos();
 
-                ventana = new VentanaEmergente("Ventas");
-                ventana.add(p2);
-                ventana.addWindowListener(this);
+                ventana = new VentanaEmergente("Productos más vendidos");
+                OyenteProductosMasVendidos oppmv = new OyenteProductosMasVendidos(ppmv, usuario);
+                ppmv.addEventos(oppmv);
+                
+                ventana.setSize(850, 550);
+                ventana.setLocationRelativeTo(null);
+                ventana.setResizable(false);
+                ventana.add(ppmv);
+                
+                ventana.addWindowListener(oppmv);
                 ventana.setVisible(true);
+                
                 SwingUtilities.updateComponentTreeUI(ventanaReporte);
                 ventanaReporte.validate();
                 break;
