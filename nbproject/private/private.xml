@@ -13,10 +13,12 @@
             <file>file:/C:/Users/Luis/Documents/GitHub/Punto_Venta/src/com/puntoVenta/OyenteLogin.java</file>
         </group>
         <group>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/puntoVenta/OyenteReportes.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/puntoVenta/OyenteBuscarVendedor.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/puntoVenta/OyenteLogin.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/puntoVenta/PanelVendedores.java</file>
+            <file>file:/C:/Users/JR/Documents/NetBeansProjects/Punto_Venta/src/com/puntoVenta/OyenteReportes.java</file>
+            <file>file:/C:/Users/JR/Documents/NetBeansProjects/Punto_Venta/src/com/puntoVenta/PanelVendedores.java</file>
+            <file>file:/C:/Users/JR/Documents/NetBeansProjects/Punto_Venta/src/com/puntoVenta/OyenteBuscarVendedor.java</file>
+            <file>file:/C:/Users/JR/Documents/NetBeansProjects/Punto_Venta/src/com/puntoVenta/BuscarVendedor.java</file>
+            <file>file:/C:/Users/JR/Documents/NetBeansProjects/Punto_Venta/src/com/puntoVenta/VentanaEmergente.java</file>
+            <file>file:/C:/Users/JR/Documents/NetBeansProjects/Punto_Venta/src/com/puntoVenta/ProductoNuevaVenta.java</file>
         </group>
     </open-files>
 </project-private>

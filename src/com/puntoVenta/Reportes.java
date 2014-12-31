@@ -36,6 +36,7 @@ public class Reportes extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         addComponents();
         addWindowListener(new OyenteReportes());
+        
         this.setVisible(true);
     }
 
@@ -100,6 +101,7 @@ public class Reportes extends JFrame {
            agregarCliente.addActionListener(o);
            agregarProducto.addActionListener(o);
            agregarVendedor.addActionListener(o);
+           this.addKeyListener(new OyenteReportes());
            
         } else if (isAdmin.equals("F")) {
             nuevaVenta.addActionListener(o);

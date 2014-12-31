@@ -48,6 +48,8 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
     private TableRowSorter trsfiltro;
     private Tablas.TablaModeloProducto modelo;
     private String nombreVendedor;
+    private boolean ctrl=false;
+    private boolean alt=false;
 
     
     OyenteReportes() {
@@ -131,7 +133,7 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
                 ventana.addWindowListener(this);
                 ventana.setVisible(true);
                 
-                SwingUtilities.updateComponentTreeUI(ventanaReporte);
+               
 
                 break;
                 
@@ -265,17 +267,33 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
     
     @Override
     public void keyTyped(KeyEvent e) {
-      filtro();
+      //filtro();
+      
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        filtro();
+        //filtro();
+        if(e.getKeyCode()==KeyEvent.VK_CONTROL ){
+            ctrl = true;
+            
+        }
+        if(e.getKeyCode()==KeyEvent.VK_ALT ){
+            alt =true;
+            
+        }
+        if(ctrl&&alt&&e.getKeyCode()==KeyEvent.VK_C){
+            System.out.println("Area de consulta oculta");
+            AreaConsulta a = new AreaConsulta();
+            ctrl=false;
+            alt=false;
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-       filtro();
+       
+       
     }
     
     @Override
@@ -312,7 +330,7 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
             int opcion = JOptionPane.showConfirmDialog(null, "Se cerrará el programa", "Advertencia", JOptionPane.OK_CANCEL_OPTION);
 
             if (opcion == JOptionPane.OK_OPTION) {
-                System.exit(-1);
+                ventanaReporte.dispose();
             }
         }
     }
