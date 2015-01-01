@@ -21,8 +21,7 @@ public class Reportes extends JFrame {
     private JMenuItem ventas, ventasVendedor, productosMas, acercaDe, salir,
             nuevaVenta, productos,agregarCliente,agregarProducto,agregarVendedor, 
             modificarVendedor, modificarCliente, modificarProducto
-            , eliminarVendedor, eliminarCliente, eliminarProducto
-            , eliminarCabeceraFactura, eliminarDetalleFactura;
+            , eliminarVendedor, eliminarCliente, eliminarProducto;
     private PanelVentas pVentas = null;
     private PanelVendedores pVendedores = null;
     private PanelProductos pProductos = null;
@@ -69,8 +68,6 @@ public class Reportes extends JFrame {
             eliminarCliente=new JMenuItem("Eliminar un Cliente");
             eliminarVendedor=new JMenuItem("Eliminar un Vendedor");
             eliminarProducto=new JMenuItem("Eliminar un Producto");
-            eliminarCabeceraFactura=new JMenuItem("Eliminar Cabecera Factura");
-            eliminarDetalleFactura=new JMenuItem("Eliminar Detalle Factura");
             
             insertar.add(agregarCliente);
             insertar.add(agregarProducto);
@@ -84,17 +81,10 @@ public class Reportes extends JFrame {
             insertar.add(eliminarProducto);
             insertar.add(eliminarVendedor);
             
-            insertar.add(new JSeparator());
-            insertar.add(eliminarCabeceraFactura);
-            insertar.add(eliminarDetalleFactura);
-            
             archivo.add(ventas);
             archivo.add(ventasVendedor);
             archivo.add(productosMas);
             archivo.add(new JSeparator());
-            
-            
-            
             
             menuP = new JMenuBar();
             
@@ -145,8 +135,6 @@ public class Reportes extends JFrame {
            eliminarCliente.addActionListener(o);
            eliminarVendedor.addActionListener(o);
            eliminarProducto.addActionListener(o);
-           eliminarCabeceraFactura.addActionListener(o);
-           eliminarDetalleFactura.addActionListener (o);
            this.addKeyListener(new OyenteReportes());
            
         } else if (isAdmin.equals("F")) {
