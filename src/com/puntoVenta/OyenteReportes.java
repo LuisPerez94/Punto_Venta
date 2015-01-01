@@ -208,6 +208,14 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
                     System.out.println("del producto");
                     EliminarProducto ep = new EliminarProducto(usuario);
                     break;
+                case "Eliminar Cabecera Factura":
+                    System.out.println("Eliminar cabecera");
+                    EliminarCabecera EC = new EliminarCabecera(usuario);
+                    break;
+                case "Eliminar Detalle Factura":
+                    System.out.println("Eliminar detalle ");
+                    EliminarDetalle ed = new EliminarDetalle(usuario);
+                    break;
                 
                 
                     
