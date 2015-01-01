@@ -1,5 +1,0 @@
-use punto_venta;
-
-select idVendedor,isAdmin 
-from  Vendedor v
-where v.usuario="LuisMimo" and v.contrasena="1234";

@@ -21,32 +21,31 @@ import javax.swing.JTextField;
  */
 public class AgregarVendedor extends JFrame {
     
-    protected JButton registrar;
-    protected JButton cancelar;
-    protected JTextField nombre;
-    protected JTextField apPaterno;
-    protected JTextField apMaterno;
-    protected JTextField fechanacimiento;
-    protected JTextField direccion;
-    protected JTextField correo;
-    protected JTextField sexo;
-    protected JTextField fechaIngreso;
-    protected JTextField sueldo;
-    protected JTextField usuario;
-    protected JPasswordField contraseña;
-    protected JTextField Admin;
+    private JButton registrar;
+    private JButton cancelar;
+    private JTextField nombre;
+    private JTextField apPaterno;
+    private JTextField apMaterno;
+    private JTextField fechanacimiento;
+    private JTextField direccion;
+    private JTextField correo;
+    private JTextField sexo;
+    private JTextField fechaIngreso;
+    private JTextField sueldo;
+    private JTextField usuario;
+    private JPasswordField contraseña;
+    private JTextField Admin;
     
     public AgregarVendedor() {
         super("Agregar Vendedor");
-        this.setSize(600, 300);
+        this.setSize(400, 600);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-        setResizable(false);
         addComponentes();
         this.setVisible(true);
     }
     
-    protected void addComponentes() {
+    private void addComponentes() {
         
         JPanel panelSur = new JPanel();
         JPanel panelCentro = new JPanel();

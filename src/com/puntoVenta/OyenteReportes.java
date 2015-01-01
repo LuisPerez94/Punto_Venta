@@ -14,7 +14,6 @@ import Oyentes.OyenteAgregarVendedor;
 import Oyentes.OyenteReporteVentas;
 import Tablas.TablaModeloProducto;
 import Tablas.TablaRenderizadorProducto;
-import com.modificar.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -23,13 +22,13 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.sql.SQLException;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
 /**
@@ -104,7 +103,6 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
                 ventana.setSize(850, 550);
                 ventana.setLocationRelativeTo(null);
                 ventana.setResizable(false);
-                ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 ventana.add(ppmv);
                 
                 ventana.addWindowListener(oppmv);
@@ -182,35 +180,6 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
                     usuario.iniciarConexion();
                     aV.addEventos(new OyenteAgregarVendedor(usuario,aV));
                     break;
-                case  "Modificar un Cliente" : 
-                    System.out.println("Mod cliente");
-                    ModificarCliente mc = new ModificarCliente(usuario);
-                    break;
-                case  "Modificar un Vendedor" : 
-                    System.out.println("Mod vendedor");
-                    usuario.iniciarConexion();
-                    ModificarVendedor mv = new ModificarVendedor(usuario);
-                    break;
-                case  "Modificar un Producto" : 
-                    System.out.println("Mod producto");
-                    ModificarProducto mp = new ModificarProducto(usuario);
-                    break;
-                    
-                case  "Eliminar un Cliente" : 
-                    EliminarCliente ec = new EliminarCliente(usuario);
-                    System.out.println("DEl cliente");
-                    break;
-                case  "Eliminar un Vendedor" : 
-                    System.out.println("del vendedor");
-                    EliminarVendedor ev = new EliminarVendedor(usuario);
-                    break;
-                case  "Eliminar un Producto" : 
-                    System.out.println("del producto");
-                    EliminarProducto ep = new EliminarProducto(usuario);
-                    break;
-                
-                
-                    
         }
         
         

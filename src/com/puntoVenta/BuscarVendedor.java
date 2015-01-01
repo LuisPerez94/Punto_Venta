@@ -68,7 +68,7 @@ public class BuscarVendedor extends JFrame{
         
     }
     
-    static String [] ListToArray(ArrayList v){
+    private String [] ListToArray(ArrayList v){
         String returnThis[] = new String[v.size()];
         for (int i = 0; i < v.size(); i++) {
             returnThis [i] = v.get(i).toString();

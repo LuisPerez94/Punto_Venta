@@ -116,7 +116,7 @@ public class OyenteProductosMasVendidos extends WindowAdapter implements ActionL
             
             if(opcion == JFileChooser.APPROVE_OPTION){
                 File file = jfc.getSelectedFile();
-                ExcelExporter.fillData(panel.getProductos(), new File(file.getPath()+".xls"));
+                ExcelExporter.fillData(panel.getProductos(), new File(file.getPath()+".xlsx"));
             }
         }else{
             JOptionPane.showMessageDialog(panel, "La vista de reportes está vacía",

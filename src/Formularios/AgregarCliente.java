@@ -31,10 +31,10 @@ public class AgregarCliente extends JFrame {
 
     public AgregarCliente() {
         super("Agregar un Cliente");
-        this.setSize(600, 200);
+        this.setSize(400, 250);
         this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        //setResizable(false);
+        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+
         addComponentes();
         this.setVisible(true);
     }
