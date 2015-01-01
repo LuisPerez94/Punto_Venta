@@ -5,6 +5,7 @@
  */
 package com.modificar;
 
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import com.puntoVenta.Conexion;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -82,11 +83,17 @@ public class OyenteModificarCliente implements ActionListener{
             System.out.println(consulta);
             if(c.getStament().execute(consulta))
                 return true;
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Ocurrio un error "+ex.toString(), "Alerta", JOptionPane.DEFAULT_OPTION);
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, "Asegurate de eliminar registros\nde detalle de factura y de de cabecera de factura antes"
+                    + " de hacer esta operacion", "Alerta", JOptionPane.DEFAULT_OPTION);
             System.out.println(ex);
             return false;
-        }
+        }    
+//        catch (SQLException ex) {
+//            JOptionPane.showMessageDialog(null, "Ocurrio un error "+ex.toString(), "Alerta", JOptionPane.DEFAULT_OPTION);
+//            System.out.println(ex);
+//            return false;
+//        }
         return true;
     }
     

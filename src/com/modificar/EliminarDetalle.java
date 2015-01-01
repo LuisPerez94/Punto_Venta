@@ -22,6 +22,7 @@ public class EliminarDetalle extends EliminarFactura{
     public EliminarDetalle(Conexion c) {
         super(c);
         super.setTitle("Eliminar Detalle de Factura");
+        super.setSize(500, 100);
     }
 
     @Override
@@ -29,8 +30,15 @@ public class EliminarDetalle extends EliminarFactura{
         JPanel p = new JPanel(new FlowLayout());
         JPanel p2 = new JPanel(new FlowLayout());
         c.iniciarConexion();
-        String consulta = "select Detalle_fact.idDetalle_fact, Producto.nombreProducto, Detalle_fact.FechaVenta, Detalle_fact.cantidadProducto"
-                + " from Detalle_fact, Producto where Producto.idProducto = Detalle_fact.Producto_idProducto;";
+        String consulta = "select Detalle_fact.idDetalle_fact, Producto.nombreProducto, Detalle_fact.FechaVenta, \n" +
+        "Detalle_fact.cantidadProducto, Cliente.nombreCliente, Cliente.apPaterno,\n" +
+        "Vendedor.nombreVendedor, Vendedor.apPaterno\n" +
+        "from Detalle_fact, Producto, Vendedor, Cliente, Cab_fact\n" +
+        "where Producto.idProducto = Detalle_fact.Producto_idProducto and\n" +
+        "Detalle_fact.Cab_fact_idCab_fact = Cab_fact.idCab_fact and\n" +
+        "Cab_fact.Cliente_idCliente = Cliente.idCliente and\n" +
+        "Cab_fact.Vendedor_idVendedor = Vendedor.idVendedor\n" +
+        "order by Detalle_fact.idDetalle_fact;";
         try {
         c.setResult(c.getStament().executeQuery(consulta));
         while (c.getResult().next()) {
