@@ -3,50 +3,81 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Formularios;
+package com.modificar;
 
-import Oyentes.OyenteAgregarVendedor;
-import com.puntoVenta.Conexion;
+import com.puntoVenta.*;
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+
 /**
  *
- * @author luis
+ * @author JR
  */
-public class AgregarVendedor extends JFrame {
+public class ModificarVendedor extends JFrame{
+    Conexion c ;
+    private JComboBox vendedores;
+    private JButton cancelar = new JButton("Cancelar");
+    private JButton registrar = new JButton("Modificar");
+    private JTextField nombre;
+    private JTextField apPaterno;
+    private JTextField apMaterno;
+    private JTextField fechanacimiento;
+    private JTextField direccion;
+    private JTextField correo;
+    private JTextField sexo;
+    private JTextField fechaIngreso;
+    private JTextField sueldo;
+    private JTextField usuario;
+    private JPasswordField contraseña;
+    private JTextField Admin;
+    private ArrayList Atributos;
+    private ArrayList ids = new ArrayList<>();
+    private ArrayList v = new ArrayList <String []> ();
     
-    protected JButton registrar;
-    protected JButton cancelar;
-    protected JTextField nombre;
-    protected JTextField apPaterno;
-    protected JTextField apMaterno;
-    protected JTextField fechanacimiento;
-    protected JTextField direccion;
-    protected JTextField correo;
-    protected JTextField sexo;
-    protected JTextField fechaIngreso;
-    protected JTextField sueldo;
-    protected JTextField usuario;
-    protected JPasswordField contraseña;
-    protected JTextField Admin;
-    
-    public AgregarVendedor() {
-        super("Agregar Vendedor");
+    public ModificarVendedor(Conexion c) {
+        this.setTitle("Modificar Vendedor");
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        this.c = c;
         this.setSize(600, 300);
-        this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-        setResizable(false);
+        this.setResizable(false);
         addComponentes();
-        this.setVisible(true);
+        addEventos(new OyenteModificarVendedor(c, this));
+        setLocationRelativeTo(null);
+        setVisible(true);
+        
     }
     
-    protected void addComponentes() {
+    
+    protected void addComponentes(){
+        c.iniciarConexion();
+        String consulta = "select Vendedor.idVendedor, Vendedor.nombreVendedor, Vendedor.apPaterno, Vendedor.apMaterno from Vendedor;";
+        try {
+        c.setResult(c.getStament().executeQuery(consulta));
+        while (c.getResult().next()) {
+                    Atributos = new ArrayList <String[]>();
+                    for (int i = 0; i < c.getResult().getMetaData().getColumnCount(); i++) {
+                        Atributos.add(c.getResult().getString(i + 1));
+                        }
+                    ids.add(Atributos.get(0).toString());
+                    v.add(Atributos);
+                    
+            
+        }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        c.cerrarConexion();
+        vendedores = new JComboBox(ListToArray(v));
         
         JPanel panelSur = new JPanel();
         JPanel panelCentro = new JPanel();
@@ -57,7 +88,7 @@ public class AgregarVendedor extends JFrame {
         GridLayout gl2=new GridLayout(12, 2);
         panelCentro.setLayout(gl2);
         cancelar=new JButton("Cancelar");
-        registrar=new JButton("Registrar");
+        registrar=new JButton("Modificar");
         
         nombre = new JTextField();
         apPaterno = new JTextField();
@@ -77,6 +108,11 @@ public class AgregarVendedor extends JFrame {
         contraseña = new JPasswordField();
         Admin = new JTextField();
         Admin.setName("admin");
+        
+        JPanel norte  =new JPanel(new BorderLayout());
+        norte.add(new JLabel("Modificar a:"), "West");
+        norte.add(vendedores, "East");
+        
         
         panelCentro.add(new JLabel("Nombre :"));
         panelCentro.add(nombre);
@@ -111,26 +147,38 @@ public class AgregarVendedor extends JFrame {
         
         panelSur.add(panelIzqSur);
         panelSur.add(panelDerSur);
-        
+        this.add(norte, "North");
         this.add(panelSur,"South");
         this.add(panelCentro, "Center");
-        
-    }
-    
-    public void addEventos(OyenteAgregarVendedor o){
-        registrar.addActionListener(o);
-        cancelar.addActionListener(o);
-        sexo.addKeyListener(o);
-        sueldo.addKeyListener(o);
-        Admin.addKeyListener(o);
-    }
-   
-    public JButton getRegistrar() {
-        return registrar;
     }
 
-    public void setRegistrar(JButton registrar) {
-        this.registrar = registrar;
+    private void addEventos(OyenteModificarVendedor oyenteModificarVendedor) {
+        cancelar.addActionListener(oyenteModificarVendedor);
+        registrar.addActionListener(oyenteModificarVendedor);
+    }
+    
+    static String [] ListToArray(ArrayList v){
+        String returnThis[] = new String[v.size()];
+        for (int i = 0; i < v.size(); i++) {
+            returnThis [i] = v.get(i).toString();
+        }
+        return returnThis;
+    }
+
+    public Conexion getC() {
+        return c;
+    }
+
+    public void setC(Conexion c) {
+        this.c = c;
+    }
+
+    public JComboBox getVendedores() {
+        return vendedores;
+    }
+
+    public void setVendedores(JComboBox vendedores) {
+        this.vendedores = vendedores;
     }
 
     public JButton getCancelar() {
@@ -139,6 +187,14 @@ public class AgregarVendedor extends JFrame {
 
     public void setCancelar(JButton cancelar) {
         this.cancelar = cancelar;
+    }
+
+    public JButton getRegistrar() {
+        return registrar;
+    }
+
+    public void setRegistrar(JButton registrar) {
+        this.registrar = registrar;
     }
 
     public JTextField getNombre() {
@@ -235,6 +291,30 @@ public class AgregarVendedor extends JFrame {
 
     public void setAdmin(JTextField Admin) {
         this.Admin = Admin;
+    }
+
+    public ArrayList getAtributos() {
+        return Atributos;
+    }
+
+    public void setAtributos(ArrayList Atributos) {
+        this.Atributos = Atributos;
+    }
+
+    public ArrayList getIds() {
+        return ids;
+    }
+
+    public void setIds(ArrayList ids) {
+        this.ids = ids;
+    }
+
+    public ArrayList getV() {
+        return v;
+    }
+
+    public void setV(ArrayList v) {
+        this.v = v;
     }
     
     

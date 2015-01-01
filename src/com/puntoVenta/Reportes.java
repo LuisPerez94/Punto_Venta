@@ -19,7 +19,9 @@ import javax.swing.UIManager;
 public class Reportes extends JFrame {
 
     private JMenuItem ventas, ventasVendedor, productosMas, acercaDe, salir,
-            nuevaVenta, productos,agregarCliente,agregarProducto,agregarVendedor;
+            nuevaVenta, productos,agregarCliente,agregarProducto,agregarVendedor, 
+            modificarVendedor, modificarCliente, modificarProducto
+            , eliminarVendedor, eliminarCliente, eliminarProducto;
     private PanelVentas pVentas = null;
     private PanelVendedores pVendedores = null;
     private PanelProductos pProductos = null;
@@ -47,6 +49,7 @@ public class Reportes extends JFrame {
     
 
     private void addComponents() {
+        JMenuBar menuP;
         add(i);
         JMenu archivo = new JMenu("Archivo");
         JMenu ayuda = new JMenu("Ayuda");
@@ -59,30 +62,53 @@ public class Reportes extends JFrame {
             agregarCliente=new JMenuItem("Agregar un Cliente");
             agregarVendedor=new JMenuItem("Agregar un Vendedor");
             agregarProducto=new JMenuItem("Agrega un Producto");
+            modificarCliente=new JMenuItem("Modificar un Cliente");
+            modificarVendedor=new JMenuItem("Modificar un Vendedor");
+            modificarProducto=new JMenuItem("Modificar un Producto");
+            eliminarCliente=new JMenuItem("Eliminar un Cliente");
+            eliminarVendedor=new JMenuItem("Eliminar un Vendedor");
+            eliminarProducto=new JMenuItem("Eliminar un Producto");
+            
             insertar.add(agregarCliente);
             insertar.add(agregarProducto);
             insertar.add(agregarVendedor);
+            insertar.add(new JSeparator());
+            insertar.add(modificarCliente);
+            insertar.add(modificarProducto);
+            insertar.add(modificarVendedor);
+            insertar.add(new JSeparator());
+            insertar.add(eliminarCliente);
+            insertar.add(eliminarProducto);
+            insertar.add(eliminarVendedor);
             
             archivo.add(ventas);
             archivo.add(ventasVendedor);
             archivo.add(productosMas);
             archivo.add(new JSeparator());
+            
+            menuP = new JMenuBar();
+            
+            menuP.add(archivo);
+            menuP.add(insertar);
+            menuP.add(ayuda);
         } else {
             nuevaVenta = new JMenuItem("Nueva Venta");
             productos = new JMenuItem("Catalogo de Productos");
 
             archivo.add(nuevaVenta);
             archivo.add(productos);
+            menuP = new JMenuBar();
+            
+            menuP.add(archivo);
+            
+            menuP.add(ayuda);
             
         }
 
         archivo.add(salir);
         ayuda.add(acercaDe);
 
-        JMenuBar menuP = new JMenuBar();
-        menuP.add(archivo);
-        menuP.add(insertar);
-        menuP.add(ayuda);
+        
         
         this.setJMenuBar(menuP);
 
@@ -95,12 +121,20 @@ public class Reportes extends JFrame {
         acercaDe.addActionListener(o);
         
         if (isAdmin.equals("T")) {
-            ventas.addActionListener(o);
-            ventasVendedor.addActionListener(o);
-            productosMas.addActionListener(o);
+           ventas.addActionListener(o);
+           ventasVendedor.addActionListener(o);
+           productosMas.addActionListener(o);
            agregarCliente.addActionListener(o);
            agregarProducto.addActionListener(o);
            agregarVendedor.addActionListener(o);
+          
+           modificarCliente.addActionListener(o);
+           modificarVendedor.addActionListener(o);
+           modificarProducto.addActionListener(o);
+           
+           eliminarCliente.addActionListener(o);
+           eliminarVendedor.addActionListener(o);
+           eliminarProducto.addActionListener(o);
            this.addKeyListener(new OyenteReportes());
            
         } else if (isAdmin.equals("F")) {
