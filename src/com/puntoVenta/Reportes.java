@@ -36,7 +36,7 @@ public class Reportes extends JFrame {
         this.setTitle("Bienvenido");
         this.setSize(500, 500);
         this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         addComponents();
         addWindowListener(new OyenteReportes());
         
@@ -52,10 +52,16 @@ public class Reportes extends JFrame {
     private void addComponents() {
         JMenuBar menuP;
         add(i);
-        JMenu archivo = new JMenu("Archivo");
+        JMenu archivo = new JMenu("Reportes");
         JMenu ayuda = new JMenu("Ayuda");
-        JMenu insertar=new JMenu("Insertar..");
+        JMenu administrar = new JMenu("Administrar");
+        
         if (isAdmin.equals("T")) {
+            
+            JMenu caja = new JMenu("Caja");
+            
+            nuevaVenta = new JMenuItem("Nueva Venta");
+            productos = new JMenuItem("Catalogo de Productos");
 
             ventas = new JMenuItem("Ventas");
             ventasVendedor = new JMenuItem("Ventas por Vendedor");
@@ -72,41 +78,49 @@ public class Reportes extends JFrame {
             eliminarCabeceraFactura=new JMenuItem("Eliminar Cabecera Factura");
             eliminarDetalleFactura=new JMenuItem("Eliminar Detalle Factura");
             
-            insertar.add(agregarCliente);
-            insertar.add(agregarProducto);
-            insertar.add(agregarVendedor);
-            insertar.add(new JSeparator());
-            insertar.add(modificarCliente);
-            insertar.add(modificarProducto);
-            insertar.add(modificarVendedor);
-            insertar.add(new JSeparator());
-            insertar.add(eliminarCliente);
-            insertar.add(eliminarProducto);
-            insertar.add(eliminarVendedor);
+            caja.add(nuevaVenta);
+            caja.add(new JSeparator());
+            caja.add(productos);
             
-            insertar.add(new JSeparator());
-            insertar.add(eliminarCabeceraFactura);
-            insertar.add(eliminarDetalleFactura);
+            administrar.add(agregarCliente);
+            administrar.add(agregarProducto);
+            administrar.add(agregarVendedor);
+            administrar.add(new JSeparator());
+            administrar.add(modificarCliente);
+            administrar.add(modificarProducto);
+            administrar.add(modificarVendedor);
+            administrar.add(new JSeparator());
+            administrar.add(eliminarCliente);
+            administrar.add(eliminarProducto);
+            administrar.add(eliminarVendedor);
+            
+            administrar.add(new JSeparator());
+            administrar.add(eliminarCabeceraFactura);
+            administrar.add(eliminarDetalleFactura);
             
             archivo.add(ventas);
             archivo.add(ventasVendedor);
+            archivo.add(new JSeparator());
             archivo.add(productosMas);
             archivo.add(new JSeparator());
-            
-            
-            
             
             menuP = new JMenuBar();
             
             menuP.add(archivo);
-            menuP.add(insertar);
+            menuP.add(caja);
+            menuP.add(administrar);
             menuP.add(ayuda);
+            
         } else {
+            archivo = new JMenu("Caja");
+            
             nuevaVenta = new JMenuItem("Nueva Venta");
             productos = new JMenuItem("Catalogo de Productos");
 
             archivo.add(nuevaVenta);
+            archivo.add(new JSeparator());
             archivo.add(productos);
+            archivo.add(new JSeparator());
             menuP = new JMenuBar();
             
             menuP.add(archivo);
@@ -117,20 +131,19 @@ public class Reportes extends JFrame {
 
         archivo.add(salir);
         ayuda.add(acercaDe);
-
-        
         
         this.setJMenuBar(menuP);
 
     }
 
     public void addEventos(OyenteReportes o) {
-
-        
         salir.addActionListener(o);
         acercaDe.addActionListener(o);
         
         if (isAdmin.equals("T")) {
+           nuevaVenta.addActionListener(o);
+           productos.addActionListener(o);
+            
            ventas.addActionListener(o);
            ventasVendedor.addActionListener(o);
            productosMas.addActionListener(o);

@@ -20,7 +20,6 @@ public class VentanaEmergente extends JFrame{
           setSize(800, 600);
           setLocationRelativeTo(null);
           setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-          setVisible(true);
     
     }
         

@@ -19,7 +19,7 @@ public class OyenteLogin extends KeyAdapter implements ActionListener, WindowLis
     
     OyenteLogin(PanelLogin panel,Login ventanaLogin) {
         this.panel = panel;
-        this.ventanaLogin=ventanaLogin;
+        this.ventanaLogin = ventanaLogin;
     }
 
     @Override
@@ -90,8 +90,6 @@ public class OyenteLogin extends KeyAdapter implements ActionListener, WindowLis
 
             }
             
-            
-            System.out.println("FIN");
         } catch (SQLException ex) {
             System.out.println("Error" + ex);
         }

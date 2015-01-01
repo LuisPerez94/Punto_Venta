@@ -18,6 +18,7 @@ public class PanelNuevaVenta extends JPanel{
     private JPanel panelProductos;
     private JScrollPane scrollTicket;
     private JScrollPane scrollProductos;
+    private JTextField textCliente;
     private JTextField textPartida;
     private JTextField textBuscar;
     private JTextField textAtiende;
@@ -97,10 +98,17 @@ public class PanelNuevaVenta extends JPanel{
         norte.add(subNorte2);
         norte.add(subNorte3);
         
+        /* Datos de cliente... */
+        textCliente = new JTextField();
+        textCliente.setPreferredSize(new Dimension(360, 30));
+        textCliente.setEditable(false);
+        
+        norte.add(new JLabel("Cliente: "));
+        norte.add(textCliente);
         
         /* Buscar artículos por ID... */
         textBuscar = new JTextField();
-        textBuscar.setPreferredSize(new Dimension(350, 30));
+        textBuscar.setPreferredSize(new Dimension(340, 30));
         textBuscar.setText("Buscar producto...");
         buttonBuscar = new JButton("Buscar");
         buttonAgregar = new JButton("Agregar");
@@ -109,7 +117,7 @@ public class PanelNuevaVenta extends JPanel{
         norte.add(buttonBuscar);
 //        norte.add(buttonAgregar);
 
-        norte.setPreferredSize(new Dimension(400, 90));
+        norte.setPreferredSize(new Dimension(400, 130));
         
         /* Panel con la lista de productos */
 //        centro.setLayout(new GridLayout(5,5));
@@ -321,6 +329,10 @@ public class PanelNuevaVenta extends JPanel{
     
     public JTextField getTextPartida() {
         return textPartida;
+    }
+
+    public JTextField getTextCliente() {
+        return textCliente;
     }
 
     public JTextField getTextBuscar() {

@@ -79,7 +79,7 @@ public class OyenteProductosMasVendidos extends WindowAdapter implements ActionL
                 break;
                 
             case "Antier":
-                query += " 2 DAY)";
+                query = "AND Detalle_fact.fechaVenta = DATE_SUB(CURDATE(), INTERVAL 2 DAY)";
                 limpiarTabla();
                 productosMasVendidos(query);
                 break;

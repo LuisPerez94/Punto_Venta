@@ -18,16 +18,20 @@ public class main {
     
     public static void main(String[] args) {
         setLookAndFeel();
-        Login ventanalogin = new Login();
+        mostrarLogin();
+    }
+    
+    public static void  mostrarLogin(){
+        Login ventanaLogin = new Login();
         PanelLogin panel = new PanelLogin();
-        OyenteLogin oyente = new OyenteLogin(panel,ventanalogin);
+        OyenteLogin oyente = new OyenteLogin(panel,ventanaLogin);
         
         
-        ventanalogin.addWindowListener(oyente);
+        ventanaLogin.addWindowListener(oyente);
         panel.addEventos(oyente);
-        ventanalogin.add(panel);
+        ventanaLogin.add(panel);
         
-        ventanalogin.setVisible(true);
+        ventanaLogin.setVisible(true);
     }
     
     public static void setLookAndFeel(){

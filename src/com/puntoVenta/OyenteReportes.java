@@ -55,7 +55,7 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
 
     
     OyenteReportes() {
-
+        panelNuevaVenta = null;
     }
 
     OyenteReportes(Reportes ventaReportes, Conexion usuario) {
@@ -131,24 +131,22 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
                 
             
             case "Nueva Venta":
-               
-                JTable prods = generarCatalogo();
+                ventana = new VentanaEmergente("Ventas");
+                
+                 JTable prods = generarCatalogo();
                 panelNuevaVenta = new PanelNuevaVenta(prods, usuario);
                 panelNuevaVenta.getTextAtiende().setText(nombreVendedor);
                 
-                OyenteNuevaVenta oyenteNV = new OyenteNuevaVenta(panelNuevaVenta);
+                OyenteNuevaVenta oyenteNV = new OyenteNuevaVenta(ventana, panelNuevaVenta);
                 
                 panelNuevaVenta.addEventos(oyenteNV);
                 
-                ventana = new VentanaEmergente("Ventas");
                 ventana.add(panelNuevaVenta);
                 ventana.setSize(900, 555);
                 ventana.setLocationRelativeTo(null);
                 ventana.addWindowListener(this);
-                ventana.setVisible(true);
-                
-               
-
+                ventana.setVisible(false);
+                oyenteNV.validarNuevaVenta();
                 break;
                 
                 
@@ -378,10 +376,12 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
 
             
         } else if (e.getSource().getClass().isInstance(ventanaReporte)) {
-            int opcion = JOptionPane.showConfirmDialog(null, "Se cerrará el programa", "Advertencia", JOptionPane.OK_CANCEL_OPTION);
+            int opcion = JOptionPane.showConfirmDialog(ventanaReporte, 
+                    "Se cerrará la sesión actual", "Advertencia", JOptionPane.OK_CANCEL_OPTION);
 
             if (opcion == JOptionPane.OK_OPTION) {
                 ventanaReporte.dispose();
+                main.mostrarLogin();
             }
         }
     }

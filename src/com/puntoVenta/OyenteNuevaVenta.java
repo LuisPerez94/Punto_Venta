@@ -15,10 +15,12 @@ import javax.swing.table.DefaultTableModel;
  */
 
 public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, MouseListener{
+    private final VentanaEmergente ventana;
     private final PanelNuevaVenta panel;
     private final ArrayList<ProductoNuevaVenta> listaProductos;
     
-    public OyenteNuevaVenta(PanelNuevaVenta panel){
+    public OyenteNuevaVenta(VentanaEmergente ventana, PanelNuevaVenta panel){
+        this.ventana = ventana;
         this.panel = panel;
         this.listaProductos = panel.getListaProductos();
     }
@@ -37,7 +39,7 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
                 break;
                 
             case "Nueva":
-                nuevaPartida();
+                nuevaPartida(true);
                 break;
         }
     }
@@ -188,16 +190,30 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
         panel.getPanelProductos().updateUI();
     }
     
-    public void nuevaPartida(){
-        int opcion = JOptionPane.showConfirmDialog(panel, "¿Desea agregar una nueva partida? \nSe perderá la venta actual",
-                                                    "Confirmación", JOptionPane.OK_CANCEL_OPTION);
+    public void nuevaPartida(boolean validar){
         
-        if(opcion == JOptionPane.OK_OPTION){
-            borrarCampos();
+        if(validar){
+            int opcion = JOptionPane.showConfirmDialog(panel, "¿Desea agregar una nueva partida? \nSe perderá la venta actual",
+                                                        "Confirmación", JOptionPane.OK_CANCEL_OPTION);
+
+            if(opcion == JOptionPane.OK_OPTION){
+                if(borrarCampos()){
+                    ventana.setVisible(false);
+                    panel.update(panel.getGraphics());
+                    validarNuevaVenta();
+                }
+            }
+        
+        }else{
+            if(borrarCampos()){
+                    ventana.setVisible(false);
+                    panel.update(panel.getGraphics());
+                    validarNuevaVenta();
+                }
         }
     }
     
-    public void borrarCampos(){
+    public boolean borrarCampos(){
             // Habilitar el botón de pago...
             panel.getButtonPagar().setEnabled(true);
         
@@ -209,6 +225,8 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
             panel.getTextPago().setText("$ 0.00");
             panel.getTextCambio().setText("$ 0.00");
             panel.getTextTotal().setText("$ 0.00");
+            
+            panel.getTextCliente().setText(" ");
             
             // Vaciar el ticket...
             DefaultTableModel modelo = (DefaultTableModel) panel.getTicket().getModel();
@@ -226,6 +244,8 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
             panel.getTextBuscar().setText("");
             buscarProducto();
             panel.getTextBuscar().setText("Buscar producto...");
+            
+            return true;
     }
     
     public void habilitarPago(){
@@ -268,20 +288,7 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
             
 
             if(opcion == JOptionPane.OK_OPTION){
-                JOptionPane.showMessageDialog(panel, "\nCompra realizada con éxito \n\nGracias por su preferencia\n",
-                        "Compra realizada", JOptionPane.INFORMATION_MESSAGE);
-
-                
-                
-                // Y aumentamos el número de la nueva partida...
-                panel.getTextPartida().setText(Integer.parseInt(panel.getTextPartida().getText())+1+"");
-                
-                // Y lo guardamos en la base de datos...
-                JTable ticket = panel.getTicket();
-                guardarVenta(ticket);
-                
-                // Por último borramos los campos...
-                borrarCampos();
+                guardarVenta();
             
             }else{
                 panel.getTextCambio().setText("$ 0.00");
@@ -398,28 +405,32 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
         }
     }
     
-    public void guardarVenta(JTable ticket){
+    public void guardarVenta(){
         Conexion conexion = panel.getConexion();
+        JTable ticket = panel.getTicket();
+
         String selectIdVendedor = "SELECT idVendedor FROM Vendedor WHERE nombreVendedor = " +
                 "'" + panel.getTextAtiende().getText().trim() + "'";
         
         String insertarEnCab_fact, insertarEnDetalle_fact;
         int idVendedor;
         
-        int idCab_fact = (Integer.parseInt(panel.getTextPartida().getText().trim())-1);
+        // Este es el idCab_fact, es 1 mayor que el mayor que hay en la bd...
+        int idCab_fact = (Integer.parseInt(panel.getTextPartida().getText().trim()));
         int idDetalle_fact = 0;
         
         String fechaVenta = "";
-        
-        
+
+        // El [1] es el que contiene el ID...
+        String[] datosCliente = panel.getTextCliente().getText().split(" ");
+                
+                
         try{
             conexion.iniciarConexion();
             
             // Obtenemos el id del vendedor que está atendiendo...
             conexion.setResult(conexion.getStament().executeQuery(selectIdVendedor));
 
-//            System.out.println("Aún no se ha ejecutado...");
-//            System.out.println(selectIdVendedor);
             
             // Insertamos en Cab_fact...
             if(conexion.getResult().next()){
@@ -429,7 +440,7 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
 
                 insertarEnCab_fact = "INSERT INTO Cab_fact VALUES(" + 
                                         idCab_fact + "," +
-                                        1 + "," +
+                                        datosCliente[1] + "," +
                                         idVendedor+
                                         ")";
                 
@@ -470,13 +481,107 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
                 idDetalle_fact ++;
             }
             
-//            System.out.println("Se agregó en Detalle_fact!");
-                conexion.getStament().close();
+            JOptionPane.showMessageDialog(panel, "\nCompra realizada con éxito \n\nGracias por su preferencia\n",
+                    "Compra realizada", JOptionPane.INFORMATION_MESSAGE);
+
+            
+            // Y aumentamos el número de la nueva partida...
+            panel.getTextPartida().setText(Integer.parseInt(panel.getTextPartida().getText())+1+"");
+            
+            // Por último borramos los campos...
+            borrarCampos();
+                
+            conexion.getStament().close();
+            
+            nuevaPartida(false);
         }catch(SQLException e){
             System.out.println("Hubo un error al guardar la venta: " + e.getMessage());
             
         }finally{
             conexion.cerrarConexion();
         }
+    }
+    
+    
+    public void validarNuevaVenta(){
+        String datosCliente = JOptionPane.showInputDialog(panel, "Identificar cliente: ", "ID o email");
+        String cliente, buscar, query;
+
+        try{
+            if(!datosCliente.equals("")){
+                try{
+                    int id = Integer.parseInt(datosCliente);
+                    buscar = "idCliente";
+                }catch(NumberFormatException e){
+                    buscar = "correoCliente";
+                }
+
+                query = "SELECT * FROM Cliente WHERE " + buscar + " = " + "\""+datosCliente+"\"";
+//                System.out.println("Query: " + query);
+                cliente = buscarCliente(query);
+
+//                System.out.println("Cliente encontrado: " + cliente);
+
+                if(!cliente.equals("-1")){
+                    int opcion = JOptionPane.showConfirmDialog(panel, 
+                            "Cliente: \n" + cliente +"\n\n¿Son correctos los datos?",
+                            "Cliente encontrado", JOptionPane.OK_CANCEL_OPTION);
+
+                    if(opcion == JOptionPane.OK_OPTION){
+                        ventana.setVisible(true);
+                    }else{
+                        validarNuevaVenta();
+                    }
+                
+                }else{
+                    validarNuevaVenta();
+                }
+            }
+        }catch(NullPointerException e){System.out.println("No pasa nada");}
+               
+    }
+    
+    public String buscarCliente(String query){
+        String encontrado = "";
+        Conexion conexion = panel.getConexion();
+        
+        try{
+            conexion.iniciarConexion();
+            
+            conexion.setResult(conexion.getStament().executeQuery(query));
+            
+            if(conexion.getResult().next()){
+                encontrado = "ID: " + conexion.getResult().getObject(1) + "\n" +
+                            "Nombre: " + conexion.getResult().getObject(2)  + "\n" +
+                            "Ap.Pat: " + conexion.getResult().getObject(3)  + "\n" +
+                            "Ap.Mat: " + conexion.getResult().getObject(4)  + "\n" +
+                            "Direc: " + conexion.getResult().getObject(5)  + "\n" +
+                            "Email: " + conexion.getResult().getObject(6)  + "\n" +
+                            "Tel: " + conexion.getResult().getObject(7);
+                
+                panel.getTextCliente().setText("ID: "+conexion.getResult().getObject(1) + ".  " +
+                                                        conexion.getResult().getObject(2) + " " +
+                                                        conexion.getResult().getObject(3) + " " +
+                                                        conexion.getResult().getObject(4));
+                
+            }else{
+                JOptionPane.showMessageDialog(panel, "No se encontró ningún cliente", 
+                        "Resultados", JOptionPane.ERROR_MESSAGE);
+                
+                encontrado = "-1";
+            }
+            
+            conexion.getStament().close();
+            
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(panel, "Vaya! Hubo un error. Inténtelo de nuevo. \n\n"+e.getMessage(), 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            
+            encontrado = "-1";
+        }finally{
+            conexion.cerrarConexion();
+        }
+        
+        return encontrado;
     }
 }
