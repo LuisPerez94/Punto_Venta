@@ -30,9 +30,10 @@ private JLabel imagen;
 private JLabel nombreImagen;
     public AgregarProducto(){
         super("Agregar Nuevo Producto");
-        this.setSize(600,300);
+        this.setSize(600,200);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+        //setResizable(false);
         addComponentes();
         this.setVisible(true);
         
