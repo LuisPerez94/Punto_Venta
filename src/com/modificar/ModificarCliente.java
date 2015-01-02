@@ -9,6 +9,7 @@ import com.puntoVenta.Conexion;
 import static com.sun.glass.ui.Cursor.setVisible;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JButton;
@@ -52,6 +53,7 @@ public class ModificarCliente extends JFrame{
         addComponentes();
         addEventos(new OyenteModificarCliente(c, this));
         setLocationRelativeTo(null);
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/img/sistema/pina.png")));
         setVisible(true);
         
     }

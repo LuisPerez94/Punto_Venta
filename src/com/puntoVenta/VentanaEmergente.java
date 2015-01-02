@@ -6,6 +6,7 @@
 package com.puntoVenta;
 
 import java.awt.HeadlessException;
+import java.awt.Toolkit;
 import javax.swing.JFrame;
 
 /**
@@ -19,6 +20,7 @@ public class VentanaEmergente extends JFrame{
           
           setSize(800, 600);
           setLocationRelativeTo(null);
+          this.setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/img/sistema/pina.png")));
           setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     
     }

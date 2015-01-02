@@ -7,6 +7,7 @@ package com.puntoVenta;
 
 import java.awt.BorderLayout;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,6 +44,7 @@ public class TablaConsulta extends JFrame { //tablaConsulta es una ventana
         super("Consulta");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLayout(new BorderLayout());
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/img/sistema/pina.png")));
         // Tipo 0 = Actualización
         // Tipo 1 = Selección
 

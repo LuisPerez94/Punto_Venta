@@ -8,6 +8,7 @@ package com.modificar;
 import com.puntoVenta.*;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JButton;
@@ -53,6 +54,7 @@ public class ModificarVendedor extends JFrame{
         addComponentes();
         addEventos(new OyenteModificarVendedor(c, this));
         setLocationRelativeTo(null);
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/img/sistema/pina.png")));
         setVisible(true);
         
     }

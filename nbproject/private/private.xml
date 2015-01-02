@@ -14,11 +14,8 @@
         </group>
         <group>
             <file>file:/C:/Users/JR/Documents/NetBeansProjects/Punto_Venta/src/com/modificar/EliminarDetalle.java</file>
-            <file>file:/C:/Users/JR/Documents/NetBeansProjects/Punto_Venta/src/com/modificar/OyenteModificarCliente.java</file>
-            <file>file:/C:/Users/JR/Documents/NetBeansProjects/Punto_Venta/src/com/modificar/EliminarCabecera.java</file>
-            <file>file:/C:/Users/JR/Documents/NetBeansProjects/Punto_Venta/src/com/modificar/OyenteModificarProducto.java</file>
-            <file>file:/C:/Users/JR/Documents/NetBeansProjects/Punto_Venta/src/com/modificar/OyenteModificarVendedor.java</file>
-            <file>file:/C:/Users/JR/Documents/NetBeansProjects/Punto_Venta/src/com/puntoVenta/PanelProductosMasVendidos.java</file>
+            <file>file:/C:/Users/JR/Documents/NetBeansProjects/Punto_Venta/src/com/modificar/OyenteDetalle.java</file>
+            <file>file:/C:/Users/JR/Documents/NetBeansProjects/Punto_Venta/src/com/modificar/EliminarFactura.java</file>
         </group>
     </open-files>
 </project-private>

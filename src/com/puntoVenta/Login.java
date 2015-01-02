@@ -1,5 +1,6 @@
 package com.puntoVenta;
 
+import java.awt.Toolkit;
 import javax.swing.JFrame;
 
 /**
@@ -16,7 +17,8 @@ public class Login extends JFrame{
         setSize(500, 520);
         setLocationRelativeTo(null);
         setResizable(false);
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/img/sistema/pina.png")));
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
        
        
     }

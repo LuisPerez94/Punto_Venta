@@ -3,6 +3,7 @@ package com.puntoVenta;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.IllegalComponentStateException;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -41,6 +42,7 @@ public class AreaConsulta extends JFrame { //clase consulta es una ventana
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         addComponentes();
         this.usuario = new Conexion("administrador", "123pass", "3306", "localhost", "punto_venta");
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/img/sistema/pina.png")));
         this.setVisible(true);
         
         

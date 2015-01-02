@@ -7,6 +7,8 @@ package Formularios;
 
 import Oyentes.OyenteAgregarCliente;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -36,6 +38,7 @@ public class AgregarCliente extends JFrame {
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         //setResizable(false);
         addComponentes();
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/img/sistema/pina.png")));
         this.setVisible(true);
     }
 

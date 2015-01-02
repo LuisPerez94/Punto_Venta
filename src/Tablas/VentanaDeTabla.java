@@ -7,6 +7,7 @@ package Tablas;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -33,7 +34,7 @@ public class VentanaDeTabla extends JFrame{
         setLocationRelativeTo(null);
         setDefaultCloseOperation(HIDE_ON_CLOSE);
         addComponentes();
-        
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/img/sistema/pina.png")));
         setVisible(true);
     }
 

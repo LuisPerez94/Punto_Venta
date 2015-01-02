@@ -5,6 +5,7 @@
  */
 package com.puntoVenta;
 
+import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -38,6 +39,7 @@ public class Reportes extends JFrame {
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         addComponents();
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/img/sistema/pina.png")));
         addWindowListener(new OyenteReportes());
         
         this.setVisible(true);

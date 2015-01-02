@@ -23,6 +23,7 @@ public class BuscarProductosMasVendidos extends JFrame{
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         addComponentes();
         addEventos(oyente);
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/img/sistema/pina.png")));
         this.setVisible(true);
     }
     

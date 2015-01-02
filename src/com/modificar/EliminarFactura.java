@@ -6,6 +6,7 @@
 package com.modificar;
 
 import com.puntoVenta.*;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import javafx.scene.control.ComboBox;
 import javax.swing.*;
@@ -15,7 +16,8 @@ import javax.swing.*;
  * @author JR
  */
 public abstract class EliminarFactura extends JFrame{
-    
+    protected JComboBox clientes;
+    protected ArrayList cliente, idsC;
     protected JButton eliminar = new JButton ("Eliminar");
     protected JButton cancelar = new JButton("Cancelar");
     protected Conexion c;
@@ -32,6 +34,7 @@ public abstract class EliminarFactura extends JFrame{
         addComponentes();
         addEventos();
         setLocationRelativeTo(null);
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/img/sistema/pina.png")));
         setVisible(true);
         
     }

@@ -5,6 +5,7 @@
  */
 package com.puntoVenta;
 
+import java.awt.Toolkit;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -32,6 +33,7 @@ public class BuscarVendedor extends JFrame{
         addListeners();
         this.setLocationRelativeTo(null);
         this.addWindowListener(new OyenteBuscarVendedor(this));
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/img/sistema/pina.png")));
         setVisible(true);
     }
 

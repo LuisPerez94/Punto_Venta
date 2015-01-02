@@ -8,6 +8,7 @@ package Formularios;
 import Oyentes.OyenteAgregarProducto;
 import com.puntoVenta.Conexion;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -35,6 +36,7 @@ private JLabel nombreImagen;
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         //setResizable(false);
         addComponentes();
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/img/sistema/pina.png")));
         this.setVisible(true);
         
     }

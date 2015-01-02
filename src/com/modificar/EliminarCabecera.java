@@ -21,7 +21,7 @@ public class EliminarCabecera extends EliminarFactura{
 
     public EliminarCabecera(Conexion c) {
         super(c);
-        super.setTitle("Eliminar Detalle de Factura");
+        super.setTitle("Eliminar Cabecera de Factura");
     }
 
     @Override
