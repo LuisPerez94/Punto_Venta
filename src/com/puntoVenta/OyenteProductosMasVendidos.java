@@ -4,6 +4,7 @@ import java.awt.event.*;
 import java.io.*;
 import java.sql.*;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.*;
 
 /**
@@ -112,6 +113,8 @@ public class OyenteProductosMasVendidos extends WindowAdapter implements ActionL
     public void exportarTabla(){
         if(modelo.getRowCount() > 0){
             JFileChooser jfc = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Libro de Excel", "xls");
+            jfc.setFileFilter(filter);
             int opcion = jfc.showSaveDialog(panel);
             
             if(opcion == JFileChooser.APPROVE_OPTION){

@@ -18,7 +18,7 @@ public class Login extends JFrame{
         setLocationRelativeTo(null);
         setResizable(false);
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/img/sistema/pina.png")));
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
        
        
     }

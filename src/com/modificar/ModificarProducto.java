@@ -7,10 +7,13 @@ package com.modificar;
 
 import com.puntoVenta.Conexion;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.LayoutManager;
 import java.awt.Toolkit;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -46,8 +49,8 @@ public class ModificarProducto extends JFrame{
         this.setTitle("Modificar Producto");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.c = c;
-        this.setSize(300, 400);
-        //this.setResizable(false);
+        this.setSize(320, 280);
+        this.setResizable(false);
         addComponentes();
         addEventos(new OyenteModificarProducto(c, this));
         setLocationRelativeTo(null);
@@ -80,49 +83,39 @@ public class ModificarProducto extends JFrame{
         
         JPanel panelSur = new JPanel();
         JPanel panelCentro = new JPanel();
-        GridLayout gl1 = new GridLayout(1, 2);
-        panelSur.setLayout(gl1);
-        JPanel panelIzqSur = new JPanel();
-        JPanel panelDerSur = new JPanel();
-        GridLayout gl2=new GridLayout(12, 2);
+        GridLayout gl2 = new GridLayout(5, 2);
         panelCentro.setLayout(gl2);
-        cancelar=new JButton("Cancelar");
-        registrar=new JButton("Modificar");
+        panelCentro.setBorder(BorderFactory.createLineBorder(this.getBackground(), 15));
+        
+        cancelar = new JButton("Cancelar");
+        registrar = new JButton("Modificar");
         
         nombre = new JTextField();
         precio = new JTextField();
         
-        
         descripcion = new JTextArea(15, 30);
+        descripcion.setBorder(BorderFactory.createLineBorder(Color.WHITE, 5));
+        descripcion.setWrapStyleWord(true);
+        descripcion.setLineWrap(true);
         
-        
-        
-        
-        JPanel norte  =new JPanel(new BorderLayout());
-        norte.add(new JLabel("Modificar a:"), "West");
-        norte.add(productos, "East");
-        
+        panelCentro.add(new JLabel("Modificar a:"));
+        panelCentro.add(productos);
         
         panelCentro.add(new JLabel("Nombre :"));
         panelCentro.add(nombre);
         panelCentro.add(new JLabel("Precio :"));
         panelCentro.add(precio);
         panelCentro.add(new JLabel("Ruta de la imagen :"));
-        panelCentro.add(ruta);
+        JPanel panelRuta = new JPanel();
+        panelRuta.add(ruta);
+        panelCentro.add(panelRuta);
         
         panelCentro.add(new JLabel("Descripcion :"));
         panelCentro.add(descripcion);
-       
-       
         
+        panelSur.add(cancelar);
+        panelSur.add(registrar);
         
-        
-        panelIzqSur.add(cancelar);
-        panelDerSur.add(registrar);
-        
-        panelSur.add(panelIzqSur);
-        panelSur.add(panelDerSur);
-        this.add(norte, "North");
         this.add(panelSur,"South");
         this.add(panelCentro, "Center");
     }

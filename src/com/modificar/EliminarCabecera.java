@@ -10,6 +10,7 @@ import com.puntoVenta.*;
 import java.awt.FlowLayout;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
@@ -22,10 +23,14 @@ public class EliminarCabecera extends EliminarFactura{
     public EliminarCabecera(Conexion c) {
         super(c);
         super.setTitle("Eliminar Cabecera de Factura");
+        super.setSize(415, 130);
+        super.setLocationRelativeTo(null);
     }
 
     @Override
     protected void addComponentes() {
+        JPanel panel = new JPanel();
+        panel.setBorder(BorderFactory.createLineBorder(this.getBackground(), 10));
         JPanel p = new JPanel(new FlowLayout());
         JPanel p2 = new JPanel(new FlowLayout());
         c.iniciarConexion();
@@ -53,11 +58,13 @@ public class EliminarCabecera extends EliminarFactura{
         
         p.add(factura);
         
-        p2.add(super.eliminar);
         p2.add(super.cancelar);
-        this.add(p, "North");
-        this.add(p2, "South");
+        p2.add(super.eliminar);
         
+        panel.add(p, "North");
+        panel.add(p2, "South");
+        
+        this.add(panel, "Center");
     }
 
     @Override

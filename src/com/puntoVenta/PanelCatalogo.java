@@ -6,7 +6,6 @@
 package com.puntoVenta;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -25,7 +24,7 @@ import javax.swing.border.TitledBorder;
  * @author luis
  */
 public class PanelCatalogo extends JPanel {
-    private final JLabel titulo = new JLabel("Catalogo de productos");
+    private JLabel titulo;
     private JComboBox busqueda;
     private JTextField tbusqueda;
     private JTable productos;
@@ -43,24 +42,25 @@ public class PanelCatalogo extends JPanel {
 
     private void addComponentes() {
         this.setLayout(new BorderLayout());
+        this.setBorder(BorderFactory.createLineBorder(this.getBackground(), 10));
         String busquedas[] = new String []{"Id","Nombre","Precio","Descripción"};
         JPanel panelNorte = new JPanel();
         JPanel panelCentro = new JPanel();
-        panelCentro.setBackground(Color.cyan);
-        JLabel lbusqueda = new JLabel("Buscar : ");
+        JLabel lbusqueda = new JLabel("Buscar: ");
         
-        Border bordejpanel = new TitledBorder(new EtchedBorder(), "Realizar una Busqueda");
+        Border bordejpanel = new TitledBorder(new EtchedBorder(10), "Realizar una Busqueda");
         panelNorte.setBorder(bordejpanel);
+
         busqueda = new JComboBox(busquedas);
         tbusqueda = new JTextField("Ingresa el texto a buscar", 35);
         
         try {
             scrollProductos = new JScrollPane(productos);
-            scrollProductos.setBorder(BorderFactory.createLineBorder(Color.CYAN, 10));
+            scrollProductos.setBorder(BorderFactory.createLineBorder(this.getBackground(), 10));
             scrollProductos.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
             scrollProductos.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
            
-            scrollProductos.setPreferredSize(new Dimension(900, 430));
+            scrollProductos.setPreferredSize(new Dimension(900, 400));
             
             panelCentro.add(scrollProductos);
 //            panelCentro.add(add(new JScrollPane(productos)));
@@ -75,6 +75,9 @@ public class PanelCatalogo extends JPanel {
         panelNorte.add(tbusqueda);
         panelNorte.add(new JLabel("Buscar por:"));
         panelNorte.add(busqueda);
+        
+        titulo = new JLabel("Catálogo de productos");
+        titulo.setBorder(BorderFactory.createLineBorder(this.getBackground(), 10));
 
         this.add(panelNorte, "North");
         this.add(panelCentro,"Center");
@@ -83,8 +86,8 @@ public class PanelCatalogo extends JPanel {
     }
     
     public void addEventos(OyenteReportes o){
-        tbusqueda.addKeyListener(o);
-            }
+            tbusqueda.addKeyListener(o);
+        }
 
     public JComboBox getBusqueda() {
         return busqueda;

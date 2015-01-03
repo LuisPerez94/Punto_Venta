@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Formularios;
+package com.formularios;
 
-import Oyentes.OyenteAgregarCliente;
+import com.oyentes.OyenteAgregarCliente;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -33,24 +34,21 @@ public class AgregarCliente extends JFrame {
 
     public AgregarCliente() {
         super("Agregar un Cliente");
-        this.setSize(600, 200);
+        this.setSize(320, 320);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        //setResizable(false);
+        setResizable(false);
         addComponentes();
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/img/sistema/pina.png")));
         this.setVisible(true);
     }
 
     private void addComponentes() {
-
-        JPanel PanelCentro = new JPanel();
-        JPanel PanelSur = new JPanel();
-        GridLayout gb = new GridLayout(1, 2);
+        JPanel panelCentro = new JPanel();
+        JPanel panelSur = new JPanel();
         GridLayout gbCentro = new GridLayout(7, 2);
-        JPanel panelIzqSur = new JPanel();
-        JPanel panelDerSur = new JPanel();
-        PanelCentro.setLayout(gbCentro);
+        panelCentro.setLayout(gbCentro);
+        panelCentro.setBorder(BorderFactory.createLineBorder(this.getBackground(), 20));
 
         cancelar = new JButton("Cancelar");
         registrar = new JButton("Registrar");
@@ -64,31 +62,30 @@ public class AgregarCliente extends JFrame {
         tTelefono = new JTextField();
         tTelefono.setName("telefono");
 
-        PanelCentro.add(new JLabel("Nombre(s) :"));
-        PanelCentro.add(tNombre);
-        PanelCentro.add(new JLabel("Apellido Paterno :"));
-        PanelCentro.add(tAptPaterno);
-        PanelCentro.add(new JLabel("Apellido Materno :"));
-        PanelCentro.add(tAptMaterno);
-        PanelCentro.add(new JLabel("Dirección :"));
-        PanelCentro.add(tDireccion);
-        PanelCentro.add(new JLabel("Email :"));
-        PanelCentro.add(tCorreo);
-        PanelCentro.add(new JLabel("Telefono :"));
-        PanelCentro.add(tTelefono);
-        PanelCentro.add(new JLabel("Sexo :  (M,F)"));
-        PanelCentro.add(tSexo);
+        
+        panelCentro.add(new JLabel("Nombre(s) :"));
+        panelCentro.add(tNombre);
+        panelCentro.add(new JLabel("Apellido Paterno :"));
+        panelCentro.add(tAptPaterno);
+        panelCentro.add(new JLabel("Apellido Materno :"));
+        panelCentro.add(tAptMaterno);
+        panelCentro.add(new JLabel("Dirección :"));
+        panelCentro.add(tDireccion);
+        panelCentro.add(new JLabel("Email :"));
+        panelCentro.add(tCorreo);
+        panelCentro.add(new JLabel("Telefono :"));
+        panelCentro.add(tTelefono);
+        panelCentro.add(new JLabel("Sexo :  (M,F)"));
+        panelCentro.add(tSexo);
 
-        panelIzqSur.add(registrar);
-        panelDerSur.add(cancelar);
+        panelSur.add(cancelar);
+        panelSur.add(registrar);
 
-        PanelSur.setLayout(gb);
+//        PanelSur.setLayout(gb);
 
-        PanelSur.add(panelIzqSur);
-        PanelSur.add(panelDerSur);
 
-        this.add(PanelSur, "South");
-        this.add(PanelCentro, "Center");
+        this.add(panelSur, "South");
+        this.add(panelCentro, "Center");
 
     }
 

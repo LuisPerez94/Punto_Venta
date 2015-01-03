@@ -5,8 +5,17 @@
  */
 package com.puntoVenta;
 
+import com.formularios.AgregarCliente;
+import com.formularios.AgregarProducto;
+import com.formularios.AgregarVendedor;
+import com.oyentes.OyenteReporteVentas;
+import com.modificar.ModificarCliente;
+import com.modificar.ModificarProducto;
+import com.modificar.ModificarVendedor;
+import static com.puntoVenta.OyenteReportes.ventanaReporte;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 

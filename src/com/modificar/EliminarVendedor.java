@@ -7,9 +7,11 @@ package com.modificar;
 
 import static com.modificar.ModificarVendedor.ListToArray;
 import com.puntoVenta.Conexion;
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
@@ -22,11 +24,15 @@ public class EliminarVendedor extends ModificarVendedor{
     public EliminarVendedor(Conexion c) {
         super(c);
         this.setTitle("Eliminar Vendedor");
-        this.setSize(300, 100);
+        this.setSize(320, 120);
+        this.setLocationRelativeTo(null);
     }
     
     @Override
     public void addComponentes(){
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        panel.setBorder(BorderFactory.createLineBorder(this.getBackground(), 10));
         JPanel p = new JPanel(new FlowLayout());
         JPanel p2 = new JPanel(new FlowLayout());
         c.iniciarConexion();
@@ -49,12 +55,16 @@ public class EliminarVendedor extends ModificarVendedor{
         c.cerrarConexion();
         super.setVendedores(new JComboBox(ListToArray(super.getV())));
         super.getRegistrar().setText("Eliminar");
-        p.add(super.getVendedores());
-        p2.add(super.getRegistrar());
-        p2.add(super.getCancelar());
-        this.add(p, "North");
-        this.add(p2, "South");
         
+        p.add(super.getVendedores());
+        
+        p2.add(super.getCancelar());
+        p2.add(super.getRegistrar());
+        
+        panel.add(p, "North");
+        panel.add(p2, "South");
+        
+        this.add(panel, "Center");
     }
     
     

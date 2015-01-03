@@ -32,7 +32,7 @@ public class Reportes extends JFrame {
     
     Reportes(String isAdmin) {
         this.isAdmin = isAdmin;
-        salir = new JMenuItem("Salir");
+        salir = new JMenuItem("Cerrar sesión");
         acercaDe = new JMenuItem("Acerca de");
         this.setTitle("Bienvenido");
         this.setSize(500, 500);

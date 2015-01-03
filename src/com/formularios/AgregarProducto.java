@@ -3,12 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Formularios;
+package com.formularios;
 
-import Oyentes.OyenteAgregarProducto;
+import com.oyentes.OyenteAgregarProducto;
 import com.puntoVenta.Conexion;
+import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Toolkit;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,39 +25,42 @@ import javax.swing.JTextField;
  * @author luis
  */
 public class AgregarProducto extends JFrame{
-private  JButton registrar;
-private JButton  cancelar;
-private JButton elegir;
-private JTextField tnombre;
-private JTextField tprecio;
-private JTextArea descripcion;
-private JLabel imagen;
-private JLabel nombreImagen;
+    private  JButton registrar;
+    private JButton  cancelar;
+    private JButton elegir;
+    private JTextField tnombre;
+    private JTextField tprecio;
+    private JTextArea descripcion;
+    private JLabel imagen;
+    private JLabel nombreImagen;
+
     public AgregarProducto(){
         super("Agregar Nuevo Producto");
-        this.setSize(600,200);
+        this.setSize(900, 332);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-        //setResizable(false);
+        setResizable(false);
         addComponentes();
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/img/sistema/pina.png")));
         this.setVisible(true);
-        
     }
 
     private void addComponentes() {
-        JPanel panelCentro=new JPanel(new GridLayout(5, 2,0,10));
-        JPanel panelSur=new JPanel(new GridLayout(1, 2));
-        JPanel panelImagen=new JPanel();
-        tnombre=new JTextField(30);
-        tprecio=new JTextField(30);
+        JPanel panelCentro = new JPanel(new GridLayout(5, 2, 0,10));
+        JPanel panelSur = new JPanel();
+        JPanel panelImagen = new JPanel();
+        tnombre = new JTextField(30);
+        tprecio = new JTextField(30);
         tprecio.setName("precio");
-        descripcion=new JTextArea(15, 30);
+        descripcion = new JTextArea(15, 30);
         descripcion.setWrapStyleWord(true);
         descripcion.setLineWrap(true);
-        imagen=new JLabel();
-        nombreImagen=new JLabel();
-        elegir=new JButton("Elegir Imagen...");
+        descripcion.setBorder(BorderFactory.createLineBorder(Color.WHITE, 5));
+        imagen = new JLabel();
+        nombreImagen = new JLabel();
+        elegir = new JButton("Elegir Imagen...");
+        
+        panelCentro.setBorder(BorderFactory.createLineBorder(this.getBackground(), 30));
         panelCentro.add(new JLabel("Ingresa el nombre del producto: "));
         panelCentro.add(tnombre);
         panelCentro.add(new JLabel("Ingresa el precio unitario del producto: $"));
@@ -61,31 +68,40 @@ private JLabel nombreImagen;
         panelCentro.add(new JLabel("Ingresa un descripcion del producto: "));
         panelCentro.add(descripcion);
         panelCentro.add(new JLabel("Elegir la imagen del producto :"));
-        panelCentro.add(elegir);
+        JPanel elegirImagen = new JPanel();
+        elegirImagen.add(elegir);
+        panelCentro.add(elegirImagen);
         panelCentro.add(new JLabel("Imagen :"));
-        if(imagen.getIcon()==null){
+        
+        if(imagen.getIcon() == null){
+            nombreImagen.setText("Sin imagen selecionada");
             
-            nombreImagen.setText("sin imagen selecionada");
+            ImageIcon aux = new ImageIcon("src/img/sistema/preview.png");
+            ImageIcon img = new ImageIcon(aux.getImage().getScaledInstance(280, 280, Image.SCALE_SMOOTH));
+            this.getImagen().setIcon(img);
         }
+        
         panelCentro.add(nombreImagen);
         panelImagen.add(imagen);
         
-        registrar=new JButton("Registrar");
-        cancelar=new JButton("Cancelar");
-        panelSur.add(registrar);
+        registrar = new JButton("Registrar");
+        cancelar = new JButton("Cancelar");
+        
         panelSur.add(cancelar);
+        panelSur.add(registrar);
+
         this.add(panelSur,"South");
         this.add(panelImagen,"East");
         this.add(panelCentro,"Center");
        
     }
- public void addEventos(OyenteAgregarProducto o){
-     registrar.addActionListener(o);
-     cancelar.addActionListener(o);
-     elegir.addActionListener(o);
-     tprecio.addKeyListener(o);
     
-}
+    public void addEventos(OyenteAgregarProducto o){
+        registrar.addActionListener(o);
+        cancelar.addActionListener(o);
+        elegir.addActionListener(o);
+        tprecio.addKeyListener(o);
+    }
    
 
     public JButton getRegistrar() {

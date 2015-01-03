@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Oyentes;
+package com.oyentes;
 
-import Tablas.VentanaDeTabla;
+import com.tablas.VentanaDeTabla;
 import com.puntoVenta.Conexion;
 import com.puntoVenta.PanelVentas;
 import java.awt.event.ActionEvent;
@@ -43,6 +43,7 @@ public class OyenteReporteVentas implements ActionListener {
         String fecha1= p.getAnio1().getSelectedItem()+"/"+(p.getMes1().getSelectedIndex()+1)+"/"+p.getDia1().getSelectedItem();
 
         System.out.println(fecha1 + " " + fecha2);
+        
         if (accion.equals("Ver el reporte")) {
             if (isDate(fecha1) && isDate(fecha2)) {
                 //CONSULTA DE VENTAS POR DIA 
@@ -52,13 +53,10 @@ public class OyenteReporteVentas implements ActionListener {
                         + "AND Detalle_fact.fechaVenta BETWEEN '" + fecha1 + "' AND '" + fecha2 + "' GROUP BY Producto.idProducto";
 
                 generarTabla(query);
-               VentanaDeTabla vt=new VentanaDeTabla(tabla,totalArticulos,totalEfectivo);
+                
+                VentanaDeTabla vt = new VentanaDeTabla(tabla,totalArticulos,totalEfectivo,fecha1,fecha2);
                 totalArticulos=0.0;
                 totalEfectivo=0.0;
-            
-                
-                
-                
 
             } else {
                 JOptionPane.showMessageDialog(p, "Las Fechas no son validas");
@@ -79,7 +77,12 @@ public class OyenteReporteVentas implements ActionListener {
     }
 
     private void generarTabla(String query) {
-        DefaultTableModel modelo = new DefaultTableModel();
+        DefaultTableModel modelo = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         tabla = new JTable(modelo);
         try {
             usuario.iniciarConexion();

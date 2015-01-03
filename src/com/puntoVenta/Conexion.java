@@ -15,7 +15,6 @@ import javax.swing.JOptionPane;
  * @author Luis Created on 19/12/2014, 09:27:57 PM
  */
 public class Conexion {
-
     private final String usuario;
     private final String password;
     private final String puerto;

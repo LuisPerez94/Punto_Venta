@@ -11,6 +11,7 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -19,11 +20,11 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-
 /**
  *
  * @author JR
  */
+
 public class ModificarVendedor extends JFrame{
     Conexion c ;
     private JComboBox vendedores;
@@ -49,7 +50,7 @@ public class ModificarVendedor extends JFrame{
         this.setTitle("Modificar Vendedor");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.c = c;
-        this.setSize(600, 300);
+        this.setSize(405, 510);
         this.setResizable(false);
         addComponentes();
         addEventos(new OyenteModificarVendedor(c, this));
@@ -83,14 +84,12 @@ public class ModificarVendedor extends JFrame{
         
         JPanel panelSur = new JPanel();
         JPanel panelCentro = new JPanel();
-        GridLayout gl1 = new GridLayout(1, 2);
-        panelSur.setLayout(gl1);
-        JPanel panelIzqSur = new JPanel();
-        JPanel panelDerSur = new JPanel();
-        GridLayout gl2=new GridLayout(12, 2);
+        GridLayout gl2 = new GridLayout(13, 2);
         panelCentro.setLayout(gl2);
-        cancelar=new JButton("Cancelar");
-        registrar=new JButton("Modificar");
+        panelCentro.setBorder(BorderFactory.createLineBorder(this.getBackground(), 15));
+        
+        cancelar = new JButton("Cancelar");
+        registrar = new JButton("Modificar");
         
         nombre = new JTextField();
         apPaterno = new JTextField();
@@ -111,45 +110,37 @@ public class ModificarVendedor extends JFrame{
         Admin = new JTextField();
         Admin.setName("admin");
         
-        JPanel norte  =new JPanel(new BorderLayout());
-        norte.add(new JLabel("Modificar a:"), "West");
-        norte.add(vendedores, "East");
+        panelCentro.add(new JLabel("Modificar a:"));
+        panelCentro.add(vendedores);
         
-        
-        panelCentro.add(new JLabel("Nombre :"));
+        panelCentro.add(new JLabel("Nombre: "));
         panelCentro.add(nombre);
-        panelCentro.add(new JLabel("Apellido Paterno :"));
+        panelCentro.add(new JLabel("Apellido paterno: "));
         panelCentro.add(apPaterno);
-        panelCentro.add(new JLabel("Apellido Materno :"));
+        panelCentro.add(new JLabel("Apellido materno: "));
         panelCentro.add(apMaterno);
-        panelCentro.add(new JLabel("Fecha de Nacimiento : YYYY/MM/dd"));
+        panelCentro.add(new JLabel("Fecha de nacimiento: YYYY/MM/dd"));
         panelCentro.add(fechanacimiento);
-        panelCentro.add(new JLabel("EMAIL :"));
+        panelCentro.add(new JLabel("E-mail: "));
         panelCentro.add(correo);
-        panelCentro.add(new JLabel("Dirección :"));
+        panelCentro.add(new JLabel("Dirección: "));
         panelCentro.add(direccion);
-        panelCentro.add(new JLabel("Sexo :   M/F"));
+        panelCentro.add(new JLabel("Sexo:   M/F"));
         panelCentro.add(sexo);
-        panelCentro.add(new JLabel("Sueldo :"));
+        panelCentro.add(new JLabel("Sueldo:"));
         panelCentro.add(sueldo);
-        panelCentro.add(new JLabel("Fecha de ingreso :  YYYY/MM/dd"));
+        panelCentro.add(new JLabel("Fecha de ingreso:  YYYY/MM/dd"));
         panelCentro.add(fechaIngreso);
-        panelCentro.add(new JLabel("Usuario :"));
+        panelCentro.add(new JLabel("Usuario: "));
         panelCentro.add(usuario);
-        panelCentro.add(new JLabel("Contraseña :"));
+        panelCentro.add(new JLabel("Contraseña: "));
         panelCentro.add(contraseña);
-        panelCentro.add(new JLabel("Administrador? : (T/F)"));
+        panelCentro.add(new JLabel("¿Administrador? : (T/F)"));
         panelCentro.add(Admin);
         
+        panelSur.add(cancelar);
+        panelSur.add(registrar);
         
-        
-        
-        panelIzqSur.add(cancelar);
-        panelDerSur.add(registrar);
-        
-        panelSur.add(panelIzqSur);
-        panelSur.add(panelDerSur);
-        this.add(norte, "North");
         this.add(panelSur,"South");
         this.add(panelCentro, "Center");
     }

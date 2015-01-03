@@ -5,15 +5,15 @@
  */
 package com.puntoVenta;
 
-import Formularios.AgregarCliente;
-import Formularios.AgregarProducto;
-import Formularios.AgregarVendedor;
-import Oyentes.OyenteAgregarCliente;
-import Oyentes.OyenteAgregarProducto;
-import Oyentes.OyenteAgregarVendedor;
-import Oyentes.OyenteReporteVentas;
-import Tablas.TablaModeloProducto;
-import Tablas.TablaRenderizadorProducto;
+import com.formularios.AgregarCliente;
+import com.formularios.AgregarProducto;
+import com.formularios.AgregarVendedor;
+import com.oyentes.OyenteAgregarCliente;
+import com.oyentes.OyenteAgregarProducto;
+import com.oyentes.OyenteAgregarVendedor;
+import com.oyentes.OyenteReporteVentas;
+import com.tablas.TablaModeloProducto;
+import com.tablas.TablaRenderizadorProducto;
 import com.modificar.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -48,7 +48,7 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
     private PanelNuevaVenta panelNuevaVenta;
     private VentanaEmergente ventana;
     private TableRowSorter trsfiltro;
-    private Tablas.TablaModeloProducto modelo;
+    private com.tablas.TablaModeloProducto modelo;
     private String nombreVendedor;
     private boolean ctrl=false;
     private boolean alt=false;
@@ -71,16 +71,15 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case "Ventas":
-
-                System.out.println("Ventas");
                 p = new PanelVentas();
                 p.addEventos(new OyenteReporteVentas(p,usuario));
 
                 ventana = new VentanaEmergente("Ventas");
                 ventana.add(p);
                 ventana.addWindowListener(this);
-                ventana.setSize(700, 400);
+                ventana.setSize(570, 210);
                 ventana.setLocationRelativeTo(null);
+                ventana.setResizable(false);
                 ventana.setVisible(true);
                 SwingUtilities.updateComponentTreeUI(ventanaReporte);
                 ventanaReporte.validate();
@@ -91,6 +90,7 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
                 BuscarVendedor busqueda = new BuscarVendedor();
                 
                 break;
+                
             case "Productos mas vendidos":
                 
                 System.out.println("Aqui se muestran los productos mas vendidos");
@@ -101,7 +101,7 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
                 OyenteProductosMasVendidos oppmv = new OyenteProductosMasVendidos(ppmv, usuario);
                 ppmv.addEventos(oppmv);
                 
-                ventana.setSize(850, 550);
+                ventana.setSize(850, 450);
                 ventana.setLocationRelativeTo(null);
                 ventana.setResizable(false);
                 ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -114,14 +114,31 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
                 ventanaReporte.validate();
                 break;
                 
-            case "Salir":
-                System.out.println("Con esto puedes salir");
-                ventanaReporte.dispose();
+            case "Cerrar sesión":
+                int opcion = JOptionPane.showConfirmDialog(ventanaReporte, "Se cerrará la sesión actual", 
+                        "Cerrar sesión", JOptionPane.OK_CANCEL_OPTION);
+                
+                if(opcion == JOptionPane.OK_OPTION){
+                    ventanaReporte.dispose();
+                    main.mostrarLogin();
+                }
                 break;
                 
             case "Acerca de":
                 System.out.println("Mostrara acerca del programa");
-                JOptionPane.showConfirmDialog(null, "2014,2015 PiñaSports©", "Acerca de", JOptionPane.DEFAULT_OPTION);
+                JOptionPane.showMessageDialog(null, "PiñaSports®"
+                        + "\nVersión 1.0.0"
+                        + "\nCopyright© 2014 - 2015"
+                        + "\nTodos los derechos reservados"
+                        + "\nEste software fue desarrollado por:"
+                        + "\n     Bobadilla Contreras Miguel Fernando"
+                        + "\n     Márquez Solano José Ramón"
+                        + "\n     Pérez Muñoz Luis Ángel"
+                        + "\n     Pérez Rodríguez José Rubén",
+                        
+                        
+                        "Acerca de", JOptionPane.INFORMATION_MESSAGE,
+                        new ImageIcon("src/img/sistema/acercaDe.png"));
 
                 break;
                 
@@ -160,60 +177,72 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
                 ventana = new VentanaEmergente("Ventas");
                 ventana.add(catalogo);
                 ventana.addWindowListener(this);
+                ventana.setSize(900, 520);
+                ventana.setLocationRelativeTo(null);
+                ventana.setResizable(false);
                 ventana.setVisible(true);
                 SwingUtilities.updateComponentTreeUI(ventanaReporte);
                 break;
-                case "Agrega un Producto":
-                    AgregarProducto aP =new AgregarProducto();
-                    usuario.iniciarConexion();
-                    
-                    aP.addEventos(new OyenteAgregarProducto(aP, usuario));
-                   
-                    break;
-                case "Agregar un Cliente":
-                    AgregarCliente aC=new AgregarCliente();
-                    usuario.iniciarConexion();
-                    aC.addEventos(new OyenteAgregarCliente(aC, usuario));
-                    break;
-                case "Agregar un Vendedor":
-                    AgregarVendedor aV=new AgregarVendedor();
-                    usuario.iniciarConexion();
-                    aV.addEventos(new OyenteAgregarVendedor(usuario,aV));
-                    break;
-                case  "Modificar un Cliente" : 
-                    System.out.println("Mod cliente");
-                    ModificarCliente mc = new ModificarCliente(usuario);
-                    break;
-                case  "Modificar un Vendedor" : 
-                    System.out.println("Mod vendedor");
-                    usuario.iniciarConexion();
-                    ModificarVendedor mv = new ModificarVendedor(usuario);
-                    break;
-                case  "Modificar un Producto" : 
-                    System.out.println("Mod producto");
-                    ModificarProducto mp = new ModificarProducto(usuario);
-                    break;
-                    
-                case  "Eliminar un Cliente" : 
-                    EliminarCliente ec = new EliminarCliente(usuario);
-                    System.out.println("DEl cliente");
-                    break;
-                case  "Eliminar un Vendedor" : 
-                    System.out.println("del vendedor");
-                    EliminarVendedor ev = new EliminarVendedor(usuario);
-                    break;
-                case  "Eliminar un Producto" : 
-                    System.out.println("del producto");
-                    EliminarProducto ep = new EliminarProducto(usuario);
-                    break;
-                case "Eliminar Cabecera Factura":
-                    System.out.println("Eliminar cabecera");
-                    EliminarCabecera EC = new EliminarCabecera(usuario);
-                    break;
-                case "Eliminar Detalle Factura":
-                    System.out.println("Eliminar detalle ");
-                    EliminarDetalle ed = new EliminarDetalle(usuario);
-                    break;
+
+            case "Agrega un Producto":
+                AgregarProducto aP =new AgregarProducto();
+                usuario.iniciarConexion();
+
+                aP.addEventos(new OyenteAgregarProducto(aP, usuario));
+
+                break;
+                
+            case "Agregar un Cliente":
+                AgregarCliente aC = new AgregarCliente();
+                usuario.iniciarConexion();
+                aC.addEventos(new OyenteAgregarCliente(aC, usuario));
+                break;
+                
+            case "Agregar un Vendedor":
+                AgregarVendedor aV = new AgregarVendedor();
+                usuario.iniciarConexion();
+                aV.addEventos(new OyenteAgregarVendedor(usuario,aV));
+                break;
+                
+            case  "Modificar un Cliente" : 
+//                System.out.println("Mod cliente");
+                ModificarCliente mc = new ModificarCliente(usuario);
+                break;
+                
+            case  "Modificar un Vendedor" : 
+                System.out.println("Mod vendedor");
+                usuario.iniciarConexion();
+                ModificarVendedor mv = new ModificarVendedor(usuario);
+                break;
+                
+            case  "Modificar un Producto" : 
+                System.out.println("Mod producto");
+                ModificarProducto mp = new ModificarProducto(usuario);
+                break;
+
+            case  "Eliminar un Cliente" : 
+                EliminarCliente ec = new EliminarCliente(usuario);
+                System.out.println("DEl cliente");
+                break;
+                
+            case  "Eliminar un Vendedor" : 
+                System.out.println("del vendedor");
+                EliminarVendedor ev = new EliminarVendedor(usuario);
+                break;
+            case  "Eliminar un Producto" : 
+                System.out.println("del producto");
+                EliminarProducto ep = new EliminarProducto(usuario);
+                break;
+                
+            case "Eliminar Cabecera Factura":
+                System.out.println("Eliminar cabecera");
+                EliminarCabecera EC = new EliminarCabecera(usuario);
+                break;
+                
+            case "Eliminar Detalle Factura":
+                System.out.println("Eliminar detalle ");
+                EliminarDetalle ed = new EliminarDetalle(usuario);
+                break;
                 
                 
                     
@@ -224,22 +253,25 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
      
    
     public void filtro(){
-        String filtro =catalogo.getTbusqueda().getText();
-        switch(catalogo.getBusqueda().getSelectedIndex()){
-            case 0:
-                 trsfiltro.setRowFilter(RowFilter.regexFilter("(?i)"+filtro, 0));
-                break;
-            case 1:
-                 trsfiltro.setRowFilter(RowFilter.regexFilter("(?i)"+filtro, 1));
-                break;
-            case 2:
-                 trsfiltro.setRowFilter(RowFilter.regexFilter("(?i)"+filtro, 2));
-                 break;
-            case 3: 
-                 trsfiltro.setRowFilter(RowFilter.regexFilter("(?i)"+filtro, 4));
-                 break;
-                    
-        }
+        try{
+            String filtro = catalogo.getTbusqueda().getText();
+            switch(catalogo.getBusqueda().getSelectedIndex()){
+                case 0:
+                     trsfiltro.setRowFilter(RowFilter.regexFilter("(?i)"+filtro, 0));
+                    break;
+                case 1:
+                     trsfiltro.setRowFilter(RowFilter.regexFilter("(?i)"+filtro, 1));
+                    break;
+                case 2:
+                     trsfiltro.setRowFilter(RowFilter.regexFilter("(?i)"+filtro, 2));
+                     break;
+                case 3: 
+                     trsfiltro.setRowFilter(RowFilter.regexFilter("(?i)"+filtro, 4));
+                     break;
+
+            }
+        
+        }catch(NullPointerException e){}
        
     }
     
@@ -292,8 +324,6 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
         return tablaProductos;
 
     }
-    
-    
      
     ////////////////////////////GETTER Y SETTER ////////////////////////////////////    
     public Conexion getUsuario() {
@@ -315,34 +345,37 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
     /* **********   */
     
     @Override
-    public void keyTyped(KeyEvent e) {
-      //filtro();
-      
+    public void keyTyped(KeyEvent e){
+        try{
+            filtro();
+            
+        }catch(NullPointerException ex){}
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(KeyEvent e){
         //filtro();
-        if(e.getKeyCode()==KeyEvent.VK_CONTROL ){
-            ctrl = true;
-            
-        }
-        if(e.getKeyCode()==KeyEvent.VK_ALT ){
-            alt =true;
-            
-        }
-        if(ctrl&&alt&&e.getKeyCode()==KeyEvent.VK_C){
-            System.out.println("Area de consulta oculta");
-            AreaConsulta a = new AreaConsulta();
-            ctrl=false;
-            alt=false;
-        }
+        try{
+            if(e.getKeyCode() == KeyEvent.VK_CONTROL ){
+                ctrl = true;
+
+            }
+            if(e.getKeyCode() == KeyEvent.VK_ALT ){
+                alt = true;
+
+            }
+
+            if(ctrl && alt &&e.getKeyCode() == KeyEvent.VK_C){
+                System.out.println("Area de consulta oculta");
+                AreaConsulta a = new AreaConsulta();
+                ctrl = false;
+                alt = false;
+            }
+        }catch(NullPointerException ex){}
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-       
-       
     }
     
     @Override

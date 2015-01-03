@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Formularios;
+package com.formularios;
 
-import Oyentes.OyenteAgregarVendedor;
+import com.oyentes.OyenteAgregarVendedor;
 import com.puntoVenta.Conexion;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,8 +21,8 @@ import javax.swing.JTextField;
  *
  * @author luis
  */
+
 public class AgregarVendedor extends JFrame {
-    
     protected JButton registrar;
     protected JButton cancelar;
     protected JTextField nombre;
@@ -39,7 +40,7 @@ public class AgregarVendedor extends JFrame {
     
     public AgregarVendedor() {
         super("Agregar Vendedor");
-        this.setSize(600, 300);
+        this.setSize(510, 470);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         setResizable(false);
@@ -48,18 +49,15 @@ public class AgregarVendedor extends JFrame {
         this.setVisible(true);
     }
     
-    protected void addComponentes() {
-        
+    protected final void addComponentes() {
         JPanel panelSur = new JPanel();
         JPanel panelCentro = new JPanel();
-        GridLayout gl1 = new GridLayout(1, 2);
-        panelSur.setLayout(gl1);
-        JPanel panelIzqSur = new JPanel();
-        JPanel panelDerSur = new JPanel();
-        GridLayout gl2=new GridLayout(12, 2);
+        GridLayout gl2 = new GridLayout(12, 2);
+        
         panelCentro.setLayout(gl2);
-        cancelar=new JButton("Cancelar");
-        registrar=new JButton("Registrar");
+        panelCentro.setBorder(BorderFactory.createLineBorder(this.getBackground(), 15));
+        cancelar = new JButton("Cancelar");
+        registrar = new JButton("Registrar");
         
         nombre = new JTextField();
         apPaterno = new JTextField();
@@ -80,21 +78,21 @@ public class AgregarVendedor extends JFrame {
         Admin = new JTextField();
         Admin.setName("admin");
         
-        panelCentro.add(new JLabel("Nombre :"));
+        panelCentro.add(new JLabel("Nombre:"));
         panelCentro.add(nombre);
-        panelCentro.add(new JLabel("Apellido Paterno :"));
+        panelCentro.add(new JLabel("Apellido paterno:"));
         panelCentro.add(apPaterno);
-        panelCentro.add(new JLabel("Apellido Materno :"));
+        panelCentro.add(new JLabel("Apellido materno:"));
         panelCentro.add(apMaterno);
-        panelCentro.add(new JLabel("Fecha de Nacimiento : YYYY/MM/dd"));
+        panelCentro.add(new JLabel("Fecha de nacimiento: YYYY/MM/dd"));
         panelCentro.add(fechanacimiento);
-        panelCentro.add(new JLabel("EMAIL :"));
+        panelCentro.add(new JLabel("E-mail: "));
         panelCentro.add(correo);
-        panelCentro.add(new JLabel("Dirección :"));
+        panelCentro.add(new JLabel("Dirección: "));
         panelCentro.add(direccion);
-        panelCentro.add(new JLabel("Sexo :   M/F"));
+        panelCentro.add(new JLabel("Sexo:   M/F"));
         panelCentro.add(sexo);
-        panelCentro.add(new JLabel("Sueldo :"));
+        panelCentro.add(new JLabel("Sueldo: "));
         panelCentro.add(sueldo);
         panelCentro.add(new JLabel("Fecha de ingreso :  YYYY/MM/dd"));
         panelCentro.add(fechaIngreso);
@@ -102,17 +100,11 @@ public class AgregarVendedor extends JFrame {
         panelCentro.add(usuario);
         panelCentro.add(new JLabel("Contraseña :"));
         panelCentro.add(contraseña);
-        panelCentro.add(new JLabel("Administrador? : (T/F)"));
+        panelCentro.add(new JLabel("¿Administrador?: (T/F)"));
         panelCentro.add(Admin);
         
-        
-        
-        
-        panelIzqSur.add(cancelar);
-        panelDerSur.add(registrar);
-        
-        panelSur.add(panelIzqSur);
-        panelSur.add(panelDerSur);
+        panelSur.add(cancelar);
+        panelSur.add(registrar);
         
         this.add(panelSur,"South");
         this.add(panelCentro, "Center");

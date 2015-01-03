@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Oyentes;
+package com.oyentes;
 
-import Formularios.AgregarCliente;
+import com.formularios.AgregarCliente;
 import com.puntoVenta.Conexion;
 import com.puntoVenta.EmailValidator;
 import java.awt.event.ActionEvent;
@@ -40,9 +40,9 @@ public class OyenteAgregarCliente extends KeyAdapter implements ActionListener{
         switch(accion){
             case "Cancelar":
                 System.out.println("Cancelar");
-                if (JOptionPane.showConfirmDialog(c, "Seguro que quieres cancelar,'Tus datos se perderan'") == JOptionPane.OK_OPTION) {
-                c.dispose();
-                limpiardatos();
+                if (JOptionPane.showConfirmDialog(null, "¿Cancelar el registro?", "Cancelar", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+                    c.dispose();
+                    limpiardatos();
                 }
                 break;
             case "Registrar":

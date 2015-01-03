@@ -56,7 +56,7 @@ public class PanelProductosMasVendidos extends JPanel{
         productos = new JTable(modelo);
         
         JScrollPane scrollProductos = new JScrollPane(productos);
-        scrollProductos.setPreferredSize(new Dimension(800, 420));
+        scrollProductos.setPreferredSize(new Dimension(800, 320));
         
 //        // Anchos individuales a las columnas...
 //        // Ancho total: 800

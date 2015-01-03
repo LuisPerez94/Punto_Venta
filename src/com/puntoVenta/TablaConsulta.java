@@ -40,7 +40,6 @@ public class TablaConsulta extends JFrame { //tablaConsulta es una ventana
      */
     public TablaConsulta(Statement sentencia, String consulta, int tipo) {
         //de tipo 0 es actualizacion y 1 es consulta 
-
         super("Consulta");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLayout(new BorderLayout());
@@ -55,9 +54,16 @@ public class TablaConsulta extends JFrame { //tablaConsulta es una ventana
                 resultados = sentencia.executeQuery(consulta); //ejecuta la consulta
 
                 JTable tabla = new JTable();
-                DefaultTableModel modelo = new DefaultTableModel();
-
+                // Indicamos que las celdas de la tabla no serán editables...
+                DefaultTableModel modelo = new DefaultTableModel(){
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                };
+        
                 JScrollPane desplazar = new JScrollPane(tabla);
+                desplazar.setBorder(BorderFactory.createLineBorder(this.getBackground(), 10));
                 String[] columnas = new String[resultados.getMetaData().getColumnCount()];
 
                 for (int i = 0; i < resultados.getMetaData().getColumnCount(); i++) {
@@ -70,8 +76,8 @@ public class TablaConsulta extends JFrame { //tablaConsulta es una ventana
                 tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
                 tabla.setFillsViewportHeight(true);
                 tabla.setModel(modelo);
-                getContentPane().add(desplazar, BorderLayout.NORTH);
-                pack();
+                getContentPane().add(desplazar, BorderLayout.CENTER);
+//                pack();
 
                 String fila[] = new String[resultados.getMetaData().getColumnCount()];
 
@@ -83,12 +89,10 @@ public class TablaConsulta extends JFrame { //tablaConsulta es una ventana
                     modelo.addRow(fila);
                 }
                 
-                
-                this.setSize(650, 230);
+                this.setSize(700, 400);
                 this.setLocationRelativeTo(null);
                 this.setVisible(true);
                 
-
             } catch (SQLException ex) {
  
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "Ocurrió un error", JOptionPane.ERROR_MESSAGE);

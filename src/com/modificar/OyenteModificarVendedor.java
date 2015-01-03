@@ -5,7 +5,7 @@
  */
 package com.modificar;
 
-import Formularios.AgregarVendedor;
+import com.formularios.AgregarVendedor;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import com.puntoVenta.*;
 import java.awt.event.ActionEvent;

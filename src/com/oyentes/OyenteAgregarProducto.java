@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Oyentes;
+package com.oyentes;
 
-import Formularios.AgregarProducto;
+import com.formularios.AgregarProducto;
 import com.puntoVenta.Conexion;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -51,14 +51,13 @@ public class OyenteAgregarProducto extends KeyAdapter implements ActionListener 
     public void actionPerformed(ActionEvent e) {
         String accion = e.getActionCommand();
         if (accion.equals("Cancelar")) {
-            if (JOptionPane.showConfirmDialog(a, "Seguro que quieres cancelar,'Tus datos se perderan'") == JOptionPane.OK_OPTION) {
+            if (JOptionPane.showConfirmDialog(a, "¿Cancelar el registro?", "Cancelar", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
                 a.dispose();
                 limpiardatos();
 
             }
 
         } else if (accion.equals("Registrar")) {
-
             datos.add(a.getTnombre().getText());
             datos.add(a.getTprecio().getText());
             datos.add("src/img/productos/" + nombreArchivo);
@@ -76,7 +75,7 @@ public class OyenteAgregarProducto extends KeyAdapter implements ActionListener 
                     nombreArchivo = jfc.getSelectedFile().getName();
                     ruta = jfc.getSelectedFile().getPath();
                     ImageIcon aux = new ImageIcon(ruta);
-                    ImageIcon img = new ImageIcon(aux.getImage().getScaledInstance(300, 300, Image.SCALE_DEFAULT));
+                    ImageIcon img = new ImageIcon(aux.getImage().getScaledInstance(280, 280, Image.SCALE_SMOOTH));
                     a.getImagen().setIcon(img);
                     a.getNombreImagen().setText(nombreArchivo);
                     javax.swing.SwingUtilities.updateComponentTreeUI(a);

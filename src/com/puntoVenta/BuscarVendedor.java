@@ -58,6 +58,7 @@ public class BuscarVendedor extends JFrame{
         conexion.cerrarConexion();
         vendedores = new JComboBox(ListToArray(v));
         JPanel p = new JPanel();
+        p.setBorder(BorderFactory.createLineBorder(this.getBackground(), 15));
         p.add(vendedores);
         p.add(buscar);
         this.add(p);

@@ -12,6 +12,7 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -48,8 +49,8 @@ public class ModificarCliente extends JFrame{
         this.setTitle("Modificar Cliente");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.c = c;
-        this.setSize(600, 400);
-        //this.setResizable(false);
+        this.setSize(350, 370);
+        this.setResizable(false);
         addComponentes();
         addEventos(new OyenteModificarCliente(c, this));
         setLocationRelativeTo(null);
@@ -57,7 +58,6 @@ public class ModificarCliente extends JFrame{
         setVisible(true);
         
     }
-    
     
     protected void addComponentes(){
         c.iniciarConexion();
@@ -78,15 +78,12 @@ public class ModificarCliente extends JFrame{
             System.out.println(ex);
         }
         c.cerrarConexion();
+        
         clientes = new JComboBox(ListToArray(v));
         
         JPanel panelSur = new JPanel();
         JPanel panelCentro = new JPanel();
-        GridLayout gl1 = new GridLayout(1, 2);
-        panelSur.setLayout(gl1);
-        JPanel panelIzqSur = new JPanel();
-        JPanel panelDerSur = new JPanel();
-        GridLayout gl2=new GridLayout(12, 2);
+        GridLayout gl2=new GridLayout(8, 2);
         panelCentro.setLayout(gl2);
         cancelar=new JButton("Cancelar");
         registrar=new JButton("Modificar");
@@ -103,41 +100,37 @@ public class ModificarCliente extends JFrame{
         sexo = new JTextField();
         sexo.setName("sexo");
         
-        
-        
-        JPanel norte  =new JPanel(new BorderLayout());
-        norte.add(new JLabel("Modificar a:"), "West");
-        norte.add(clientes, "East");
-        
-        
-        panelCentro.add(new JLabel("Nombre :"));
+        panelCentro.add(new JLabel("Modificar a:"));
+        panelCentro.add(clientes);
+        panelCentro.add(new JLabel("Nombre: "));
         panelCentro.add(nombre);
-        panelCentro.add(new JLabel("Apellido Paterno :"));
+        panelCentro.add(new JLabel("Apellido paterno: "));
         panelCentro.add(apPaterno);
-        panelCentro.add(new JLabel("Apellido Materno :"));
+        panelCentro.add(new JLabel("Apellido materno: "));
         panelCentro.add(apMaterno);
         
-        panelCentro.add(new JLabel("EMAIL :"));
+        panelCentro.add(new JLabel("E-mail: "));
         panelCentro.add(correo);
-        panelCentro.add(new JLabel("Dirección :"));
+        panelCentro.add(new JLabel("Dirección: "));
         panelCentro.add(direccion);
-        panelCentro.add(new JLabel("Telefono :"));
+        panelCentro.add(new JLabel("Teléfono: "));
         panelCentro.add(telefono);
-        panelCentro.add(new JLabel("Sexo :   M/F"));
+        panelCentro.add(new JLabel("Sexo:   M/F"));
         panelCentro.add(sexo);
+
+        panelCentro.setBorder(BorderFactory.createLineBorder(this.getBackground(), 15));
         
-       
+        panelSur.add(cancelar);
+        panelSur.add(registrar);
         
+        JPanel cont = new JPanel();
+        cont.setLayout(new BorderLayout());
+        cont.setBorder(BorderFactory.createLineBorder(this.getBackground(), 10));
         
+        cont.add(panelSur,"South");
+        cont.add(panelCentro, "Center");
         
-        panelIzqSur.add(cancelar);
-        panelDerSur.add(registrar);
-        
-        panelSur.add(panelIzqSur);
-        panelSur.add(panelDerSur);
-        this.add(norte, "North");
-        this.add(panelSur,"South");
-        this.add(panelCentro, "Center");
+        this.add(cont, "Center");
     }
 
     private void addEventos(OyenteModificarCliente o) {

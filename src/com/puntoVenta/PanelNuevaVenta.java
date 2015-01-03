@@ -316,11 +316,6 @@ public class PanelNuevaVenta extends JPanel{
         for(ProductoNuevaVenta pnv: listaProductos){
             pnv.addMouseListener(onv);
         }
-//    private JTextField textBuscar;
-//    private JButton buttonBuscar;
-//    private JButton buttonAgregar;
-//    private JButton buttonNuevo;
-//    private JButton buttonPagar;
     }
 
     public JButton getButtonPagar() {

@@ -7,9 +7,11 @@ package com.modificar;
 
 import static com.modificar.ModificarCliente.ListToArray;
 import com.puntoVenta.*;
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
@@ -22,11 +24,16 @@ public class EliminarDetalle extends EliminarFactura{
     public EliminarDetalle(Conexion c) {
         super(c);
         super.setTitle("Eliminar Detalle de Factura");
-        super.setSize(500, 100);
+        super.setSize(590, 115);
+        super.setLocationRelativeTo(null);
     }
 
     @Override
     protected void addComponentes() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        panel.setBorder(BorderFactory.createLineBorder(this.getBackground(), 10));
+        
         JPanel p = new JPanel(new FlowLayout());
         JPanel p2 = new JPanel(new FlowLayout());
         c.iniciarConexion();
@@ -60,11 +67,13 @@ public class EliminarDetalle extends EliminarFactura{
         
         p.add(factura);
         
-        p2.add(super.eliminar);
         p2.add(super.cancelar);
-        this.add(p, "North");
-        this.add(p2, "South");
+        p2.add(super.eliminar);
         
+        panel.add(p, "North");
+        panel.add(p2, "South");
+        
+        this.add(panel, "Center");
     }
 
     @Override

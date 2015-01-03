@@ -85,9 +85,8 @@ public class OyenteLogin extends KeyAdapter implements ActionListener, WindowLis
                 }
 
             } else {
-                JOptionPane.showMessageDialog(panel, "Usuario o Contraseña incorrectos");
+                JOptionPane.showMessageDialog(panel, "Usuario y/o contraseña incorrectos");
                 limpiardatos();
-
             }
             
         } catch (SQLException ex) {
@@ -100,6 +99,7 @@ public class OyenteLogin extends KeyAdapter implements ActionListener, WindowLis
     public void limpiardatos() {
         panel.getUsuario().setText("");
         panel.getContrasena().setText("");
+        panel.getUsuario().requestFocus();
     }
 
     public Conexion getVendedor() {

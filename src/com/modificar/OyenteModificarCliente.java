@@ -32,27 +32,27 @@ public class OyenteModificarCliente implements ActionListener{
         switch(e.getActionCommand()){
             case "Cancelar":
                 System.out.println("cancelar1");
-                if(JOptionPane.showConfirmDialog(null, "Seguro que quieres cancelar", "Aviso", JOptionPane.YES_NO_OPTION)==JOptionPane.OK_OPTION)
+                if(JOptionPane.showConfirmDialog(null, "¿Seguro que quieres cancelar?", "Aviso", JOptionPane.YES_NO_OPTION)==JOptionPane.OK_OPTION)
                     mc.dispose();
                 break;
             case "Modificar":
                 System.out.println("Update1");
                 if(ejecutarConsulta(true)){
-                    JOptionPane.showConfirmDialog(null, "Se modifico con exito", "Exito", JOptionPane.DEFAULT_OPTION);
+                    JOptionPane.showConfirmDialog(null, "Se modificó con éxito", "Éxito", JOptionPane.DEFAULT_OPTION);
                 }
                 else
-                    JOptionPane.showMessageDialog(null, "Error en la modificacion", "Exito", JOptionPane.DEFAULT_OPTION);
+                    JOptionPane.showMessageDialog(null, "Error en la modificación", "Éxito", JOptionPane.ERROR_MESSAGE);
                 mc.dispose();
                 break;
             
             case "Eliminar":
                 System.out.println("Drop1");
-                if(JOptionPane.showConfirmDialog(null, "Seguro que quieres eliminar", "Aviso", JOptionPane.YES_NO_OPTION)==JOptionPane.OK_OPTION){
+                if(JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar?", "Aviso", JOptionPane.YES_NO_OPTION)==JOptionPane.OK_OPTION){
                     if(ejecutarConsulta(false)){
-                    JOptionPane.showMessageDialog(null, "Se elimino con exito", "Exito", JOptionPane.DEFAULT_OPTION);
+                    JOptionPane.showMessageDialog(null, "Se eliminó con éxito", "Éxito", JOptionPane.DEFAULT_OPTION);
                     }
                     else
-                        JOptionPane.showMessageDialog(null, "Error en la modificacion", "Alerta", JOptionPane.DEFAULT_OPTION);
+                        JOptionPane.showMessageDialog(null, "Error en la modificación", "Alerta", JOptionPane.ERROR_MESSAGE);
                     mc.dispose();
                 }
                 

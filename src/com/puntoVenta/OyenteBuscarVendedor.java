@@ -5,6 +5,8 @@
  */
 package com.puntoVenta;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +16,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.sql.SQLException;
 import java.util.Vector;
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -25,6 +28,7 @@ class OyenteBuscarVendedor implements ActionListener, WindowListener, KeyListene
     private Conexion usuario;
     private VentanaEmergente ventana;
     private Vector datos = new Vector <>();
+    
     public OyenteBuscarVendedor(BuscarVendedor busqueda) {
         this.busqueda = busqueda;
         this.usuario = busqueda.getConexion();
@@ -35,48 +39,52 @@ class OyenteBuscarVendedor implements ActionListener, WindowListener, KeyListene
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getActionCommand().equals("Buscar")){
-            System.out.println("Buscando");
-            JPanel p2 = new JPanel(new GridLayout(8, 1));
+//            System.out.println("Buscando");
+            JPanel p2 = new JPanel();
+            p2.setLayout(new BorderLayout());
+            p2.setBorder(BorderFactory.createLineBorder(p2.getBackground(), 10));
             String busca = busqueda.getIds().get(busqueda.getVendedores().getSelectedIndex()).toString();
             busqueda.getConexion().iniciarConexion();
             String consulta = "select vendedor.idVendedor, vendedor.nombreVendedor, vendedor.apPaterno, vendedor.apMaterno"
                     + " from vendedor"
                     + " where vendedor.idVendedor="+busca+";";
+            
                 try {
-                    System.out.println("haciendo consulta");
+//                    System.out.println("haciendo consulta");
                     busqueda.getConexion().setResult(busqueda.getConexion().getStament().executeQuery(consulta));
                     while (busqueda.getConexion().getResult().next()) {
-                        System.out.println("buscando resultado");
+//                        System.out.println("buscando resultado");
                         for (int i = 0; i < busqueda.getConexion().getResult().getMetaData().getColumnCount(); i++) {
-                            System.out.println((busqueda.getConexion().getResult().getString(i + 1)));
+//                            System.out.println((busqueda.getConexion().getResult().getString(i + 1)));
                             datos.add(busqueda.getConexion().getResult().getString(i + 1));
                         }
-                        
-                    
             
-                }
+                    }
                 } catch (SQLException ex) {
-                    System.out.println(ex);
+                    JOptionPane.showMessageDialog(ventana, "Vaya! Ocurrió un error \n" + ex.getMessage(),
+                            "Error", JOptionPane.ERROR_MESSAGE);
                 }
             busqueda.getConexion().cerrarConexion();
             
-            p2.add(new JLabel ("ID: "+datos.get(0).toString()));
-            p2.add(new JLabel ("Nombre: "+datos.get(1).toString()));
-            p2.add(new JLabel ("Apellido Paterno: "+datos.get(2).toString()));
-            p2.add(new JLabel ("Apellido Materno: "+datos.get(3).toString()));
+            JPanel norte = new JPanel();
+            norte.setLayout(new GridLayout(4, 1));
+            norte.setPreferredSize(new Dimension(p2.getWidth(), 80));
+            norte.add(new JLabel ("ID: "+datos.get(0).toString()));
+            norte.add(new JLabel ("Nombre: "+datos.get(1).toString()));
+            norte.add(new JLabel ("Apellido Paterno: "+datos.get(2).toString()));
+            norte.add(new JLabel ("Apellido Materno: "+datos.get(3).toString()));
            
+            p2.add(norte, "North");
             
             PanelVendedores p1 = new PanelVendedores(vVendedor(busca), p2);
             
-                     
-            
             busqueda.dispose();
-            ventana = new VentanaEmergente("Ventas por vendedores");
+            ventana = new VentanaEmergente("Ventas por vendedor");
             ventana.add(p1);
             ventana.addWindowListener(this);
-            ventana.setSize(640, 480);
+            ventana.setSize(750, 500);
             ventana.setLocationRelativeTo(null);
-            ventana.pack();
+//            ventana.pack();
             ventana.setVisible(true);
             
         }
@@ -90,7 +98,7 @@ class OyenteBuscarVendedor implements ActionListener, WindowListener, KeyListene
     @Override
     public void windowClosing(WindowEvent e) {
         if (e.getSource().getClass().isInstance(busqueda)){
-            if(JOptionPane.showConfirmDialog(null, "Desea no buscar nada?", "Confirmar", JOptionPane.OK_CANCEL_OPTION)==JOptionPane.OK_OPTION)
+//            if(JOptionPane.showConfirmDialog(null, "Desea no buscar nada?", "Confirmar", JOptionPane.OK_CANCEL_OPTION)==JOptionPane.OK_OPTION)
                 busqueda.dispose();
         }else if(e.getSource().getClass().isInstance(ventana)){
             ventana.dispose();
@@ -140,19 +148,33 @@ class OyenteBuscarVendedor implements ActionListener, WindowListener, KeyListene
     }
     
     private JTable vVendedor(String busca){
+        // Indicamos que las celdas de la tabla no serán editables...
+        DefaultTableModel modeloTabla = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         
-        DefaultTableModel modeloTabla = new DefaultTableModel();
         JTable tablaVendedor = new JTable();
         String query;
         //depende del id, hara la consulta
         
-            query = "select Detalle_fact.idDetalle_fact, Producto.nombreProducto, Producto.precio " +
-            "from Detalle_fact, Producto, Cab_fact " +
+            query = "select Cab_fact.idCab_fact, "
+                    + "Detalle_fact.idDetalle_fact, "
+                    + "Cliente.idCliente, "
+                    + "Producto.nombreProducto, "
+                    + "Producto.precio, "
+                    + "Detalle_fact.cantidadProducto, "
+                    + "Producto.precio * Detalle_fact.cantidadProducto as Importe, "
+                    + "Detalle_fact.fechaVenta " + 
+                    
+            "from Detalle_fact, Producto, Cab_fact, Cliente " +
+                    
             "where Producto.idProducto = Detalle_fact.Producto_idProducto and " +
+            "Cliente.idCliente = Cab_fact.Cliente_idCliente and " +
             "Cab_fact.idCab_fact = Detalle_fact.Cab_fact_idCab_fact and " +
             "Cab_fact.Vendedor_idVendedor = "+busca+";";
-        
-        
        
         try {
             usuario.iniciarConexion();
