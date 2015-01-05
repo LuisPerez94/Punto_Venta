@@ -9,16 +9,19 @@ import com.puntoVenta.Conexion;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.LayoutManager;
 import java.awt.Toolkit;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
@@ -35,9 +38,11 @@ public class ModificarProducto extends JFrame{
     
     private JTextField nombre;
     private JTextField precio;
+    private JTextField existencia;
    
     private JButton ruta = new JButton("Seleccionar ruta");
     private JTextArea descripcion;
+    private JLabel imagen;
     
     
     
@@ -49,7 +54,7 @@ public class ModificarProducto extends JFrame{
         this.setTitle("Modificar Producto");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.c = c;
-        this.setSize(320, 280);
+        this.setSize(320, 390);
         this.setResizable(false);
         addComponentes();
         addEventos(new OyenteModificarProducto(c, this));
@@ -83,7 +88,7 @@ public class ModificarProducto extends JFrame{
         
         JPanel panelSur = new JPanel();
         JPanel panelCentro = new JPanel();
-        GridLayout gl2 = new GridLayout(5, 2);
+        GridLayout gl2 = new GridLayout(7, 2);
         panelCentro.setLayout(gl2);
         panelCentro.setBorder(BorderFactory.createLineBorder(this.getBackground(), 15));
         
@@ -92,8 +97,9 @@ public class ModificarProducto extends JFrame{
         
         nombre = new JTextField();
         precio = new JTextField();
+        existencia = new JTextField();
         
-        descripcion = new JTextArea(15, 30);
+        descripcion = new JTextArea(13, 30);
         descripcion.setBorder(BorderFactory.createLineBorder(Color.WHITE, 5));
         descripcion.setWrapStyleWord(true);
         descripcion.setLineWrap(true);
@@ -101,17 +107,36 @@ public class ModificarProducto extends JFrame{
         panelCentro.add(new JLabel("Modificar a:"));
         panelCentro.add(productos);
         
-        panelCentro.add(new JLabel("Nombre :"));
+        imagen = new JLabel();
+        imagen.setHorizontalAlignment(JLabel.CENTER);
+        ImageIcon aux = new ImageIcon("src/img/sistema/preview.png");
+        ImageIcon img = new ImageIcon(aux.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+        imagen.setIcon(img);
+        
+        JScrollPane scrollDescripcion = new JScrollPane(descripcion);
+        scrollDescripcion.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollDescripcion.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        
+        nombre.setBorder(BorderFactory.createLineBorder(this.getBackground(), 10));
+        precio.setBorder(BorderFactory.createLineBorder(this.getBackground(), 10));
+        existencia.setBorder(BorderFactory.createLineBorder(this.getBackground(), 10));
+        scrollDescripcion.setBorder(BorderFactory.createLineBorder(this.getBackground(), 10));
+        
+        panelCentro.add(new JLabel("Nombre: "));
         panelCentro.add(nombre);
-        panelCentro.add(new JLabel("Precio :"));
+        panelCentro.add(new JLabel("Precio: "));
         panelCentro.add(precio);
-        panelCentro.add(new JLabel("Ruta de la imagen :"));
+        panelCentro.add(new JLabel("Ruta de la imagen: "));
         JPanel panelRuta = new JPanel();
         panelRuta.add(ruta);
         panelCentro.add(panelRuta);
+        panelCentro.add(new JLabel("Imagen: "));
+        panelCentro.add(imagen);
+        panelCentro.add(new JLabel("Descripcion: "));
+        panelCentro.add(scrollDescripcion);
+        panelCentro.add(new JLabel("Existencia: "));
+        panelCentro.add(existencia);
         
-        panelCentro.add(new JLabel("Descripcion :"));
-        panelCentro.add(descripcion);
         
         panelSur.add(cancelar);
         panelSur.add(registrar);
@@ -166,12 +191,20 @@ public class ModificarProducto extends JFrame{
         this.registrar = registrar;
     }
 
+    public JLabel getImagen() {
+        return imagen;
+    }
+
     public JTextField getNombre() {
         return nombre;
     }
 
     public void setNombre(JTextField nombre) {
         this.nombre = nombre;
+    }
+
+    public JTextField getExistencia() {
+        return existencia;
     }
 
     public JTextField getPrecio() {

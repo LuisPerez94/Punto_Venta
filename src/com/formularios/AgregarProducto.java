@@ -33,10 +33,11 @@ public class AgregarProducto extends JFrame{
     private JTextArea descripcion;
     private JLabel imagen;
     private JLabel nombreImagen;
+    private JTextField texistencia;
 
     public AgregarProducto(){
         super("Agregar Nuevo Producto");
-        this.setSize(900, 332);
+        this.setSize(900, 350   );
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         setResizable(false);
@@ -46,11 +47,12 @@ public class AgregarProducto extends JFrame{
     }
 
     private void addComponentes() {
-        JPanel panelCentro = new JPanel(new GridLayout(5, 2, 0,10));
+        JPanel panelCentro = new JPanel(new GridLayout(6, 2, 0,10));
         JPanel panelSur = new JPanel();
         JPanel panelImagen = new JPanel();
         tnombre = new JTextField(30);
         tprecio = new JTextField(30);
+        texistencia = new JTextField(30);
         tprecio.setName("precio");
         descripcion = new JTextArea(15, 30);
         descripcion.setWrapStyleWord(true);
@@ -67,6 +69,8 @@ public class AgregarProducto extends JFrame{
         panelCentro.add(tprecio);
         panelCentro.add(new JLabel("Ingresa un descripcion del producto: "));
         panelCentro.add(descripcion);
+        panelCentro.add(new JLabel("Ingresa la existencia"));
+        panelCentro.add(texistencia);
         panelCentro.add(new JLabel("Elegir la imagen del producto :"));
         JPanel elegirImagen = new JPanel();
         elegirImagen.add(elegir);
@@ -144,10 +148,14 @@ public class AgregarProducto extends JFrame{
         this.tprecio = tprecio;
     }
 
+    public JTextField getTexistencia() {
+        return texistencia;
+    }
+    
     public JTextArea getDescripcion() {
         return descripcion;
     }
-
+    
     public void setDescripcion(JTextArea descripcion) {
         this.descripcion = descripcion;
     }

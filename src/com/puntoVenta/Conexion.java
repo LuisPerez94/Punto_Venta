@@ -59,8 +59,8 @@ public class Conexion {
             case "P":
                 //insertar producto
                 try {
-                    int i = stament.executeUpdate("INSERT INTO Producto (nombreProducto,precio,rutaImagen,descripcionProducto) VALUES"
-                            + " ('" + datos.get(0) + "','" + datos.get(1) + "','" + datos.get(2) + "','" + datos.get(3) + "')");
+                    int i = stament.executeUpdate("INSERT INTO Producto (nombreProducto,precio,rutaImagen,descripcionProducto,existencias) VALUES"
+                            + " ('" + datos.get(0) + "','" + datos.get(1) + "','" + datos.get(2) + "','" + datos.get(3) + "','" + datos.get(4) + "')");
 
                     JOptionPane.showMessageDialog(null, "EXITO EN LA CONSULTA");
 

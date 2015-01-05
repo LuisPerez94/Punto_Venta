@@ -34,6 +34,7 @@ public class OyenteModificarProducto implements ActionListener{
     private String nombreArchivo;
     private String ruta;
     private String destino;
+    
     OyenteModificarProducto(Conexion c, ModificarProducto mp) {
         this.mp = mp;
         this.c = c;
@@ -56,8 +57,10 @@ public class OyenteModificarProducto implements ActionListener{
                         nombreArchivo = jfc.getSelectedFile().getName();
                         ruta = jfc.getSelectedFile().getPath();
                         ImageIcon aux = new ImageIcon(ruta);
-                        ImageIcon img = new ImageIcon(aux.getImage().getScaledInstance(300, 300, Image.SCALE_DEFAULT));
-
+                        ImageIcon img = new ImageIcon(aux.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH));
+                        mp.getImagen().setIcon(img);
+//                        a.getNombreImagen().setText(nombreArchivo);
+                        javax.swing.SwingUtilities.updateComponentTreeUI(mp);
                         Path rutaFROM = (Path) Paths.get(ruta);
                         destino = "src/img/productos/" + nombreArchivo;
                         Path rutaTo = (Path) Paths.get(destino);
@@ -80,7 +83,7 @@ public class OyenteModificarProducto implements ActionListener{
                     JOptionPane.showConfirmDialog(null, "Se modifico con exito", "Exito", JOptionPane.DEFAULT_OPTION);
                 }
                 else
-                    JOptionPane.showMessageDialog(null, "Error en la modificacion", "Exito", JOptionPane.DEFAULT_OPTION);
+                    JOptionPane.showMessageDialog(null, "Error en la modificacion", "Error", JOptionPane.DEFAULT_OPTION);
                 mp.dispose();
                 break;
             
@@ -107,8 +110,10 @@ public class OyenteModificarProducto implements ActionListener{
         if(hacer){
             consulta = "update punto_venta.Producto set nombreProducto='"+
                     mp.getNombre().getText()+"', precio='"+mp.getPrecio().getText()+
-                    "', rutaImagen='"+ruta+
-                    "', descripcionProducto='"+mp.getDescripcion().getText()+"' where idProducto ="
+                    "', rutaImagen='"+destino+
+                    "', descripcionProducto='"+mp.getDescripcion().getText().trim()+
+                    "', existencias='"+mp.getExistencia().getText()
+                    + "' where idProducto ="
                     +mp.getIds().get(mp.getProductos().getSelectedIndex()).toString()+";";
         }
         else{

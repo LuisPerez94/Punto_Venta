@@ -62,6 +62,8 @@ public class OyenteAgregarProducto extends KeyAdapter implements ActionListener 
             datos.add(a.getTprecio().getText());
             datos.add("src/img/productos/" + nombreArchivo);
             datos.add(a.getDescripcion().getText());
+            datos.add(a.getTexistencia().getText());
+
             usuario.insertarDatos("P", datos);
             limpiardatos();
             datos.clear();
