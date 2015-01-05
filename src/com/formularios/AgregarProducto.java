@@ -63,13 +63,13 @@ public class AgregarProducto extends JFrame{
         elegir = new JButton("Elegir Imagen...");
         
         panelCentro.setBorder(BorderFactory.createLineBorder(this.getBackground(), 30));
-        panelCentro.add(new JLabel("Ingresa el nombre del producto: "));
+        panelCentro.add(new JLabel("Ingresa el nombre del producto:  * "));
         panelCentro.add(tnombre);
-        panelCentro.add(new JLabel("Ingresa el precio unitario del producto: $"));
+        panelCentro.add(new JLabel("Ingresa el precio unitario del producto: *  $"));
         panelCentro.add(tprecio);
         panelCentro.add(new JLabel("Ingresa un descripcion del producto: "));
         panelCentro.add(descripcion);
-        panelCentro.add(new JLabel("Ingresa la existencia"));
+        panelCentro.add(new JLabel("Ingresa la existencia   *"));
         panelCentro.add(texistencia);
         panelCentro.add(new JLabel("Elegir la imagen del producto :"));
         JPanel elegirImagen = new JPanel();
