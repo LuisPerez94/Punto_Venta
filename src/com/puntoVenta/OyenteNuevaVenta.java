@@ -18,11 +18,13 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
     private final VentanaEmergente ventana;
     private final PanelNuevaVenta panel;
     private final ArrayList<ProductoNuevaVenta> listaProductos;
+    private Conexion c ;
     
     public OyenteNuevaVenta(VentanaEmergente ventana, PanelNuevaVenta panel){
         this.ventana = ventana;
         this.panel = panel;
         this.listaProductos = panel.getListaProductos();
+        c = panel.getConexion();
     }
     
     @Override
@@ -303,13 +305,39 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
         }
     }
     
-    public void agregarAlTicket(MouseEvent e){
+   public boolean agregarAlTicket(MouseEvent e){
         ProductoNuevaVenta aux = (ProductoNuevaVenta)e.getSource();
         DefaultTableModel modelo = (DefaultTableModel) panel.getTicket().getModel();
+        int id, existencia=0;
         boolean enTicket = false;
         int indice = 0;
         DecimalFormat dc = new DecimalFormat("####.##");
         double totalCompra;
+        
+        
+        c.iniciarConexion();
+        try {
+            id = Integer.parseInt(aux.getId().getText());
+        } catch (Exception ex) {
+            return false;
+        }
+        
+        try {
+            c.setResult(c.getStament().executeQuery("select Producto.existencias\n" +
+                    "from Producto\n" +
+                    "where idProducto="+id));
+            while(c.getResult().next()){
+                existencia = Integer.parseInt(c.getResult().getString(1));
+                System.out.println("Existencias: "+existencia);
+            }
+            
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(panel, "Error en la consulta",
+                    "Advertencia", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        c.cerrarConexion();
         
         // Comprobamos que el producto seleccionado no esté dentro del ticket...
         for(int i = 0; i < modelo.getRowCount(); i++){
@@ -324,6 +352,11 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
         
         // Si no está en el ticket, lo agregamos...
         if(!enTicket){
+            if(existencia==0){
+                JOptionPane.showMessageDialog(panel, "No hay suficientes existencias",
+                    "Advertencia", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
             modelo.addRow(new Object[]{
                             aux.getId().getText(),
                             aux.getDescripcion(),
@@ -332,11 +365,19 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
                             dc.format(aux.getPrecio())
                          });
             
+                
+            
         // Si no, tomamos el producto que ya existe y aumentamos la cantidad
         // y el importe...
         }else{
             // Aumentamos la cantidad....
-            modelo.setValueAt(Integer.parseInt(modelo.getValueAt(indice,3)+"")+1, 
+            int productoComprado = Integer.parseInt(modelo.getValueAt(indice,3).toString());
+            if(existencia<=productoComprado){
+                JOptionPane.showMessageDialog(panel, "No hay suficientes existencias",
+                    "Advertencia", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+            modelo.setValueAt(Integer.parseInt(modelo.getValueAt(indice,3).toString())+1, 
                                 indice, 
                                 3);
             
@@ -351,6 +392,7 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
         totalCompra += aux.getPrecio();
         
         panel.getTextTotal().setText("$ " + dc.format(totalCompra));
+        return true;
     }
     
     public void borrarProducto(){
@@ -409,7 +451,7 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
         Conexion conexion = panel.getConexion();
         JTable ticket = panel.getTicket();
 
-        String selectIdVendedor = "SELECT idVendedor FROM Vendedor WHERE nombreVendedor = " +
+        String selectIdVendedor = "SELECT idVendedor FROM Vendedor WHERE usuario = " +
                 "'" + panel.getTextAtiende().getText().trim() + "'";
         
         String insertarEnCab_fact, insertarEnDetalle_fact;
@@ -483,6 +525,42 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
             
             JOptionPane.showMessageDialog(panel, "\nCompra realizada con éxito \n\nGracias por su preferencia\n",
                     "Compra realizada", JOptionPane.INFORMATION_MESSAGE);
+                        /*Se crea una conexion para evitar darle permisos no necesarios a vendedor, ya que no puede modificar 
+            en producto*/
+            Conexion actualizarProducto = new Conexion ("poslogin", "poslogin", "3306", "localhost", "punto_venta");
+            actualizarProducto.iniciarConexion();
+            
+            for (int i = 0; i < ticket.getRowCount(); i++) {
+                c.iniciarConexion();
+                int existencia=0;
+                try {
+                    c.setResult(c.getStament().executeQuery("select Producto.existencias\n" +
+                            "from Producto\n" +
+                            "where idProducto="+ticket.getValueAt(i, 0)));
+                    System.out.println("select Producto.existencias\n" +
+                            "from Producto\n" +
+                            "where idProducto="+ticket.getValueAt(i, 0));
+                    while(c.getResult().next()){
+                        existencia = Integer.parseInt(c.getResult().getString(1));
+                        System.out.println("Existencias: "+existencia);
+                    }
+            
+            
+                } catch (SQLException ex) {
+                            System.out.println(ex);
+                }
+                c.cerrarConexion();
+                int quitar = Integer.parseInt(ticket.getValueAt(i,3).toString());
+                System.out.println("UPDATE punto_venta.Producto SET existencias="+(existencia-quitar)+" WHERE idProducto="+ticket.getValueAt(i, 0).toString());
+                actualizarProducto.getStament().execute
+               
+               ("UPDATE punto_venta.Producto SET existencias="+(existencia-quitar)+" WHERE idProducto="+ticket.getValueAt(i, 0).toString());
+                
+
+            }
+            actualizarProducto.cerrarConexion();
+
+
 
             
             // Y aumentamos el número de la nueva partida...
