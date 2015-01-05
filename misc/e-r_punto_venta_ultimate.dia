@@ -670,7 +670,7 @@ isAdmin#</dia:string>
         <dia:point val="38,20.7625"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="38,20.1225;43.6525,24.095"/>
+        <dia:rectangle val="38,20.1032;43.6718,24.9336"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -679,7 +679,8 @@ isAdmin#</dia:string>
 nombreProducto
 precio
 rutaImagen
-descripcionProducto#</dia:string>
+descripcionProducto
+existencias#</dia:string>
           </dia:attribute>
           <dia:attribute name="font">
             <dia:font family="sans" style="0" name="Helvetica"/>
@@ -779,7 +780,7 @@ Producto_idProducto#</dia:string>
         <dia:point val="8.75,21.1235"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="8.75,20.4642;11.6668,21.2946"/>
+        <dia:rectangle val="8.75,20.4835;11.6475,21.256"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -937,7 +938,7 @@ Producto_idProducto#</dia:string>
         <dia:point val="5.2,19.4"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="5.13095,19.331;7.96905,21.1926"/>
+        <dia:rectangle val="5.13095,19.331;7.96905,21.1925"/>
       </dia:attribute>
       <dia:attribute name="conn_endpoints">
         <dia:point val="5.2,19.4"/>
@@ -1025,13 +1026,13 @@ Producto_idProducto#</dia:string>
     </dia:object>
     <dia:object type="Standard - Ellipse" version="0" id="O32">
       <dia:attribute name="obj_pos">
-        <dia:point val="36.25,22.7985"/>
+        <dia:point val="36.55,22.8125"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="36.2,22.7485;37.1,23.3485"/>
+        <dia:rectangle val="36.5,22.7625;37.4,23.3625"/>
       </dia:attribute>
       <dia:attribute name="elem_corner">
-        <dia:point val="36.25,22.7985"/>
+        <dia:point val="36.55,22.8125"/>
       </dia:attribute>
       <dia:attribute name="elem_width">
         <dia:real val="0.80000000000001137"/>
@@ -1045,11 +1046,11 @@ Producto_idProducto#</dia:string>
         <dia:point val="35.88,21.8"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="35.8099,21.7299;36.7201,22.8686"/>
+        <dia:rectangle val="35.8093,21.7293;37.0207,22.8832"/>
       </dia:attribute>
       <dia:attribute name="conn_endpoints">
         <dia:point val="35.88,21.8"/>
-        <dia:point val="36.65,22.7985"/>
+        <dia:point val="36.95,22.8125"/>
       </dia:attribute>
       <dia:attribute name="numcp">
         <dia:int val="1"/>
@@ -1087,13 +1088,13 @@ Producto_idProducto#</dia:string>
         <dia:point val="18.91,17.1495"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="18.86,15.3115;22.456,17.1995"/>
+        <dia:rectangle val="18.86,15.3115;22.4559,17.1995"/>
       </dia:attribute>
       <dia:attribute name="orth_points">
         <dia:point val="18.91,17.1495"/>
         <dia:point val="18.91,16.2555"/>
-        <dia:point val="22.406,16.2555"/>
-        <dia:point val="22.406,15.3615"/>
+        <dia:point val="22.4059,16.2555"/>
+        <dia:point val="22.4059,15.3615"/>
       </dia:attribute>
       <dia:attribute name="orth_orient">
         <dia:enum val="1"/>
