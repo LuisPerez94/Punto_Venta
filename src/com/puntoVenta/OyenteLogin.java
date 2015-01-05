@@ -89,8 +89,10 @@ public class OyenteLogin extends KeyAdapter implements ActionListener, WindowLis
                 limpiardatos();
             }
             
-        } catch (SQLException ex) {
-            System.out.println("Error" + ex);
+        } catch (SQLException | NullPointerException ex) {
+            JOptionPane.showMessageDialog(panel, "Ocurrió un error al conetarse al servidor", 
+                    "Error ", JOptionPane.ERROR_MESSAGE);
+        
         }
 
 

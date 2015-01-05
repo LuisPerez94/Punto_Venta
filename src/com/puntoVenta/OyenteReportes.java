@@ -30,6 +30,7 @@ import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
 /**
@@ -39,19 +40,22 @@ import javax.swing.table.TableRowSorter;
 public class OyenteReportes implements KeyListener, ActionListener, WindowListener  {
     private Conexion usuario;
     static Reportes ventanaReporte;
-    private JTable productos;
+    private JTable tablaCatalogo;
     private PanelVentas p;
     private PanelVendedores p1;
     private PanelProductosMasVendidos ppmv;
     private PanelProductos p2;
-    private PanelCatalogo catalogo;
+    private PanelCatalogoProductos catalogoProductos;
+    private PanelCatalogoClientes catalogoClientes;
+    private PanelCatalogoVendedores catalogoVendedores;
     private PanelNuevaVenta panelNuevaVenta;
     private VentanaEmergente ventana;
     private TableRowSorter trsfiltro;
     private com.tablas.TablaModeloProducto modelo;
+    private DefaultTableModel modeloTabla;
     private String nombreVendedor;
-    private boolean ctrl=false;
-    private boolean alt=false;
+    private boolean ctrl = false;
+    private boolean alt = false;
 
     
     OyenteReportes() {
@@ -86,12 +90,12 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
 
                 break;
                 
-            case "Ventas por Vendedor":
+            case "Ventas por vendedor":
                 BuscarVendedor busqueda = new BuscarVendedor();
                 
                 break;
                 
-            case "Productos mas vendidos":
+            case "Productos más vendidos":
                 
                 System.out.println("Aqui se muestran los productos mas vendidos");
                 
@@ -142,15 +146,15 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
 
                 break;
                 
+            // Este qué hace? :v
             case "Actualizar":
                 System.out.println("Aqui actualizara");
                 break;
-                
             
-            case "Nueva Venta":
+            case "Nueva venta":
                 ventana = new VentanaEmergente("Ventas");
                 
-                 JTable prods = generarCatalogo();
+                 JTable prods = generarCatalogoProductos();
                 panelNuevaVenta = new PanelNuevaVenta(prods, usuario);
                 panelNuevaVenta.getTextAtiende().setText(nombreVendedor);
                 
@@ -166,16 +170,47 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
                 oyenteNV.validarNuevaVenta();
                 break;
                 
+            case "Clientes":
+                tablaCatalogo = generarCatalogoClientes();
+                catalogoClientes = new PanelCatalogoClientes(tablaCatalogo);
+//                catalogoClientes.addEventos(this);
                 
-            case "Catalogo de Productos":
-                productos = generarCatalogo();
-                catalogo = new PanelCatalogo(productos);
-                catalogo.addEventos(this);
+                ventana = new VentanaEmergente("Clientes");
+                ventana.add(catalogoClientes);
+                ventana.addWindowListener(this);
+                ventana.setSize(980, 460);
+                ventana.setLocationRelativeTo(null);
+                ventana.setResizable(false);
+                ventana.setVisible(true);
+                
+                SwingUtilities.updateComponentTreeUI(ventanaReporte);
+                break;
+                
+            case "Vendedores":
+                tablaCatalogo = generarCatalogoVendedores();
+                catalogoVendedores = new PanelCatalogoVendedores(tablaCatalogo);
+//                catalogoClientes.addEventos(this);
+                
+                ventana = new VentanaEmergente("Vendedores");
+                ventana.add(catalogoVendedores);
+                ventana.addWindowListener(this);
+                ventana.setSize(980, 460);
+                ventana.setLocationRelativeTo(null);
+                ventana.setResizable(false);
+                ventana.setVisible(true);
+                
+                SwingUtilities.updateComponentTreeUI(ventanaReporte);
+                break;
+                
+            case "Productos":
+                tablaCatalogo = generarCatalogoProductos();
+                catalogoProductos = new PanelCatalogoProductos(tablaCatalogo);
+                catalogoProductos.addEventos(this);
                 trsfiltro = new TableRowSorter(modelo);
-                productos.setRowSorter(trsfiltro);
+                tablaCatalogo.setRowSorter(trsfiltro);
 
-                ventana = new VentanaEmergente("Ventas");
-                ventana.add(catalogo);
+                ventana = new VentanaEmergente("Productos");
+                ventana.add(catalogoProductos);
                 ventana.addWindowListener(this);
                 ventana.setSize(900, 520);
                 ventana.setLocationRelativeTo(null);
@@ -184,7 +219,7 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
                 SwingUtilities.updateComponentTreeUI(ventanaReporte);
                 break;
 
-            case "Agrega un Producto":
+            case "Agregar un producto":
                 AgregarProducto aP =new AgregarProducto();
                 usuario.iniciarConexion();
 
@@ -192,70 +227,66 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
 
                 break;
                 
-            case "Agregar un Cliente":
+            case "Agregar un cliente":
                 AgregarCliente aC = new AgregarCliente();
                 usuario.iniciarConexion();
                 aC.addEventos(new OyenteAgregarCliente(aC, usuario));
                 break;
                 
-            case "Agregar un Vendedor":
+            case "Agregar un vendedor":
                 AgregarVendedor aV = new AgregarVendedor();
                 usuario.iniciarConexion();
                 aV.addEventos(new OyenteAgregarVendedor(usuario,aV));
                 break;
                 
-            case  "Modificar un Cliente" : 
+            case  "Modificar un cliente" : 
 //                System.out.println("Mod cliente");
                 ModificarCliente mc = new ModificarCliente(usuario);
                 break;
                 
-            case  "Modificar un Vendedor" : 
+            case  "Modificar un vendedor" : 
                 System.out.println("Mod vendedor");
                 usuario.iniciarConexion();
                 ModificarVendedor mv = new ModificarVendedor(usuario);
                 break;
                 
-            case  "Modificar un Producto" : 
+            case  "Modificar un producto" : 
                 System.out.println("Mod producto");
                 ModificarProducto mp = new ModificarProducto(usuario);
                 break;
 
-            case  "Eliminar un Cliente" : 
+            case  "Eliminar un cliente" : 
                 EliminarCliente ec = new EliminarCliente(usuario);
                 System.out.println("DEl cliente");
                 break;
                 
-            case  "Eliminar un Vendedor" : 
+            case  "Eliminar un vendedor" : 
                 System.out.println("del vendedor");
                 EliminarVendedor ev = new EliminarVendedor(usuario);
                 break;
-            case  "Eliminar un Producto" : 
+            case  "Eliminar un producto" : 
                 System.out.println("del producto");
                 EliminarProducto ep = new EliminarProducto(usuario);
                 break;
                 
-            case "Eliminar Cabecera Factura":
+            case "Eliminar cabecera factura":
                 System.out.println("Eliminar cabecera");
                 EliminarCabecera EC = new EliminarCabecera(usuario);
                 break;
                 
-            case "Eliminar Detalle Factura":
+            case "Eliminar detalle factura":
                 System.out.println("Eliminar detalle ");
                 EliminarDetalle ed = new EliminarDetalle(usuario);
                 break;
-                
-                
                     
         }
-        
-        
     }
      
    
     public void filtro(){
         try{
-            String filtro = catalogo.getTbusqueda().getText();
-            switch(catalogo.getBusqueda().getSelectedIndex()){
+            String filtro = catalogoProductos.getTbusqueda().getText();
+            switch(catalogoProductos.getBusqueda().getSelectedIndex()){
                 case 0:
                      trsfiltro.setRowFilter(RowFilter.regexFilter("(?i)"+filtro, 0));
                     break;
@@ -275,9 +306,97 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
        
     }
     
-    private JTable generarCatalogo() {
+    private JTable generarCatalogoClientes(){
+        String query = "SELECT * FROM Cliente";
+        String[] columnas = {"ID", "Nombre", "Ap. paterno", "Ap. materno", "Dirección",
+                            "Correo electrónico", "Teléfono", "Sexo"};
+        Object[][] filas = {};
+        
+        modeloTabla = new DefaultTableModel(filas, columnas){
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
+                
+        JTable tablaClientes = new JTable(modeloTabla);
+        
+        Object[] auxFila = new Object[modeloTabla.getColumnCount()];
+        
+        try{
+            usuario.iniciarConexion();
+            usuario.setResult(usuario.getStament().executeQuery(query));
+            
+            while(usuario.getResult().next()){
+                for(int i = 0; i < modeloTabla.getColumnCount(); i++){
+                    auxFila[i] = usuario.getResult().getObject((i+1))+"";
+                }
+                modeloTabla.addRow(auxFila);
+            }
+
+            usuario.getStament().close();
+            
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(ventana, "Ocurrió un error al generar el catálogo\n"+e.getMessage(), "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        
+        }finally{
+            usuario.cerrarConexion();
+        }
+              
+        return tablaClientes;
+    }
+    
+    private JTable generarCatalogoVendedores(){
+        String query = "SELECT * FROM Vendedor";
+        String[] columnas = {"ID", "Nombre", "Ap. paterno", "Ap. materno", "Fecha nacimiento",
+                            "Correo electrónico", "Dirección", "Sexo", "Sueldo",
+                            "Fecha ingreso", "Usuario", "Contraseña", "¿Admin?"};
+        Object[][] filas = {};
+        
+        modeloTabla = new DefaultTableModel(filas, columnas){
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
+                
+        JTable tablaVendedores = new JTable(modeloTabla);
+        
+        Object[] auxFila = new Object[modeloTabla.getColumnCount()];
+        
+        try{
+            usuario.iniciarConexion();
+            usuario.setResult(usuario.getStament().executeQuery(query));
+            
+            while(usuario.getResult().next()){
+                for(int i = 0; i < modeloTabla.getColumnCount(); i++){
+                    auxFila[i] = usuario.getResult().getObject((i+1))+"";
+                }
+                modeloTabla.addRow(auxFila);
+            }
+
+            usuario.getStament().close();
+            
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(ventana, "Ocurrió un error al generar el catálogo\n"+e.getMessage(), "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        
+        }finally{
+            usuario.cerrarConexion();
+        }
+              
+        return tablaVendedores;
+    }
+    
+    private JTable generarCatalogoProductos() {
         String query = "SELECT * FROM Producto";
-        modelo = new TablaModeloProducto();
+        modelo = new TablaModeloProducto(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         TablaRenderizadorProducto render = new TablaRenderizadorProducto();
         
         JTable tablaProductos = new JTable(modelo);
@@ -316,7 +435,8 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
             
             usuario.getStament().close();
         } catch (SQLException ex) {
-            System.out.println("Error" + ex);
+            JOptionPane.showMessageDialog(ventana, "Ocurrió un error al generar el catálogo\n"+ex.getMessage(), "Error",
+                    JOptionPane.ERROR_MESSAGE);
         } finally {
             usuario.cerrarConexion();
         }

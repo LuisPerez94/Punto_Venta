@@ -28,13 +28,12 @@ class OyenteBuscarVendedor implements ActionListener, WindowListener, KeyListene
     private Conexion usuario;
     private VentanaEmergente ventana;
     private Vector datos = new Vector <>();
+    private String fecha1, fecha2;
     
     public OyenteBuscarVendedor(BuscarVendedor busqueda) {
         this.busqueda = busqueda;
         this.usuario = busqueda.getConexion();
     }
-    
-    
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -44,10 +43,18 @@ class OyenteBuscarVendedor implements ActionListener, WindowListener, KeyListene
             p2.setLayout(new BorderLayout());
             p2.setBorder(BorderFactory.createLineBorder(p2.getBackground(), 10));
             String busca = busqueda.getIds().get(busqueda.getVendedores().getSelectedIndex()).toString();
+            
+            fecha1 = busqueda.getAnio2().getSelectedItem() + "-" + busqueda.getMes2().getSelectedItem() + "-" + 
+                    busqueda.getDia2().getSelectedItem();
+            fecha2 = busqueda.getAnio().getSelectedItem() + "-" + busqueda.getMes().getSelectedItem() + "-" + 
+                    busqueda.getDia().getSelectedItem();
             busqueda.getConexion().iniciarConexion();
+            
+            
+            
             String consulta = "select vendedor.idVendedor, vendedor.nombreVendedor, vendedor.apPaterno, vendedor.apMaterno"
                     + " from vendedor"
-                    + " where vendedor.idVendedor="+busca+";";
+                    + " where vendedor.idVendedor=" + busca + ";";
             
                 try {
 //                    System.out.println("haciendo consulta");
@@ -67,12 +74,13 @@ class OyenteBuscarVendedor implements ActionListener, WindowListener, KeyListene
             busqueda.getConexion().cerrarConexion();
             
             JPanel norte = new JPanel();
-            norte.setLayout(new GridLayout(4, 1));
+            norte.setLayout(new GridLayout(5, 1));
             norte.setPreferredSize(new Dimension(p2.getWidth(), 80));
             norte.add(new JLabel ("ID: "+datos.get(0).toString()));
             norte.add(new JLabel ("Nombre: "+datos.get(1).toString()));
-            norte.add(new JLabel ("Apellido Paterno: "+datos.get(2).toString()));
-            norte.add(new JLabel ("Apellido Materno: "+datos.get(3).toString()));
+            norte.add(new JLabel ("Apellido paterno: "+datos.get(2).toString()));
+            norte.add(new JLabel ("Apellido materno: "+datos.get(3).toString()));
+            norte.add(new JLabel ("Ventas durante el período de " + fecha1 + " al " + fecha2));
            
             p2.add(norte, "North");
             
@@ -174,7 +182,9 @@ class OyenteBuscarVendedor implements ActionListener, WindowListener, KeyListene
             "where Producto.idProducto = Detalle_fact.Producto_idProducto and " +
             "Cliente.idCliente = Cab_fact.Cliente_idCliente and " +
             "Cab_fact.idCab_fact = Detalle_fact.Cab_fact_idCab_fact and " +
-            "Cab_fact.Vendedor_idVendedor = "+busca+";";
+            "Cab_fact.Vendedor_idVendedor = "+busca+
+            " and Detalle_fact.fechaVenta between '" + fecha1 + "' and '" + fecha2 + "';";
+            
        
         try {
             usuario.iniciarConexion();

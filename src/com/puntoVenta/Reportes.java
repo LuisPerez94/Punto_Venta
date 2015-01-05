@@ -19,11 +19,12 @@ import javax.swing.UIManager;
  */
 public class Reportes extends JFrame {
 
-    private JMenuItem ventas, ventasVendedor, productosMas, acercaDe, salir,
+    private JMenuItem ventas, ventasVendedor, productosMas, acercaDe, cerrarSesion,
             nuevaVenta, productos,agregarCliente,agregarProducto,agregarVendedor, 
             modificarVendedor, modificarCliente, modificarProducto
             , eliminarVendedor, eliminarCliente, eliminarProducto
-            , eliminarCabeceraFactura, eliminarDetalleFactura;
+            , eliminarCabeceraFactura, eliminarDetalleFactura, clientes, almacen, vendedores,
+            devoluciones;
     private PanelVentas pVentas = null;
     private PanelVendedores pVendedores = null;
     private PanelProductos pProductos = null;
@@ -32,8 +33,6 @@ public class Reportes extends JFrame {
     
     Reportes(String isAdmin) {
         this.isAdmin = isAdmin;
-        salir = new JMenuItem("Cerrar sesión");
-        acercaDe = new JMenuItem("Acerca de");
         this.setTitle("Bienvenido");
         this.setSize(500, 500);
         this.setLocationRelativeTo(null);
@@ -54,35 +53,68 @@ public class Reportes extends JFrame {
     private void addComponents() {
         JMenuBar menuP;
         add(i);
-        JMenu archivo = new JMenu("Reportes");
-        JMenu ayuda = new JMenu("Ayuda");
+        
+        cerrarSesion = new JMenuItem("Cerrar sesión");
+        acercaDe = new JMenuItem("Acerca de");
+        
+        JMenu catalogos = new JMenu("Catálogos");
+        JMenu procesos = new JMenu("Procesos");
+        JMenu reportes = new JMenu("Reportes");
         JMenu administrar = new JMenu("Administrar");
+        JMenu ayuda = new JMenu("Ayuda");
+        JMenu salir = new JMenu("Salir");
+        
+//        reportes.add(salir);
+        ayuda.add(acercaDe);
+        salir.add(cerrarSesion);
         
         if (isAdmin.equals("T")) {
+            // Catálogos...
+            clientes = new JMenuItem("Clientes");
+            almacen = new JMenuItem("Almacén");
+            vendedores = new JMenuItem("Vendedores");
+            productos = new JMenuItem("Productos");
             
-            JMenu caja = new JMenu("Caja");
+            catalogos.add(clientes);
+//            catalogos.add(new JSeparator());
+//            catalogos.add(almacen);
+            catalogos.add(new JSeparator());
+            catalogos.add(vendedores);
+            catalogos.add(new JSeparator());
+            catalogos.add(productos);
             
-            nuevaVenta = new JMenuItem("Nueva Venta");
-            productos = new JMenuItem("Catalogo de Productos");
+            // Procesos...
+            nuevaVenta = new JMenuItem("Nueva venta");
+            devoluciones = new JMenuItem("Devoluciones");
 
-            ventas = new JMenuItem("Ventas");
-            ventasVendedor = new JMenuItem("Ventas por Vendedor");
-            productosMas = new JMenuItem("Productos mas vendidos");
-            agregarCliente=new JMenuItem("Agregar un Cliente");
-            agregarVendedor=new JMenuItem("Agregar un Vendedor");
-            agregarProducto=new JMenuItem("Agrega un Producto");
-            modificarCliente=new JMenuItem("Modificar un Cliente");
-            modificarVendedor=new JMenuItem("Modificar un Vendedor");
-            modificarProducto=new JMenuItem("Modificar un Producto");
-            eliminarCliente=new JMenuItem("Eliminar un Cliente");
-            eliminarVendedor=new JMenuItem("Eliminar un Vendedor");
-            eliminarProducto=new JMenuItem("Eliminar un Producto");
-            eliminarCabeceraFactura=new JMenuItem("Eliminar Cabecera Factura");
-            eliminarDetalleFactura=new JMenuItem("Eliminar Detalle Factura");
+            procesos.add(nuevaVenta);
+//            procesos.add(new JSeparator());
+//            procesos.add(devoluciones);
             
-            caja.add(nuevaVenta);
-            caja.add(new JSeparator());
-            caja.add(productos);
+            // Reportes..
+            ventas = new JMenuItem("Ventas");
+            ventasVendedor = new JMenuItem("Ventas por vendedor");
+            productosMas = new JMenuItem("Productos más vendidos");
+            
+            reportes.add(ventas);
+            reportes.add(new JSeparator());
+            reportes.add(ventasVendedor);
+            reportes.add(new JSeparator());
+            reportes.add(productosMas);
+            reportes.add(new JSeparator());
+            
+            // Administrar...
+            agregarCliente = new JMenuItem("Agregar un cliente");
+            agregarVendedor = new JMenuItem("Agregar un vendedor");
+            agregarProducto = new JMenuItem("Agregar un producto");
+            modificarCliente = new JMenuItem("Modificar un cliente");
+            modificarVendedor = new JMenuItem("Modificar un vendedor");
+            modificarProducto = new JMenuItem("Modificar un producto");
+            eliminarCliente = new JMenuItem("Eliminar un cliente");
+            eliminarVendedor = new JMenuItem("Eliminar un vendedor");
+            eliminarProducto = new JMenuItem("Eliminar un producto");
+            eliminarCabeceraFactura = new JMenuItem("Eliminar cabecera factura");
+            eliminarDetalleFactura = new JMenuItem("Eliminar detalle factura");
             
             administrar.add(agregarCliente);
             administrar.add(agregarProducto);
@@ -95,57 +127,55 @@ public class Reportes extends JFrame {
             administrar.add(eliminarCliente);
             administrar.add(eliminarProducto);
             administrar.add(eliminarVendedor);
-            
             administrar.add(new JSeparator());
             administrar.add(eliminarCabeceraFactura);
             administrar.add(eliminarDetalleFactura);
             
-            archivo.add(ventas);
-            archivo.add(ventasVendedor);
-            archivo.add(new JSeparator());
-            archivo.add(productosMas);
-            archivo.add(new JSeparator());
             
             menuP = new JMenuBar();
-            
-            menuP.add(archivo);
-            menuP.add(caja);
+            menuP.add(catalogos);
+            menuP.add(procesos);
+            menuP.add(reportes);
             menuP.add(administrar);
             menuP.add(ayuda);
+            menuP.add(salir);
             
         } else {
-            archivo = new JMenu("Caja");
-            
-            nuevaVenta = new JMenuItem("Nueva Venta");
-            productos = new JMenuItem("Catalogo de Productos");
+            nuevaVenta = new JMenuItem("Nueva venta");
+            productos = new JMenuItem("Productos");
 
-            archivo.add(nuevaVenta);
-            archivo.add(new JSeparator());
-            archivo.add(productos);
-            archivo.add(new JSeparator());
+            procesos.add(nuevaVenta);
+            procesos.add(new JSeparator());
+            
+            catalogos.add(productos);
+            catalogos.add(new JSeparator());
+            
             menuP = new JMenuBar();
             
-            menuP.add(archivo);
-            
+            menuP.add(catalogos);
+            menuP.add(procesos);
             menuP.add(ayuda);
+            menuP.add(salir);
             
         }
 
-        archivo.add(salir);
-        ayuda.add(acercaDe);
         
         this.setJMenuBar(menuP);
-
     }
 
     public void addEventos(OyenteReportes o) {
-        salir.addActionListener(o);
+        cerrarSesion.addActionListener(o);
         acercaDe.addActionListener(o);
         
         if (isAdmin.equals("T")) {
            nuevaVenta.addActionListener(o);
            productos.addActionListener(o);
-            
+           
+           clientes.addActionListener(o);
+           almacen.addActionListener(o);
+           vendedores.addActionListener(o);
+           devoluciones.addActionListener(o);
+           
            ventas.addActionListener(o);
            ventasVendedor.addActionListener(o);
            productosMas.addActionListener(o);
@@ -170,11 +200,6 @@ public class Reportes extends JFrame {
         }
 
     }
-
-    
-    
-    
-    
     
     public PanelVentas getpVentas() {
         return pVentas;

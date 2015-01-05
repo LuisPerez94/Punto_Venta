@@ -23,19 +23,19 @@ import javax.swing.border.TitledBorder;
  *
  * @author luis
  */
-public class PanelCatalogo extends JPanel {
+public class PanelCatalogoProductos extends JPanel {
     private JLabel titulo;
     private JComboBox busqueda;
     private JTextField tbusqueda;
     private JTable productos;
     private JScrollPane scrollProductos;
 
-    public PanelCatalogo(JTable productos) {
+    public PanelCatalogoProductos(JTable productos) {
         this.productos = productos;
         addComponentes();
     }
 
-    public PanelCatalogo() {
+    public PanelCatalogoProductos() {
         addComponentes();
     }
     
@@ -82,7 +82,6 @@ public class PanelCatalogo extends JPanel {
         this.add(panelNorte, "North");
         this.add(panelCentro,"Center");
         this.add(titulo, "South");
-
     }
     
     public void addEventos(OyenteReportes o){
