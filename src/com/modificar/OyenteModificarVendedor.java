@@ -35,27 +35,27 @@ public class OyenteModificarVendedor implements ActionListener{
         switch(e.getActionCommand()){
             case "Cancelar":
                 System.out.println("cancelar");
-                if(JOptionPane.showConfirmDialog(null, "Seguro que quieres cancelar", "Aviso", JOptionPane.YES_NO_OPTION)==JOptionPane.OK_OPTION)
+                if(JOptionPane.showConfirmDialog(null, "¿Seguro que quieres cancelar?", "Aviso", JOptionPane.YES_NO_OPTION)==JOptionPane.OK_OPTION)
                     mv.dispose();
                 break;
             case "Modificar":
                 System.out.println("Update");
                 if(ejecutarConsulta(true)){
-                    JOptionPane.showConfirmDialog(null, "Se modifico con exito", "Exito", JOptionPane.DEFAULT_OPTION);
+                    JOptionPane.showConfirmDialog(null, "Se modificó correctamente", "Correcto", JOptionPane.INFORMATION_MESSAGE);
                 }
                 else
-                    JOptionPane.showMessageDialog(null, "Error en la modificacion", "Exito", JOptionPane.DEFAULT_OPTION);
+                    JOptionPane.showMessageDialog(null, "Error en la modificación", "Error", JOptionPane.ERROR_MESSAGE);
                 mv.dispose();
                 break;
             
             case "Eliminar":
                 System.out.println("Drop");
-                if(JOptionPane.showConfirmDialog(null, "Seguro que quieres eliminar", "Aviso", JOptionPane.YES_NO_OPTION)==JOptionPane.OK_OPTION){
+                if(JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar?", "Aviso", JOptionPane.YES_NO_OPTION)==JOptionPane.OK_OPTION){
                     if(ejecutarConsulta(false)){
-                    JOptionPane.showMessageDialog(null, "Se elimino con exito", "Exito", JOptionPane.DEFAULT_OPTION);
+                    JOptionPane.showMessageDialog(null, "Se elimino correctamente", "Correcto", JOptionPane.INFORMATION_MESSAGE);
                     }
                     else
-                        JOptionPane.showMessageDialog(null, "Error en la modificacion", "Alerta", JOptionPane.DEFAULT_OPTION);
+                        JOptionPane.showMessageDialog(null, "Error en la modificación", "Error", JOptionPane.ERROR_MESSAGE);
                     mv.dispose();
                 }
                 
@@ -100,8 +100,8 @@ public class OyenteModificarVendedor implements ActionListener{
             if(c.getStament().execute(consulta))
                 return true;
         }catch(SQLException ex){
-            JOptionPane.showMessageDialog(null, "Asegurate de eliminar registros\nde detalle de factura y de de cabecera de factura antes"
-                    + " de hacer esta operacion", "Alerta", JOptionPane.DEFAULT_OPTION);
+//            JOptionPane.showMessageDialog(null, "Asegurate de eliminar registros\nde detalle de factura y de de cabecera de factura antes"
+//                    + " de hacer esta operacion", "Alerta", JOptionPane.DEFAULT_OPTION);
             System.out.println(ex);
             return false;
         }   

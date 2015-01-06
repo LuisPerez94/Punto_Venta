@@ -19,14 +19,17 @@ public class Producto {
     private String ruta;
     private ImageIcon img;
     private String descripcion;
+    private int existencia;
 
-    public Producto(int idProducto, String nombreProducto, float precio, String ruta, String descripcion) {
+    public Producto(int idProducto, String nombreProducto, float precio, String ruta, String descripcion
+                    , int existencia) {
         this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
         this.precio = precio;
         this.ruta = ruta;
          img=new ImageIcon(ruta);
         this.descripcion = descripcion;
+        this.existencia = existencia;
     }
    public Producto(Object []array){
        this.idProducto=(int) array[0];
@@ -35,6 +38,7 @@ public class Producto {
        this.ruta=(String)array[3];
        img=new ImageIcon(ruta);
        this.descripcion=(String)array[4];
+       this.existencia = (int) array[5];
    }
 
     public String getNombreProducto() {
@@ -86,9 +90,13 @@ public class Producto {
         this.img = img;
     }
 
- 
+    public int getExistencia() {
+        return existencia;
+    }
 
-    
+    public void setExistencia(int existencia) {
+        this.existencia = existencia;
+    }
    
 
     @Override

@@ -17,7 +17,7 @@ import javax.swing.table.AbstractTableModel;
 public class TablaModeloProducto extends AbstractTableModel {
 
     private String[] nombreColumnas = {"Código", "Nombre", "Precio", "Imagen",
-        "Descripción"};
+        "Descripción", "Existencia"};
     ArrayList<Producto> productos = new ArrayList<>();
 
     public void agregarProducto(Producto producto) {
@@ -48,7 +48,7 @@ public class TablaModeloProducto extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 5;
+        return nombreColumnas.length;
     }
 
     @Override
@@ -64,6 +64,8 @@ public class TablaModeloProducto extends AbstractTableModel {
                 return productos.get(rowIndex).getImg();
             case 4:
                 return productos.get(rowIndex).getDescripcion();
+            case 5:
+                return productos.get(rowIndex).getExistencia();
             case 10:
                 return productos.get(rowIndex).getRuta();
             default:

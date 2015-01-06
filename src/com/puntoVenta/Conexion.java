@@ -62,7 +62,8 @@ public class Conexion {
                     int i = stament.executeUpdate("INSERT INTO Producto (nombreProducto,precio,rutaImagen,descripcionProducto,existencias) VALUES"
                             + " ('" + datos.get(0) + "','" + datos.get(1) + "','" + datos.get(2) + "','" + datos.get(3) + "','" + datos.get(4) + "')");
 
-                    JOptionPane.showMessageDialog(null, "EXITO EN LA CONSULTA");
+                    JOptionPane.showMessageDialog(null, "Producto agregado correctamente", "Correcto",
+                            JOptionPane.INFORMATION_MESSAGE);
 
                 } catch (SQLException | HeadlessException e) {
                     JOptionPane.showMessageDialog(null, e);
@@ -77,7 +78,8 @@ public class Conexion {
                     Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
-                JOptionPane.showMessageDialog(null, "EXITO EN LA CONSULTA");
+                JOptionPane.showMessageDialog(null, "Cliente agregado correctamente", "Correcto",
+                        JOptionPane.INFORMATION_MESSAGE);
 
                 break;
             case "V":
@@ -86,7 +88,8 @@ public class Conexion {
                 int i=stament.executeUpdate("INSERT INTO punto_venta.Vendedor (nombreVendedor, apPaterno,apMaterno,fechaNac,correoVendedor,direccionVendedor, sexo,sueldo,fechaIngresoVendedor, usuario,contrasena, isAdmin) VALUES "
                         + "('"+datos.get(0)+"','"+datos.get(1)+"','"+datos.get(2)+"','"+datos.get(3)+"','"+datos.get(4)+"','"+datos.get(5)+"','"+datos.get(6)+"','"+datos.get(7)+"','"+datos.get(8)+"','"+datos.get(9)+"','"+datos.get(10)+"','"+datos.get(11)+"')");
                 
-                JOptionPane.showMessageDialog(null, "EXITO EN LA CONSULTA");
+                JOptionPane.showMessageDialog(null, "Vendedor agregado correctamente", "Correcto",
+                        JOptionPane.INFORMATION_MESSAGE);
             } catch (SQLException ex) {
                 Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
             }

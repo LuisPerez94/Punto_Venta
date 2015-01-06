@@ -62,7 +62,7 @@ public class OyenteAgregarCliente extends KeyAdapter implements ActionListener{
                 limpiardatos();
                 datos.clear();
                 }else{
-                    JOptionPane.showMessageDialog(c, "El Correo no es valido");
+                    JOptionPane.showMessageDialog(c, "El correo no es válido", "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 break;
         }

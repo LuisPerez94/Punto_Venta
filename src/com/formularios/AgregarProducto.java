@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -68,7 +69,10 @@ public class AgregarProducto extends JFrame{
         panelCentro.add(new JLabel("Ingresa el precio unitario del producto: *  $"));
         panelCentro.add(tprecio);
         panelCentro.add(new JLabel("Ingresa un descripcion del producto: "));
-        panelCentro.add(descripcion);
+        JScrollPane scrollDescripcion = new JScrollPane(descripcion);
+        scrollDescripcion.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollDescripcion.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        panelCentro.add(scrollDescripcion);
         panelCentro.add(new JLabel("Ingresa la existencia   *"));
         panelCentro.add(texistencia);
         panelCentro.add(new JLabel("Elegir la imagen del producto :"));

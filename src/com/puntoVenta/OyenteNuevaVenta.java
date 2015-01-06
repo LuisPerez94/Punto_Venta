@@ -328,7 +328,7 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
                     "where idProducto="+id));
             while(c.getResult().next()){
                 existencia = Integer.parseInt(c.getResult().getString(1));
-                System.out.println("Existencias: "+existencia);
+//                System.out.println("Existencias: "+existencia);
             }
             
             

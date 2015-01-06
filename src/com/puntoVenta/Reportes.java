@@ -24,7 +24,7 @@ public class Reportes extends JFrame {
             modificarVendedor, modificarCliente, modificarProducto
             , eliminarVendedor, eliminarCliente, eliminarProducto
             , eliminarCabeceraFactura, eliminarDetalleFactura, clientes, almacen, vendedores,
-            devoluciones;
+            devoluciones, manualTecnico, manualUsuario;
     private PanelVentas pVentas = null;
     private PanelVendedores pVendedores = null;
     private PanelProductos pProductos = null;
@@ -65,6 +65,12 @@ public class Reportes extends JFrame {
         JMenu salir = new JMenu("Salir");
         
 //        reportes.add(salir);
+        manualTecnico = new JMenuItem("Manual técnico");
+        manualUsuario = new JMenuItem("Manual de usuario");
+        ayuda.add(manualTecnico);
+        ayuda.add(new JSeparator());
+        ayuda.add(manualUsuario);
+        ayuda.add(new JSeparator());
         ayuda.add(acercaDe);
         salir.add(cerrarSesion);
         
@@ -166,6 +172,8 @@ public class Reportes extends JFrame {
     public void addEventos(OyenteReportes o) {
         cerrarSesion.addActionListener(o);
         acercaDe.addActionListener(o);
+        manualTecnico.addActionListener(o);
+        manualUsuario.addActionListener(o);
         
         if (isAdmin.equals("T")) {
            nuevaVenta.addActionListener(o);

@@ -8,6 +8,7 @@ package com.oyentes;
 import com.tablas.VentanaDeTabla;
 import com.puntoVenta.Conexion;
 import com.puntoVenta.PanelVentas;
+import com.puntoVenta.VentanaEmergente;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -22,18 +23,21 @@ import javax.swing.table.DefaultTableModel;
  * @author luis
  */
 public class OyenteReporteVentas implements ActionListener {
-
     private PanelVentas p;
     private Conexion usuario;
+    private VentanaEmergente ventana;
+    
     JTable tabla;
+    
     private Double totalArticulos;
     private Double totalEfectivo;
 
-    public OyenteReporteVentas(PanelVentas p, Conexion usuario) {
+    public OyenteReporteVentas(PanelVentas p, Conexion usuario, VentanaEmergente ventana) {
         this.totalEfectivo = 0.0;
         this.totalArticulos = 0.0;
         this.p = p;
         this.usuario = usuario;
+        this.ventana = ventana;
     }
 
     @Override
@@ -57,9 +61,11 @@ public class OyenteReporteVentas implements ActionListener {
                 VentanaDeTabla vt = new VentanaDeTabla(tabla,totalArticulos,totalEfectivo,fecha1,fecha2);
                 totalArticulos=0.0;
                 totalEfectivo=0.0;
+                
+                ventana.dispose();
 
             } else {
-                JOptionPane.showMessageDialog(p, "Las Fechas no son validas");
+                JOptionPane.showMessageDialog(p, "Las fechas no son válidas");
             }
 
         }

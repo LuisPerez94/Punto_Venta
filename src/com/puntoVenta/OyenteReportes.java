@@ -15,12 +15,15 @@ import com.oyentes.OyenteReporteVentas;
 import com.tablas.TablaModeloProducto;
 import com.tablas.TablaRenderizadorProducto;
 import com.modificar.*;
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -76,7 +79,6 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
         switch (e.getActionCommand()) {
             case "Ventas":
                 p = new PanelVentas();
-                p.addEventos(new OyenteReporteVentas(p,usuario));
 
                 ventana = new VentanaEmergente("Ventas");
                 ventana.add(p);
@@ -87,6 +89,8 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
                 ventana.setVisible(true);
                 SwingUtilities.updateComponentTreeUI(ventanaReporte);
                 ventanaReporte.validate();
+                
+                p.addEventos(new OyenteReporteVentas(p,usuario, ventana));
 
                 break;
                 
@@ -126,6 +130,42 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
                     ventanaReporte.dispose();
                     main.mostrarLogin();
                 }
+                break;
+                
+            case "Manual técnico":
+                if (Desktop.isDesktopSupported()) {
+                    try {
+                        File myFile = new File("src/help/manualTecnico.pdf");
+                        Desktop.getDesktop().open(myFile);
+                    } catch (IOException ex) {
+                        // no application registered for PDFs
+                        JOptionPane.showMessageDialog(ventana, "Ocurrió un error al abrir el manual",
+                                "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                
+                }else{
+                        JOptionPane.showMessageDialog(ventana, "Ocurrió un error al abrir el manual",
+                                "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                
+                break;
+                
+            case "Manual de usuario":
+                if (Desktop.isDesktopSupported()) {
+                    try {
+                        File myFile = new File("src/help/manualUsuario.pdf");
+                        Desktop.getDesktop().open(myFile);
+                    } catch (IOException ex) {
+                        // no application registered for PDFs
+                        JOptionPane.showMessageDialog(ventana, "Ocurrió un error al abrir el manual",
+                                "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                
+                }else{
+                        JOptionPane.showMessageDialog(ventana, "Ocurrió un error al abrir el manual",
+                                "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                
                 break;
                 
             case "Acerca de":
@@ -371,7 +411,11 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
             
             while(usuario.getResult().next()){
                 for(int i = 0; i < modeloTabla.getColumnCount(); i++){
-                    auxFila[i] = usuario.getResult().getObject((i+1))+"";
+                    if(i == 8 || i == 11){
+                        auxFila[i] = "****";
+                    }else{
+                        auxFila[i] = usuario.getResult().getObject((i+1))+"";
+                    }
                 }
                 modeloTabla.addRow(auxFila);
             }
@@ -391,6 +435,7 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
     
     private JTable generarCatalogoProductos() {
         String query = "SELECT * FROM Producto";
+        
         modelo = new TablaModeloProducto(){
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -416,6 +461,7 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
                 // Se rellena cada posición del array con una de las columnas de la tabla en base de datos.
                 for (int i = 0; i < modelo.getColumnCount(); i++) {
                     fila[i] = usuario.getResult().getObject(i + 1); // El primer indice en rs es el 1, no el cero, por eso se suma 1.
+//                    System.out.println("CATALOGO PRODUCTOS: " + usuario.getResult().getObject((1+i)).toString());
                 }
                 Producto p = new Producto(fila);
                 modelo.agregarProducto(p);

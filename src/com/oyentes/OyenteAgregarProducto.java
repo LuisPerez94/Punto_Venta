@@ -68,17 +68,23 @@ public class OyenteAgregarProducto extends KeyAdapter implements ActionListener 
             datos.add("src/img/productos/" + nombreArchivo);
             datos.add(a.getDescripcion().getText());
             datos.add(a.getTexistencia().getText());
+            
+            for(int i = 0; i < datos.size(); i++){
+                System.out.println("Datos Prod: " +datos.get(i));
+            }
             try {
                 Files.copy(rutaFROM, rutaTo, options);
             } catch (IOException ex) {
-                System.out.println("Error al guardar la imagen :"+ex);
+                JOptionPane.showMessageDialog(a, "Error al guardar la imagen", "Error",
+                        JOptionPane.ERROR_MESSAGE);
             }
 
             usuario.insertarDatos("P", datos);
             limpiardatos();
             datos.clear();
             }else{
-                JOptionPane.showMessageDialog(a,"Debe llenar los campos obliegatorios -> *");
+                JOptionPane.showMessageDialog(a,"Debe llenar los campos obligatorios -> *", "Aviso",
+                        JOptionPane.WARNING_MESSAGE);
             }
         } else if (accion.equals("Elegir Imagen...")) {
             try {
@@ -116,8 +122,12 @@ public class OyenteAgregarProducto extends KeyAdapter implements ActionListener 
         a.getTnombre().setText("");
         a.getTprecio().setText("");
         a.getDescripcion().setText("");
-        a.getImagen().setIcon(null);
+        ImageIcon aux = new ImageIcon("src/img/sistema/preview.png");
+        ImageIcon img = new ImageIcon(aux.getImage().getScaledInstance(280, 280, Image.SCALE_SMOOTH));
+        a.getImagen().setIcon(img);
         a.getImagen().setText("");
+        a.getNombreImagen().setText("Sin imagen seleccionada");
+        a.getTexistencia().setText("");
     }
 
     @Override
