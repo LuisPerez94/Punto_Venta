@@ -13,53 +13,8 @@
             <file>file:/C:/Users/Luis/Documents/GitHub/Punto_Venta/src/com/puntoVenta/OyenteLogin.java</file>
         </group>
         <group>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/modificar/OyenteCabecera.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/puntoVenta/OyenteBuscarVendedor.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/oyentes/OyenteAgregarCliente.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/oyentes/OyenteAgregarProducto.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/puntoVenta/PanelProductos.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/modificar/EliminarCabecera.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/modificar/EliminarVendedor.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/puntoVenta/Conexion.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/modificar/ModificarProducto.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/puntoVenta/BuscarVendedor.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/puntoVenta/PanelProductosMasVendidos.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/puntoVenta/OyenteProductosMasVendidos.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/puntoVenta/PanelLogin.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/formularios/AgregarCliente.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/puntoVenta/OyenteNuevaVenta.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/tablas/TablaRenderizadorProducto.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/puntoVenta/TablaConsulta.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/puntoVenta/OyenteLogin.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/puntoVenta/PanelCatalogoProductos.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/tablas/TablaModeloProducto.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/oyentes/OyenteAgregarVendedor.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/puntoVenta/main.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/puntoVenta/Login.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/puntoVenta/AreaConsulta.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/puntoVenta/Reportes.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/puntoVenta/OyenteReportes.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/puntoVenta/ExcelExporter.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/modificar/OyenteEliminarFactura.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/puntoVenta/BuscarProductosMasVendidos.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/puntoVenta/PanelCatalogoVendedores.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/formularios/AgregarVendedor.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/formularios/AgregarProducto.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/puntoVenta/PanelNuevaVenta.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/modificar/OyenteModificarCliente.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/oyentes/OyenteReporteVentas.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/modificar/EliminarCliente.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/tablas/VentanaDeTabla.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/modificar/EliminarDetalle.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/modificar/EliminarProducto.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/modificar/OyenteModificarProducto.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/modificar/ModificarCliente.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/modificar/ModificarVendedor.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/modificar/OyenteModificarVendedor.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/puntoVenta/PanelVendedores.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/puntoVenta/PanelVentas.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/puntoVenta/VentanaEmergente.java</file>
-            <file>file:/Users/Fernando2/Github/Punto_Venta/src/com/puntoVenta/PanelCatalogoClientes.java</file>
+            <file>file:/C:/Users/JR/Documents/NetBeansProjects/Punto_Venta/src/com/puntoVenta/OyenteNuevaVenta.java</file>
+            <file>file:/C:/Users/JR/Documents/NetBeansProjects/Punto_Venta/src/com/puntoVenta/PanelNuevaVenta.java</file>
         </group>
     </open-files>
 </project-private>

@@ -105,7 +105,7 @@ public class OyenteModificarProducto implements ActionListener{
     }
     
     public boolean ejecutarConsulta(boolean hacer){
-        String consulta;
+        String consulta, preconsulta="", preconsulta2="";
         c.iniciarConexion();
         if(hacer){
             consulta = "update punto_venta.Producto set nombreProducto='"+
@@ -117,11 +117,21 @@ public class OyenteModificarProducto implements ActionListener{
                     +mp.getIds().get(mp.getProductos().getSelectedIndex()).toString()+";";
         }
         else{
+            preconsulta = "DELETE Detalle_fact FROM Detalle_fact, Producto\n" +
+            "WHERE Detalle_fact.Producto_idProducto =Producto.idProducto\n" +
+            "and Producto.idProducto="+mp.getIds().get(mp.getProductos().getSelectedIndex()).toString()+";";
+            preconsulta2= "delete Guarda from Guarda, Producto\n" +
+            "where Guarda.Producto_idProducto = Producto.idProducto and\n" +
+            "Producto.idProducto="+mp.getIds().get(mp.getProductos().getSelectedIndex()).toString()+";";
             consulta = "delete from punto_venta.Producto where idProducto="
                     +mp.getIds().get(mp.getProductos().getSelectedIndex()).toString()+";";
             
         }
         try {
+            if(!preconsulta.equals("")&&!preconsulta2.equals("")){
+                c.getStament().execute(preconsulta);
+                c.getStament().execute(preconsulta2);
+            }
             System.out.println(consulta);
             if(c.getStament().execute(consulta))
                 return true;

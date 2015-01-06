@@ -67,7 +67,7 @@ public class OyenteModificarVendedor implements ActionListener{
     }
     
     public boolean ejecutarConsulta(boolean hacer){
-        String consulta;
+        String consulta, preconsulta="", preconsulta2="";
         c.iniciarConexion();
         if(hacer){
             consulta = "update punto_venta.Vendedor set nombreVendedor='"+
@@ -80,11 +80,22 @@ public class OyenteModificarVendedor implements ActionListener{
                     +mv.getIds().get(mv.getVendedores().getSelectedIndex()).toString()+";";
         }
         else{
+            preconsulta = "DELETE Detalle_fact FROM Detalle_fact, Cab_fact, Vendedor\n" +
+            "WHERE Detalle_fact.Cab_fact_idCab_fact = Cab_fact.idCab_fact\n" +
+            "and Vendedor.idVendedor = Cab_fact.Vendedor_idVendedor and\n" +
+            "Vendedor.idVendedor="+mv.getIds().get(mv.getVendedores().getSelectedIndex()).toString()+";";
+            preconsulta2 = "DELETE Cab_fact FROM Cab_fact, Vendedor\n" +
+            "WHERE Cab_fact.Vendedor_idVendedor = Vendedor.idVendedor and\n" +
+            "Vendedor.idVendedor ="+mv.getIds().get(mv.getVendedores().getSelectedIndex()).toString()+";";
             consulta = "delete from punto_venta.Vendedor where idVendedor="
                     +mv.getIds().get(mv.getVendedores().getSelectedIndex()).toString()+";";
             
         }
         try {
+            if(!preconsulta.equals("")&&!preconsulta2.equals("")){
+                c.getStament().execute(preconsulta);
+                c.getStament().execute(preconsulta2);
+            }
             System.out.println(consulta);
             if(c.getStament().execute(consulta))
                 return true;
