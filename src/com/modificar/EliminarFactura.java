@@ -8,7 +8,7 @@ package com.modificar;
 import com.puntoVenta.*;
 import java.awt.Toolkit;
 import java.util.ArrayList;
-import javafx.scene.control.ComboBox;
+
 import javax.swing.*;
 
 /**

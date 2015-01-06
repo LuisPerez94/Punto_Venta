@@ -6,7 +6,7 @@
 package com.modificar;
 
 import com.puntoVenta.Conexion;
-import static com.sun.glass.ui.Cursor.setVisible;
+
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.Toolkit;

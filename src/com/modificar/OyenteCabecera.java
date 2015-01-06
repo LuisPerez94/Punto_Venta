@@ -48,18 +48,23 @@ public class OyenteCabecera extends OyenteEliminarFactura{
     
     @Override
     protected boolean ejecutarConsulta() {
-        String consulta, preconsulta;
+        String consulta, preconsulta="";
         c.iniciarConexion();
             preconsulta = "DELETE Detalle_fact FROM Detalle_fact, Cab_fact\n" +
             "WHERE Detalle_fact.Cab_fact_idCab_fact = Cab_fact.idCab_fact\n" +
             "and Cab_fact.idCab_fact="+super.aThis.ids.get(super.aThis.factura.getSelectedIndex()).toString()+";";
             consulta = "delete from punto_venta.Cab_fact where idCab_fact="
                     +super.aThis.ids.get(super.aThis.factura.getSelectedIndex()).toString()+";";
+            System.out.println(preconsulta);
+            System.out.println(consulta);
             
         
         try {
             System.out.println(consulta);
-            if(c.getStament().execute(preconsulta)&&c.getStament().execute(consulta))
+            if(!preconsulta.equals("")){
+                c.getStament().execute(preconsulta);
+            }
+            if(c.getStament().execute(consulta))
                 return true;
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Ocurrio un error "+ex.toString(), "Alerta", JOptionPane.DEFAULT_OPTION);
