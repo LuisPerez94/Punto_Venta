@@ -41,6 +41,9 @@ public class Producto {
        this.existencia = (int) array[5];
    }
 
+    public Producto() {
+    }
+
     public String getNombreProducto() {
         return nombreProducto;
     }

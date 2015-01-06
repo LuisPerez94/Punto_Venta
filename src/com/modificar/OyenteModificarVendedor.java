@@ -5,21 +5,23 @@
  */
 package com.modificar;
 
-import com.formularios.AgregarVendedor;
-import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import com.puntoVenta.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
  * @author JR
  */
-public class OyenteModificarVendedor implements ActionListener{
+public class OyenteModificarVendedor implements ActionListener,ItemListener , KeyListener{
     Conexion c ;
     ModificarVendedor mv;
 
@@ -39,13 +41,24 @@ public class OyenteModificarVendedor implements ActionListener{
                     mv.dispose();
                 break;
             case "Modificar":
+                EmailValidator ev= new EmailValidator();
                 System.out.println("Update");
+                if(ev.validate(mv.getCorreo().getText())){
+                     if(isDate(mv.getFechaIngreso().getText()) && isDate(mv.getFechanacimiento().getText())){
                 if(ejecutarConsulta(true)){
                     JOptionPane.showConfirmDialog(null, "Se modificó correctamente", "Correcto", JOptionPane.INFORMATION_MESSAGE);
                 }
                 else
                     JOptionPane.showMessageDialog(null, "Error en la modificación", "Error", JOptionPane.ERROR_MESSAGE);
                 mv.dispose();
+                }else{
+                           JOptionPane.showMessageDialog(mv, "Las Fechas no son validas");
+                         
+                     }
+                     
+                 }else{
+                         JOptionPane.showMessageDialog(mv, "El Correo no es valido");
+                 }
                 break;
             
             case "Eliminar":
@@ -110,6 +123,123 @@ public class OyenteModificarVendedor implements ActionListener{
 //            System.out.println(ex);
 //            return false;
 //        }
+        return true;
+    }
+
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        System.out.println(e.getKeyChar());
+        JTextField campo = (JTextField) e.getSource();
+        String accion = campo.getName();
+        char car = e.getKeyChar();
+        switch (accion) {
+            case "sueldo":
+
+                if (mv.getSueldo().getText().length() >= 7) {
+                    e.consume();
+                }
+                if ((car < '0' || car > '9')) {
+                    e.consume();
+                }
+                break;
+            case "sexo":
+                if (mv.getSexo().getText().length() == 1) {
+                    e.consume();
+                }
+                if (car == 'M' || (car == 'F') || (car == 'f') || (car == 'm')) {
+                } else {
+                    e.consume();
+                }
+                break;
+            case "admin":
+                if(mv.getAdmin().getText().length()==1)e.consume();
+               if(car=='t'||(car=='T')||(car=='f')||(car=='F')) {
+        } else {
+                   e.consume();
+        }
+                break;
+        }
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        if(e.getSource().equals(mv.getVendedores())){
+            
+            mv.c.iniciarConexion();
+            String consulta = "select * from Vendedor where idVendedor="+(mv.getIds().get(mv.getVendedores().getSelectedIndex()).toString());
+            System.out.println(consulta);
+            try {
+            c.setResult(c.getStament().executeQuery(consulta));
+            while(c.getResult().next()){
+                mv.getVendedor().setNombreVendedor(c.getResult().getString(2));
+                mv.getVendedor().setApPaterno(c.getResult().getString(3));
+                mv.getVendedor().setApMaterno(c.getResult().getString(4));
+                mv.getVendedor().setFechaNac(c.getResult().getString(5));
+                mv.getVendedor().setCorreoVendedor(c.getResult().getString(6));
+                mv.getVendedor().setDireccion(c.getResult().getString(7));
+                mv.getVendedor().setSexo(c.getResult().getString(8).charAt(0));
+                mv.getVendedor().setSueldo(Float.parseFloat(c.getResult().getString(9)));
+                mv.getVendedor().setFechaIngresoVendedor(c.getResult().getString(10));
+                mv.getVendedor().setNombUsuario(c.getResult().getString(11));
+                mv.getVendedor().setContrasena(c.getResult().getString(12));
+               
+                
+                
+                if(c.getResult().getString(13).equals("T")){
+                    mv.getVendedor().setIsAdministrador(true);
+                }else{
+                    mv.getVendedor().setIsAdministrador(false);
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        
+        c.cerrarConexion();
+        
+        String sueldoString =  ""+mv.getVendedor().getSueldo();
+        String isAdminChar, sexoString=""+mv.getVendedor().getSexo();
+        mv.getNombre().setText(mv.getVendedor().getNombreVendedor());
+        mv.getApPaterno().setText(mv.getVendedor().getApPaterno());
+        mv.getApMaterno().setText(mv.getVendedor().getApMaterno());
+        mv.getFechanacimiento().setText(mv.getVendedor().getFechaNac());
+        mv.getDireccion().setText(mv.getVendedor().getDireccion());
+        mv.getCorreo().setText(mv.getVendedor().getCorreoVendedor());
+        mv.getSexo().setText(sexoString);
+        mv.getFechaIngreso().setText(mv.getVendedor().getFechaIngresoVendedor());
+        mv.getSueldo().setText(sueldoString);
+        mv.getUsuario().setText(mv.getVendedor().getNombUsuario());
+        mv.getContraseña().setText(mv.getVendedor().getContrasena());
+        
+        if(mv.getVendedor().isIsAdministrador()){
+            isAdminChar = "T";
+        }else{
+            isAdminChar = "F";
+        }
+                
+        mv.getAdmin().setText(isAdminChar);
+        }
+    }
+    
+    public boolean isDate(String fechax) {
+        try {
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy/MM/dd");
+            formatoFecha.setLenient(false);
+            java.util.Date fecha = formatoFecha.parse(fechax);
+        } catch (Exception e) {
+            return false;
+        }
         return true;
     }
     

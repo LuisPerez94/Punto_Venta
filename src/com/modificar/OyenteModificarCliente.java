@@ -5,18 +5,23 @@
  */
 package com.modificar;
 
-import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import com.puntoVenta.Conexion;
+import com.puntoVenta.EmailValidator;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
  * @author JR
  */
-public class OyenteModificarCliente implements ActionListener{
+public class OyenteModificarCliente implements ActionListener, KeyListener, ItemListener{
     Conexion c ;
     ModificarCliente mc;
 
@@ -37,12 +42,19 @@ public class OyenteModificarCliente implements ActionListener{
                 break;
             case "Modificar":
                 System.out.println("Update1");
-                if(ejecutarConsulta(true)){
+                EmailValidator ev=new EmailValidator();
+                if(ev.validate(mc.getCorreo().getText())){
+                    if(ejecutarConsulta(true)){
                     JOptionPane.showConfirmDialog(null, "Se modificó correctamente", "Correcto", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    else
+                        JOptionPane.showMessageDialog(null, "Error en la modificación", "Errro", JOptionPane.ERROR_MESSAGE);
+                    mc.dispose();
+                    
+                }else{
+                    JOptionPane.showMessageDialog(mc, "El correo no es válido", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-                else
-                    JOptionPane.showMessageDialog(null, "Error en la modificación", "Errro", JOptionPane.ERROR_MESSAGE);
-                mc.dispose();
+                
                 break;
             
             case "Eliminar":
@@ -106,6 +118,44 @@ public class OyenteModificarCliente implements ActionListener{
 //            return false;
 //        }
         return true;
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        JTextField campo= (JTextField) e.getSource();
+        String accion= campo.getName();
+           char car = e.getKeyChar();
+        switch(accion){
+            case "telefono":
+             
+                if(mc.getTelefono().getText().length()>=10) e.consume();
+                if((car<'0' || car>'9')) e.consume();
+                break;
+            case "sexo":
+               if(mc.getSexo().getText().length()==1)e.consume();
+               if(car=='M'||(car=='F')||(car=='f')||(car=='m')) {
+        } else {
+                   e.consume();
+        }
+                break;
+        }
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        if(e.getSource().equals(mc.getClientes())){
+            mc.agregarCampos(Integer.parseInt(mc.getIds().get(mc.getClientes().getSelectedIndex()).toString()));
+        }
     }
     
 }

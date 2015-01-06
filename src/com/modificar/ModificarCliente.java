@@ -5,6 +5,7 @@
  */
 package com.modificar;
 
+import com.puntoVenta.Cliente;
 import com.puntoVenta.Conexion;
 
 import java.awt.BorderLayout;
@@ -44,6 +45,7 @@ public class ModificarCliente extends JFrame{
     private ArrayList Atributos;
     private ArrayList ids = new ArrayList<>();
     private ArrayList v = new ArrayList <String []> ();
+    private Cliente cliente = new Cliente();
     
     public ModificarCliente(Conexion c) {
         this.setTitle("Modificar Cliente");
@@ -131,11 +133,16 @@ public class ModificarCliente extends JFrame{
         cont.add(panelCentro, "Center");
         
         this.add(cont, "Center");
+          agregarCampos(Integer.parseInt(ids.get(0).toString()));
     }
 
     private void addEventos(OyenteModificarCliente o) {
         cancelar.addActionListener(o);
         registrar.addActionListener(o);
+        clientes.addItemListener(o);
+        registrar.addActionListener(o);
+        telefono.addKeyListener(o);
+        sexo.addKeyListener(o);
     }
     
     static String [] ListToArray(ArrayList v){
@@ -258,6 +265,61 @@ public class ModificarCliente extends JFrame{
     public void setV(ArrayList v) {
         this.v = v;
     }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+    
+    
+    
+    void agregarCampos (int ClienteActual){
+        c.iniciarConexion();
+            String consulta = "select * from Cliente where idCliente="+ClienteActual;
+            System.out.println(consulta);
+            try {
+            c.setResult(c.getStament().executeQuery(consulta));
+            while(c.getResult().next()){
+                getCliente().setNombreCliente(c.getResult().getString(2));
+                getCliente().setApPaterno(c.getResult().getString(3));
+                getCliente().setApMaterno(c.getResult().getString(4));
+                getCliente().setDireccionCliente(c.getResult().getString(5));
+                getCliente().setCorreoCliente(c.getResult().getString(6));
+                getCliente().setTelefono(Integer.parseInt(c.getResult().getString(7)));
+                getCliente().setSexo(c.getResult().getString(8).charAt(0));
+                System.out.println(c.getResult().getString(2));
+                System.out.println(c.getResult().getString(3));
+                System.out.println(c.getResult().getString(4));
+                System.out.println(c.getResult().getString(5));
+                System.out.println(c.getResult().getString(6));
+                System.out.println(c.getResult().getString(7));
+                System.out.println(c.getResult().getString(c.getResult().getString(8).charAt(0)));
+                
+                               
+                               
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        
+        c.cerrarConexion();
+        
+       
+        String sexoString=""+getCliente().getSexo();
+        String telefonoString = ""+getCliente().getTelefono();
+        getNombre().setText(getCliente().getNombreCliente());
+        getApPaterno().setText(getCliente().getApPaterno());
+        getApMaterno().setText(getCliente().getApMaterno());
+        getDireccion().setText(getCliente().getDireccionCliente());
+        getCorreo().setText(getCliente().getCorreoCliente());
+        getTelefono().setText(telefonoString);
+        getSexo().setText(sexoString);
+       
+    }
+    
     
     
 }

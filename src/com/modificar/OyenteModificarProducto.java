@@ -5,11 +5,14 @@
  */
 package com.modificar;
 
-import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import com.puntoVenta.Conexion;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.nio.file.CopyOption;
 import java.nio.file.Files;
@@ -20,13 +23,14 @@ import java.sql.SQLException;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
  * @author JR
  */
-public class OyenteModificarProducto implements ActionListener{
+public class OyenteModificarProducto implements ActionListener, KeyListener, ItemListener{
     ModificarProducto mp;
     Conexion c;
     private JFileChooser jfc;
@@ -147,6 +151,43 @@ public class OyenteModificarProducto implements ActionListener{
 //            return false;
 //        }
         return true;
+    }
+
+    @Override
+    
+    public void keyTyped(KeyEvent e) {
+        JTextField campo = (JTextField) e.getSource();
+        String accion = campo.getName();
+        char car = e.getKeyChar();
+        switch (accion) {
+            case "precio":
+
+                if (mp.getPrecio().getText().length() >= 7) {
+                    e.consume();
+                }
+                if ((car < '0' || car > '9')) {
+                    e.consume();
+                }
+
+        }
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        if(e.getSource().equals(mp.getProductos())){
+            mp.agregarCampos(Integer.parseInt(mp.getIds().get(mp.getProductos().getSelectedIndex()).toString()));
+        }
     }
     
 }

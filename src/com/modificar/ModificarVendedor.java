@@ -11,6 +11,8 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -45,6 +47,7 @@ public class ModificarVendedor extends JFrame{
     private ArrayList Atributos;
     private ArrayList ids = new ArrayList<>();
     private ArrayList v = new ArrayList <String []> ();
+    private Vendedor vendedor;
     
     public ModificarVendedor(Conexion c) {
         this.setTitle("Modificar Vendedor");
@@ -79,8 +82,39 @@ public class ModificarVendedor extends JFrame{
         } catch (SQLException ex) {
             System.out.println(ex);
         }
-        c.cerrarConexion();
         vendedores = new JComboBox(ListToArray(v));
+        vendedor = new Vendedor();
+        consulta = "select * from Vendedor where idVendedor="+(ids.get(0).toString());
+        System.out.println(consulta);
+        try {
+            c.setResult(c.getStament().executeQuery(consulta));
+            while(c.getResult().next()){
+                vendedor.setNombreVendedor(c.getResult().getString(2));
+                vendedor.setApPaterno(c.getResult().getString(3));
+                vendedor.setApMaterno(c.getResult().getString(4));
+                vendedor.setFechaNac(c.getResult().getString(5));
+                vendedor.setCorreoVendedor(c.getResult().getString(6));
+                vendedor.setDireccion(c.getResult().getString(7));
+                vendedor.setSexo(c.getResult().getString(8).charAt(0));
+                vendedor.setSueldo(Float.parseFloat(c.getResult().getString(9)));
+                vendedor.setFechaIngresoVendedor(c.getResult().getString(10));
+                vendedor.setNombUsuario(c.getResult().getString(11));
+                vendedor.setContrasena(c.getResult().getString(12));
+               
+                
+                
+                if(c.getResult().getString(13).equals("T")){
+                    vendedor.setIsAdministrador(true);
+                }else{
+                    vendedor.setIsAdministrador(false);
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        
+        c.cerrarConexion();
+        
         
         JPanel panelSur = new JPanel();
         JPanel panelCentro = new JPanel();
@@ -88,26 +122,33 @@ public class ModificarVendedor extends JFrame{
         panelCentro.setLayout(gl2);
         panelCentro.setBorder(BorderFactory.createLineBorder(this.getBackground(), 15));
         
+        String sueldoString =  ""+vendedor.getSueldo();
+        String isAdminChar, sexoString=""+vendedor.getSexo();
+        
         cancelar = new JButton("Cancelar");
         registrar = new JButton("Modificar");
         
-        nombre = new JTextField();
-        apPaterno = new JTextField();
-        apMaterno = new JTextField();
-        fechanacimiento = new JTextField();
+        nombre = new JTextField(vendedor.getNombreVendedor());
+        apPaterno = new JTextField(vendedor.getApPaterno());
+        apMaterno = new JTextField(vendedor.getApMaterno());
+        fechanacimiento = new JTextField(vendedor.getFechaNac());
         fechanacimiento.setName("fechaNacimiento");
-        direccion = new JTextField();
-        correo = new JTextField();
+        direccion = new JTextField(vendedor.getDireccion());
+        correo = new JTextField(vendedor.getCorreoVendedor());
         correo.setName("correo");
-        sexo = new JTextField();
+        sexo = new JTextField(sexoString);
         sexo.setName("sexo");
-        fechaIngreso = new JTextField();
+        fechaIngreso = new JTextField(vendedor.getFechaIngresoVendedor());
         fechaIngreso.setName("fechaIngreso");
-        sueldo = new JTextField();
+        sueldo = new JTextField(sueldoString);
         sueldo.setName("sueldo");
-        usuario = new JTextField();
-        contraseña = new JPasswordField();
-        Admin = new JTextField();
+        usuario = new JTextField(vendedor.getNombUsuario());
+        contraseña = new JPasswordField(vendedor.getContrasena());
+        if(vendedor.isIsAdministrador())
+            isAdminChar = "T";
+        else
+            isAdminChar = "F";
+        Admin = new JTextField(isAdminChar);
         Admin.setName("admin");
         
         panelCentro.add(new JLabel("Modificar a:"));
@@ -148,6 +189,10 @@ public class ModificarVendedor extends JFrame{
     private void addEventos(OyenteModificarVendedor oyenteModificarVendedor) {
         cancelar.addActionListener(oyenteModificarVendedor);
         registrar.addActionListener(oyenteModificarVendedor);
+        sexo.addKeyListener(oyenteModificarVendedor);
+        sueldo.addKeyListener(oyenteModificarVendedor);
+        Admin.addKeyListener(oyenteModificarVendedor);
+        vendedores.addItemListener(oyenteModificarVendedor);
     }
     
     static String [] ListToArray(ArrayList v){
@@ -308,6 +353,14 @@ public class ModificarVendedor extends JFrame{
 
     public void setV(ArrayList v) {
         this.v = v;
+    }
+
+    public Vendedor getVendedor() {
+        return vendedor;
+    }
+
+    public void setVendedor(Vendedor vendedor) {
+        this.vendedor = vendedor;
     }
     
     

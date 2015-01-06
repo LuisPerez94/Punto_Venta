@@ -6,11 +6,10 @@
 package com.modificar;
 
 import com.puntoVenta.Conexion;
-import java.awt.BorderLayout;
+import com.puntoVenta.Producto;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.LayoutManager;
 import java.awt.Toolkit;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -44,6 +43,7 @@ public class ModificarProducto extends JFrame{
     private JTextArea descripcion;
     private JLabel imagen;
     
+    private Producto producto = new Producto();
     
     
     private ArrayList Atributos;
@@ -143,12 +143,16 @@ public class ModificarProducto extends JFrame{
         
         this.add(panelSur,"South");
         this.add(panelCentro, "Center");
+        
+        agregarCampos(Integer.parseInt(ids.get(0).toString()));
     }
 
     private void addEventos(OyenteModificarProducto o) {
         cancelar.addActionListener(o);
         registrar.addActionListener(o);
         ruta.addActionListener(o);
+        precio.addKeyListener(o);
+        productos.addItemListener(o);
     }
     
     static String [] ListToArray(ArrayList v){
@@ -253,6 +257,56 @@ public class ModificarProducto extends JFrame{
 
     public void setV(ArrayList v) {
         this.v = v;
+    }
+
+    public Producto getProducto() {
+        return producto;
+    }
+
+    public void setProducto(Producto producto) {
+        this.producto = producto;
+    }
+    
+    
+    
+    void agregarCampos (int producto){
+        c.iniciarConexion();
+            String consulta = "select * from Producto where idProducto="+producto;
+            System.out.println(consulta);
+            try {
+            c.setResult(c.getStament().executeQuery(consulta));
+            while(c.getResult().next()){
+                getProducto().setNombreProducto(c.getResult().getString(2));
+                getProducto().setPrecio(Float.parseFloat(c.getResult().getString(3)));
+                
+                getProducto().setDescripcion(c.getResult().getString(5));
+                getProducto().setExistencia(Integer.parseInt(c.getResult().getString(6)));
+                
+                System.out.println(c.getResult().getString(2));
+                System.out.println(c.getResult().getString(3));
+                System.out.println(c.getResult().getString(4));
+                System.out.println(c.getResult().getString(5));
+                System.out.println(c.getResult().getString(6));
+                System.out.println(c.getResult().getString(7));
+             
+                
+                               
+                               
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        
+        c.cerrarConexion();
+        
+       
+        String precioString=""+getProducto().getPrecio();
+        String exString = ""+getProducto().getExistencia();
+        getNombre().setText(getProducto().getNombreProducto());
+        getPrecio().setText(precioString);
+        getDescripcion().setText(getProducto().getDescripcion());
+        getExistencia().setText(exString);
+        
     }
     
     

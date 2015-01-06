@@ -16,6 +16,7 @@ public class Vendedor {
     private String apMaterno;
     private String fechaNac;
     private String correoVendedor;
+    private String direccion;
     private char sexo;
     private float sueldo;
     private String fechaIngresoVendedor;
@@ -127,6 +128,16 @@ public class Vendedor {
     public void setIsAdministrador(boolean isAdministrador) {
         this.isAdministrador = isAdministrador;
     }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+    
+    
     
     
     
