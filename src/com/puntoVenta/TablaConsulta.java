@@ -21,8 +21,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Luis Angel Pérez Muñoz
  * @author José Rubén Perez Rodriguez
  * @author José Ramón Márquez Solano
- * @author Valery Abigail Cambara Gil
- * @version 6/Noviembre/2014 /A
+ 
  *
  */
 public class TablaConsulta extends JFrame { //tablaConsulta es una ventana 

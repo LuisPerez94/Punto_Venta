@@ -5,7 +5,6 @@
  */
 package com.modificar;
 
-import static com.modificar.ModificarVendedor.ListToArray;
 import com.puntoVenta.Cliente;
 import com.puntoVenta.Conexion;
 import java.awt.BorderLayout;
@@ -19,14 +18,15 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
 /**
  *
  * @author JR
  */
-public class EliminarCliente extends JFrame{
+public class EliminarAlmacen extends JFrame{
     Conexion c ;
-    private JComboBox clientes;
+    private JComboBox almacenes;
     private JButton cancelar = new JButton("Cancelar");
     private JButton registrar = new JButton("Modificar");
     private JTextField nombre;
@@ -43,15 +43,15 @@ public class EliminarCliente extends JFrame{
     private ArrayList ids = new ArrayList<>();
     private ArrayList v = new ArrayList <String []> ();
     private Cliente cliente = new Cliente();
-    public EliminarCliente(Conexion c) {
+    public EliminarAlmacen(Conexion c) {
         
-        this.setTitle("Eliminar Cliente");
+        this.setTitle("Eliminar Almacen");
         this.setSize(320, 120);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.c = c;
         this.setResizable(false);
         addComponentes();
-        addEventos(new OyenteEliminarCliente(c, this));
+        addEventos(new OyenteEliminarAlmacen(c, this));
         setLocationRelativeTo(null);
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/img/sistema/pina.png")));
         setVisible(true);
@@ -65,7 +65,7 @@ public class EliminarCliente extends JFrame{
         JPanel p = new JPanel(new FlowLayout());
         JPanel p2 = new JPanel(new FlowLayout());
         c.iniciarConexion();
-        String consulta = "select Cliente.idCliente, Cliente.nombreCliente, Cliente.apPaterno, Cliente.apMaterno from Cliente;";
+        String consulta = "select * from Almacen;";
         try {
         c.setResult(c.getStament().executeQuery(consulta));
         while (c.getResult().next()) {
@@ -82,10 +82,10 @@ public class EliminarCliente extends JFrame{
             System.out.println(ex);
         }
         c.cerrarConexion();
-        setClientes(new JComboBox(ListToArray(getV())));
+        setAlmacenes(new JComboBox(ListToArray(getV())));
         getRegistrar().setText("Eliminar");
         
-        p.add(getClientes());
+        p.add(getAlmacenes());
         
         p2.add(getCancelar());
         p2.add(getRegistrar());
@@ -96,7 +96,7 @@ public class EliminarCliente extends JFrame{
         this.add(panel, "Center");
     }
     
-    private void addEventos(OyenteEliminarCliente o) {
+    private void addEventos(OyenteEliminarAlmacen o) {
         cancelar.addActionListener(o);
         registrar.addActionListener(o);
        
@@ -118,12 +118,12 @@ public class EliminarCliente extends JFrame{
         this.c = c;
     }
 
-    public JComboBox getClientes() {
-        return clientes;
+    public JComboBox getAlmacenes() {
+        return almacenes;
     }
 
-    public void setClientes(JComboBox clientes) {
-        this.clientes = clientes;
+    public void setAlmacenes(JComboBox almacenes) {
+        this.almacenes = almacenes;
     }
 
     public JButton getCancelar() {
@@ -233,3 +233,6 @@ public class EliminarCliente extends JFrame{
     
     
 }
+
+    
+

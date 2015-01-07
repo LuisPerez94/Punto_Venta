@@ -30,11 +30,14 @@ public class Reportes extends JFrame {
     private PanelProductos pProductos = null;
     private PanelImagen i = new PanelImagen();
     private final String isAdmin;
+    private JMenuItem agregarAlmacen;
+    private JMenuItem eliminarAlmacen;
     
     Reportes(String isAdmin) {
         this.isAdmin = isAdmin;
         this.setTitle("Bienvenido");
         this.setSize(500, 500);
+        setResizable(false);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         addComponents();
@@ -88,6 +91,8 @@ public class Reportes extends JFrame {
             catalogos.add(vendedores);
             catalogos.add(new JSeparator());
             catalogos.add(productos);
+            catalogos.add(new JSeparator());
+            catalogos.add(almacen);
             
             // Procesos...
             nuevaVenta = new JMenuItem("Nueva venta");
@@ -121,6 +126,8 @@ public class Reportes extends JFrame {
             eliminarProducto = new JMenuItem("Eliminar un producto");
             eliminarCabeceraFactura = new JMenuItem("Eliminar cabecera factura");
             eliminarDetalleFactura = new JMenuItem("Eliminar detalle factura");
+            agregarAlmacen = new JMenuItem("Agregar almacen");
+            eliminarAlmacen = new JMenuItem("Eliminar almacen");
             
             administrar.add(agregarCliente);
             administrar.add(agregarProducto);
@@ -136,6 +143,9 @@ public class Reportes extends JFrame {
             administrar.add(new JSeparator());
             administrar.add(eliminarCabeceraFactura);
             administrar.add(eliminarDetalleFactura);
+            administrar.add(new JSeparator());
+            administrar.add(agregarAlmacen);
+            administrar.add(eliminarAlmacen);
             
             
             menuP = new JMenuBar();
@@ -200,6 +210,8 @@ public class Reportes extends JFrame {
            eliminarProducto.addActionListener(o);
            eliminarCabeceraFactura.addActionListener(o);
            eliminarDetalleFactura.addActionListener (o);
+           agregarAlmacen.addActionListener (o);
+           eliminarAlmacen.addActionListener (o);
            this.addKeyListener(new OyenteReportes());
            
         } else if (isAdmin.equals("F")) {

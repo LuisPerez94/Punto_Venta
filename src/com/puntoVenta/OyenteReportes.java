@@ -25,6 +25,8 @@ import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -318,6 +320,44 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
                 System.out.println("Eliminar detalle ");
                 EliminarDetalle ed = new EliminarDetalle(usuario);
                 break;
+                
+            case "Almacén":
+                usuario.iniciarConexion();
+                String consulta = "select Producto.idProducto, Producto.nombreProducto, Almacen.idAlmacen\n" +
+                "from Producto, Almacen, Guarda\n" +
+                "where Producto.idProducto = Guarda.Producto_idProducto\n" +
+                "and Almacen.idAlmacen = Guarda.Almacen_idAlmacen";
+                TablaConsulta tc = new TablaConsulta(usuario.getStament(), consulta, 1);
+                usuario.cerrarConexion();
+                break;
+            case "Agregar almacen":
+                int x=0;
+                if(JOptionPane.OK_OPTION==JOptionPane.showConfirmDialog(ventana, "Agregar un nuevo almacen?",
+                                "Advertencia", JOptionPane.OK_CANCEL_OPTION)){
+                try {
+                    usuario.iniciarConexion();
+                    usuario.setResult(usuario.getStament().executeQuery("SELECT count(Almacen.idAlmacen) FROM Almacen"));
+                    while (usuario.getResult().next()) {
+                        x = usuario.getResult().getInt(1);
+
+
+                    }
+                    usuario.getStament().execute("INSERT INTO punto_venta.Almacen (idAlmacen) VALUES ('"
+                            +(x+1)+"');");
+                    
+                } catch (SQLException ex) {
+                        System.out.println(ex);
+                }
+                JOptionPane.showMessageDialog(ventana, "Se agrego registro",
+                                "Agregado", JOptionPane.DEFAULT_OPTION);
+                }
+                
+                break;
+            case "Eliminar almacen":
+                EliminarAlmacen ea = new EliminarAlmacen(usuario);
+                
+                break;
+                    
                     
         }
     }
