@@ -34,7 +34,7 @@ public class OyenteCabecera extends OyenteEliminarFactura{
                 System.out.println("Drop1");
                 if(JOptionPane.showConfirmDialog(null, "Seguro que quieres eliminar", "Aviso", JOptionPane.YES_NO_OPTION)==JOptionPane.OK_OPTION){
                     if(ejecutarConsulta()){
-                    JOptionPane.showMessageDialog(null, "Se elimino con exito", "Exito", JOptionPane.DEFAULT_OPTION);
+                    JOptionPane.showMessageDialog(null, "Se eliminó correctamente", "Correcto", JOptionPane.INFORMATION_MESSAGE);
                     }
                     else
                         JOptionPane.showMessageDialog(null, "Error en la modificacion", "Alerta", JOptionPane.DEFAULT_OPTION);

@@ -140,7 +140,7 @@ public class ModificarCliente extends JFrame{
         cancelar.addActionListener(o);
         registrar.addActionListener(o);
         clientes.addItemListener(o);
-        registrar.addActionListener(o);
+//        registrar.addActionListener(o);
         telefono.addKeyListener(o);
         sexo.addKeyListener(o);
     }
@@ -302,7 +302,7 @@ public class ModificarCliente extends JFrame{
                                
             }
         } catch (SQLException ex) {
-            System.out.println(ex);
+            System.out.println("Ocurrió un error: " + ex.getMessage());
         }
         
         c.cerrarConexion();

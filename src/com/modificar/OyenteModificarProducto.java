@@ -37,7 +37,7 @@ public class OyenteModificarProducto implements ActionListener, KeyListener, Ite
     private FileNameExtensionFilter filter = new FileNameExtensionFilter("Imagenes", "png", "jpeg", "jpg", "gif");
     private String nombreArchivo;
     private String ruta;
-    private String destino;
+    private static String destino;
     
     OyenteModificarProducto(Conexion c, ModificarProducto mp) {
         this.mp = mp;
@@ -84,7 +84,7 @@ public class OyenteModificarProducto implements ActionListener, KeyListener, Ite
             case "Modificar":
                 System.out.println("Update1");
                 if(ejecutarConsulta(true)){
-                    JOptionPane.showConfirmDialog(null, "Se modifico correctamente","Correcto", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Se modificó correctamente","Correcto", JOptionPane.INFORMATION_MESSAGE);
                 }
                 else
                     JOptionPane.showMessageDialog(null, "Error en la modificación", "Error", JOptionPane.ERROR_MESSAGE);
@@ -187,7 +187,16 @@ public class OyenteModificarProducto implements ActionListener, KeyListener, Ite
     public void itemStateChanged(ItemEvent e) {
         if(e.getSource().equals(mp.getProductos())){
             mp.agregarCampos(Integer.parseInt(mp.getIds().get(mp.getProductos().getSelectedIndex()).toString()));
+            destino = mp.getRutaImagen();
+            System.out.println("Destino: " + destino);
         }
     }
+
+    public void setDestino(String destino) {
+        this.destino = destino;
+    }
     
+    public static void colocarDestino(String destino){
+        OyenteModificarProducto.destino = destino;
+    }
 }

@@ -92,12 +92,12 @@ public class ModificarVendedor extends JFrame{
                 vendedor.setNombreVendedor(c.getResult().getString(2));
                 vendedor.setApPaterno(c.getResult().getString(3));
                 vendedor.setApMaterno(c.getResult().getString(4));
-                vendedor.setFechaNac(c.getResult().getString(5));
+                vendedor.setFechaNac(c.getResult().getString(5).replace("-", "/"));
                 vendedor.setCorreoVendedor(c.getResult().getString(6));
                 vendedor.setDireccion(c.getResult().getString(7));
                 vendedor.setSexo(c.getResult().getString(8).charAt(0));
                 vendedor.setSueldo(Float.parseFloat(c.getResult().getString(9)));
-                vendedor.setFechaIngresoVendedor(c.getResult().getString(10));
+                vendedor.setFechaIngresoVendedor(c.getResult().getString(10).replace("-", "/"));
                 vendedor.setNombUsuario(c.getResult().getString(11));
                 vendedor.setContrasena(c.getResult().getString(12));
                

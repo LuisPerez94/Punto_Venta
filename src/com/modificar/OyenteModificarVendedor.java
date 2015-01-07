@@ -46,7 +46,7 @@ public class OyenteModificarVendedor implements ActionListener,ItemListener , Ke
                 if(ev.validate(mv.getCorreo().getText())){
                      if(isDate(mv.getFechaIngreso().getText()) && isDate(mv.getFechanacimiento().getText())){
                 if(ejecutarConsulta(true)){
-                    JOptionPane.showConfirmDialog(null, "Se modificó correctamente", "Correcto", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Se modificó correctamente", "Correcto", JOptionPane.INFORMATION_MESSAGE);
                 }
                 else
                     JOptionPane.showMessageDialog(null, "Error en la modificación", "Error", JOptionPane.ERROR_MESSAGE);
@@ -185,12 +185,12 @@ public class OyenteModificarVendedor implements ActionListener,ItemListener , Ke
                 mv.getVendedor().setNombreVendedor(c.getResult().getString(2));
                 mv.getVendedor().setApPaterno(c.getResult().getString(3));
                 mv.getVendedor().setApMaterno(c.getResult().getString(4));
-                mv.getVendedor().setFechaNac(c.getResult().getString(5));
+                mv.getVendedor().setFechaNac(c.getResult().getString(5).replace("-", "/"));
                 mv.getVendedor().setCorreoVendedor(c.getResult().getString(6));
                 mv.getVendedor().setDireccion(c.getResult().getString(7));
                 mv.getVendedor().setSexo(c.getResult().getString(8).charAt(0));
                 mv.getVendedor().setSueldo(Float.parseFloat(c.getResult().getString(9)));
-                mv.getVendedor().setFechaIngresoVendedor(c.getResult().getString(10));
+                mv.getVendedor().setFechaIngresoVendedor(c.getResult().getString(10).replace("-", "/"));
                 mv.getVendedor().setNombUsuario(c.getResult().getString(11));
                 mv.getVendedor().setContrasena(c.getResult().getString(12));
                

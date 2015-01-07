@@ -42,6 +42,7 @@ public class ModificarProducto extends JFrame{
     private JButton ruta = new JButton("Seleccionar ruta");
     private JTextArea descripcion;
     private JLabel imagen;
+    private String rutaImagen;
     
     private Producto producto = new Producto();
     
@@ -281,6 +282,15 @@ public class ModificarProducto extends JFrame{
                 
                 getProducto().setDescripcion(c.getResult().getString(5));
                 getProducto().setExistencia(Integer.parseInt(c.getResult().getString(6)));
+
+                this.rutaImagen = c.getResult().getObject(4)+"";
+                
+                OyenteModificarProducto.colocarDestino(this.rutaImagen);
+                
+                ImageIcon aux = new ImageIcon(c.getResult().getObject(4)+"");
+                ImageIcon img = new ImageIcon(aux.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+                imagen.setIcon(img);
+                
                 
                 System.out.println(c.getResult().getString(2));
                 System.out.println(c.getResult().getString(3));
@@ -308,6 +318,9 @@ public class ModificarProducto extends JFrame{
         getExistencia().setText(exString);
         
     }
-    
+
+    public String getRutaImagen() {
+        return rutaImagen;
+    }
     
 }

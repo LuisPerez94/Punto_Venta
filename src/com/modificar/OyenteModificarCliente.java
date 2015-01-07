@@ -40,15 +40,17 @@ public class OyenteModificarCliente implements ActionListener, KeyListener, Item
                 if(JOptionPane.showConfirmDialog(null, "¿Seguro que quieres cancelar?", "Aviso", JOptionPane.YES_NO_OPTION)==JOptionPane.OK_OPTION)
                     mc.dispose();
                 break;
+                
             case "Modificar":
                 System.out.println("Update1");
                 EmailValidator ev=new EmailValidator();
                 if(ev.validate(mc.getCorreo().getText())){
                     if(ejecutarConsulta(true)){
-                    JOptionPane.showConfirmDialog(null, "Se modificó correctamente", "Correcto", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Se modificó correctamente", "Correcto", JOptionPane.INFORMATION_MESSAGE);
+                        System.out.println("CAMBIO!!!");
                     }
                     else
-                        JOptionPane.showMessageDialog(null, "Error en la modificación", "Errro", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Error en la modificación", "Error", JOptionPane.ERROR_MESSAGE);
                     mc.dispose();
                     
                 }else{
