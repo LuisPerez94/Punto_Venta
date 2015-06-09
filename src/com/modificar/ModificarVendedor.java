@@ -49,7 +49,7 @@ public class ModificarVendedor extends JFrame{
     private ArrayList v = new ArrayList <String []> ();
     private Vendedor vendedor;
     
-    public ModificarVendedor(Conexion c) {
+    public ModificarVendedor(Conexion c) throws SQLException {
         this.setTitle("Modificar Vendedor");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.c = c;
@@ -64,7 +64,7 @@ public class ModificarVendedor extends JFrame{
     }
     
     
-    protected void addComponentes(){
+    protected void addComponentes() throws SQLException{
         c.iniciarConexion();
         String consulta = "select Vendedor.idVendedor, Vendedor.nombreVendedor, Vendedor.apPaterno, Vendedor.apMaterno from Vendedor;";
         try {

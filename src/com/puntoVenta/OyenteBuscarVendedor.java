@@ -16,6 +16,8 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.sql.SQLException;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -48,7 +50,11 @@ class OyenteBuscarVendedor implements ActionListener, WindowListener, KeyListene
                     busqueda.getDia2().getSelectedItem();
             fecha2 = busqueda.getAnio().getSelectedItem() + "-" + busqueda.getMes().getSelectedItem() + "-" + 
                     busqueda.getDia().getSelectedItem();
-            busqueda.getConexion().iniciarConexion();
+            try {
+                busqueda.getConexion().iniciarConexion();
+            } catch (SQLException ex) {
+                Logger.getLogger(OyenteBuscarVendedor.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
             
             
@@ -71,7 +77,11 @@ class OyenteBuscarVendedor implements ActionListener, WindowListener, KeyListene
                     JOptionPane.showMessageDialog(ventana, "Vaya! Ocurrió un error \n" + ex.getMessage(),
                             "Error", JOptionPane.ERROR_MESSAGE);
                 }
-            busqueda.getConexion().cerrarConexion();
+            try {
+                busqueda.getConexion().cerrarConexion();
+            } catch (SQLException ex) {
+                Logger.getLogger(OyenteBuscarVendedor.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
             JPanel norte = new JPanel();
             norte.setLayout(new GridLayout(5, 1));
@@ -84,7 +94,12 @@ class OyenteBuscarVendedor implements ActionListener, WindowListener, KeyListene
            
             p2.add(norte, "North");
             
-            PanelVendedores p1 = new PanelVendedores(vVendedor(busca), p2);
+            PanelVendedores p1 = null;
+            try {
+                p1 = new PanelVendedores(vVendedor(busca), p2);
+            } catch (SQLException ex) {
+                Logger.getLogger(OyenteBuscarVendedor.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
             busqueda.dispose();
             ventana = new VentanaEmergente("Ventas por vendedor");
@@ -155,7 +170,7 @@ class OyenteBuscarVendedor implements ActionListener, WindowListener, KeyListene
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    private JTable vVendedor(String busca){
+    private JTable vVendedor(String busca) throws SQLException{
         // Indicamos que las celdas de la tabla no serán editables...
         DefaultTableModel modeloTabla = new DefaultTableModel(){
             @Override

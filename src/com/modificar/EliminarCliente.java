@@ -43,7 +43,7 @@ public class EliminarCliente extends JFrame{
     private ArrayList ids = new ArrayList<>();
     private ArrayList v = new ArrayList <String []> ();
     private Cliente cliente = new Cliente();
-    public EliminarCliente(Conexion c) {
+    public EliminarCliente(Conexion c) throws SQLException {
         
         this.setTitle("Eliminar Cliente");
         this.setSize(320, 120);
@@ -58,7 +58,7 @@ public class EliminarCliente extends JFrame{
     }
     
     
-    public void addComponentes(){
+    public void addComponentes() throws SQLException{
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
         panel.setBorder(BorderFactory.createLineBorder(this.getBackground(), 10));

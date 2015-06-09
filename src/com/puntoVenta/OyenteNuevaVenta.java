@@ -4,6 +4,8 @@ import java.awt.event.*;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -41,7 +43,13 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
                 break;
                 
             case "Nueva":
+        {
+            try {
                 nuevaPartida(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(OyenteNuevaVenta.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
                 break;
         }
     }
@@ -77,6 +85,8 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
                     }catch(NumberFormatException ex){
                         JOptionPane.showMessageDialog(panel, "La cantidad ingresada no es válida", "Advertencia",
                                 JOptionPane.OK_OPTION);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(OyenteNuevaVenta.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
@@ -125,7 +135,11 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
             
         // Si no fue ninguno de los dos, entonces fue sobre un producto...
         }else{
-            agregarAlTicket(e);
+            try {
+                agregarAlTicket(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(OyenteNuevaVenta.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     
@@ -192,7 +206,7 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
         panel.getPanelProductos().updateUI();
     }
     
-    public void nuevaPartida(boolean validar){
+    public void nuevaPartida(boolean validar) throws SQLException{
         
         if(validar){
             int opcion = JOptionPane.showConfirmDialog(panel, "¿Desea agregar una nueva partida? \nSe perderá la venta actual",
@@ -271,7 +285,7 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
         }
     }
     
-    public void realizarPago(){
+    public void realizarPago() throws SQLException{
         DecimalFormat dc = new DecimalFormat("####.##");
         double pago = Double.parseDouble(panel.getTextPago().getText().replace("$", "").trim());
         double total = Double.parseDouble(panel.getTextTotal().getText().replace("$", "").trim());
@@ -305,7 +319,7 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
         }
     }
     
-   public boolean agregarAlTicket(MouseEvent e){
+   public boolean agregarAlTicket(MouseEvent e) throws SQLException{
         ProductoNuevaVenta aux = (ProductoNuevaVenta)e.getSource();
         DefaultTableModel modelo = (DefaultTableModel) panel.getTicket().getModel();
         int id, existencia=0;
@@ -447,7 +461,7 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
         }
     }
     
-    public void guardarVenta(){
+    public void guardarVenta() throws SQLException{
         Conexion conexion = panel.getConexion();
         JTable ticket = panel.getTicket();
 
@@ -527,7 +541,7 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
                     "Compra realizada", JOptionPane.INFORMATION_MESSAGE);
                         /*Se crea una conexion para evitar darle permisos no necesarios a vendedor, ya que no puede modificar 
             en producto*/
-            Conexion actualizarProducto = new Conexion ("poslogin", "poslogin", "3306", "localhost", "punto_venta");
+            Conexion actualizarProducto = new Conexion ("poslogin", "poslogin", "3306", "localhost");
             actualizarProducto.iniciarConexion();
             
             for (int i = 0; i < ticket.getRowCount(); i++) {
@@ -581,7 +595,7 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
     }
     
     
-    public void validarNuevaVenta(){
+    public void validarNuevaVenta() throws SQLException{
         String datosCliente = JOptionPane.showInputDialog(panel, "Identificar cliente: ", "ID o email");
         String cliente, buscar, query;
 
@@ -619,7 +633,7 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
                
     }
     
-    public String buscarCliente(String query){
+    public String buscarCliente(String query) throws SQLException{
         String encontrado = "";
         Conexion conexion = panel.getConexion();
         

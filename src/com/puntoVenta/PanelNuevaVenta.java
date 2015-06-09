@@ -36,7 +36,7 @@ public class PanelNuevaVenta extends JPanel{
     private final Conexion conexion;
     
     
-    public PanelNuevaVenta(JTable catalogo, Conexion conexion){
+    public PanelNuevaVenta(JTable catalogo, Conexion conexion) throws SQLException{
         this.catalogo = catalogo;
         this.conexion = conexion;
         anchoBorde = 20;
@@ -44,7 +44,7 @@ public class PanelNuevaVenta extends JPanel{
         addComponentes();
     }
 
-    public final void addComponentes(){
+    public final void addComponentes() throws SQLException{
         this.setLayout(new BorderLayout());
         
         JPanel este;
@@ -267,7 +267,7 @@ public class PanelNuevaVenta extends JPanel{
     }
     
     // Colocamos el nombre de la persona que atiende y el número de partida...
-    public final void colocarEncabezado(){
+    public final void colocarEncabezado() throws SQLException{
         String consulta = "SELECT MAX(idCab_fact) FROM Cab_fact";
         int idPartida = 0;
         

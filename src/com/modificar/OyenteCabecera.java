@@ -8,6 +8,8 @@ package com.modificar;
 import com.puntoVenta.Conexion;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -49,7 +51,11 @@ public class OyenteCabecera extends OyenteEliminarFactura{
     @Override
     protected boolean ejecutarConsulta() {
         String consulta, preconsulta="";
-        c.iniciarConexion();
+        try {
+            c.iniciarConexion();
+        } catch (SQLException ex) {
+            Logger.getLogger(OyenteCabecera.class.getName()).log(Level.SEVERE, null, ex);
+        }
             preconsulta = "DELETE Detalle_fact FROM Detalle_fact, Cab_fact\n" +
             "WHERE Detalle_fact.Cab_fact_idCab_fact = Cab_fact.idCab_fact\n" +
             "and Cab_fact.idCab_fact="+super.aThis.ids.get(super.aThis.factura.getSelectedIndex()).toString()+";";

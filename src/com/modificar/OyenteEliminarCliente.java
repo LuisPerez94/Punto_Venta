@@ -14,6 +14,8 @@ import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -44,11 +46,15 @@ public class OyenteEliminarCliente implements ActionListener, KeyListener{
                 System.out.println("Update1");
                 EmailValidator ev=new EmailValidator();
                 if(ev.validate(mc.getCorreo().getText())){
-                    if(ejecutarConsulta(true)){
+            try {
+                if(ejecutarConsulta(true)){
                     JOptionPane.showConfirmDialog(null, "Se modificó correctamente", "Correcto", JOptionPane.INFORMATION_MESSAGE);
-                    }
-                    else
-                        JOptionPane.showMessageDialog(null, "Error en la modificación", "Errro", JOptionPane.ERROR_MESSAGE);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Error en la modificación", "Errro", JOptionPane.ERROR_MESSAGE);
+            } catch (SQLException ex) {
+                Logger.getLogger(OyenteEliminarCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
                     mc.dispose();
                     
                 }else{
@@ -60,11 +66,15 @@ public class OyenteEliminarCliente implements ActionListener, KeyListener{
             case "Eliminar":
                 System.out.println("Drop1");
                 if(JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar?", "Aviso", JOptionPane.YES_NO_OPTION)==JOptionPane.OK_OPTION){
-                    if(ejecutarConsulta(false)){
+            try {
+                if(ejecutarConsulta(false)){
                     JOptionPane.showMessageDialog(null, "Se eliminó correctamente", "Correcto", JOptionPane.INFORMATION_MESSAGE);
-                    }
-                    else
-                        JOptionPane.showMessageDialog(null, "Error en la modificación", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Error en la modificación", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (SQLException ex) {
+                Logger.getLogger(OyenteEliminarCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
                     mc.dispose();
                 }
                 
@@ -75,7 +85,7 @@ public class OyenteEliminarCliente implements ActionListener, KeyListener{
         
     }
     
-    public boolean ejecutarConsulta(boolean hacer){
+    public boolean ejecutarConsulta(boolean hacer) throws SQLException{
         String consulta, preconsulta="", preconsulta2="";
         c.iniciarConexion();
         if(hacer){

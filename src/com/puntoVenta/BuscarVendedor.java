@@ -21,13 +21,13 @@ import javax.swing.*;
  */
 public class BuscarVendedor extends JFrame{
     private JButton buscar = new JButton ("Buscar");
-    private Conexion conexion = new Conexion("administrador", "123pass", "3306", "localhost", "punto_venta");
+    private Conexion conexion = new Conexion("administrador", "123pass", "3306", "localhost");
     private ArrayList v = new ArrayList <String []> ();
     private ArrayList Atributos = new ArrayList <String>();
     private JComboBox vendedores, anio, mes, dia, anio2, mes2, dia2;
     private ArrayList ids = new ArrayList<>();
     
-    public BuscarVendedor() {
+    public BuscarVendedor() throws SQLException {
         super("Ventas por vendedor");
         this.setSize(480, 210);
         this.setResizable(false);
@@ -40,7 +40,7 @@ public class BuscarVendedor extends JFrame{
         setVisible(true);
     }
 
-    private void addComponents() {
+    private void addComponents() throws SQLException {
         conexion.iniciarConexion();
         String consulta = "select vendedor.idVendedor, vendedor.nombreVendedor, vendedor.apPaterno, vendedor.apMaterno from Vendedor;";
         try {

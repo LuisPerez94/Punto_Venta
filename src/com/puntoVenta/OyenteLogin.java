@@ -7,17 +7,19 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.sql.SQLException;
+import java.util.Arrays;
 import javax.swing.JOptionPane;
 
 /**
  * @author Luis Created on 17/12/2014, 11:31:19 AM
  */
 public class OyenteLogin extends KeyAdapter implements ActionListener, WindowListener {
+
     private final PanelLogin panel;
     private Conexion vendedor;
     private final Login ventanaLogin;
-    
-    OyenteLogin(PanelLogin panel,Login ventanaLogin) {
+
+    OyenteLogin(PanelLogin panel, Login ventanaLogin) {
         this.panel = panel;
         this.ventanaLogin = ventanaLogin;
     }
@@ -44,63 +46,44 @@ public class OyenteLogin extends KeyAdapter implements ActionListener, WindowLis
     }
 
     public void iniciarSesion() {
-        int idUsuario = 0;
-        String isAdmin = "";
-        
-        //inicio sesion con root para ver si en vendedor hay un usuario valido
-        Conexion cprueba = new Conexion("poslogin", "poslogin", "3306", "127.0.0.1", "punto_venta");
-        cprueba.iniciarConexion();
-        try {
-            cprueba.setResult(cprueba.getStament().executeQuery("select idVendedor,isAdmin \n"
-                    + "from  Vendedor v\n"
-                    + "where v.usuario=\'" + panel.getUsuario().getText() + "\' and v.contrasena=\'" + panel.getContrasena().getText() + "\';"));
-            //si el recordset tiene algo quiere decir que si hay un usuario 
-            if (cprueba.getResult().next()) {
+        String usuario, contraseña, ip;
+        usuario = panel.getUsuario().getText();
+        String isAdmin = panel.getUsuario().getText();
+        contraseña = new String(panel.getContrasena().getPassword());
 
-                idUsuario = cprueba.getResult().getInt(1);
-                isAdmin=cprueba.getResult().getNString(2);
-                cprueba.cerrarConexion(); //cierro a root
-                //creamos segun lo que haya en isAdmin
-                switch (isAdmin) {
-                    case "T":
-                        {
-                            vendedor = new Conexion("administrador", "123pass", "3306", "127.0.0.1", "punto_venta");
-                            Reportes reporte = new Reportes(isAdmin);
-                            OyenteReportes or = new OyenteReportes(reporte,vendedor);
-                            or.setNombreVendedor(panel.getUsuario().getText());
-                            reporte.addEventos(or);
-                            ventanaLogin.dispose();
-                            break;
-                        }
-                    case "F":
-                        {
-                            vendedor = new Conexion("vendedor", "123pass", "3306", "127.0.0.1", "punto_venta");
-                            Reportes reporte = new Reportes(isAdmin);
-                            OyenteReportes or = new OyenteReportes(reporte,vendedor);
-                            or.setNombreVendedor(panel.getUsuario().getText());
-                            reporte.addEventos(or);
-                            ventanaLogin.dispose();
-                            break;
-                        }
-                }
-
+        ip = panel.getIp().getText();
+        if ("".equals(usuario) || "".equals(contraseña) || "".equals(ip)) {
+            JOptionPane.showMessageDialog(panel, "Debes acompletar todos los campos");
+        } else {
+            
+            if ("Luis".equals(isAdmin)) {
+                isAdmin = "T";
             } else {
+                isAdmin = "";
+            }
+            try {
+
+                vendedor = new Conexion(panel.getUsuario().getText(), new String(panel.getContrasena().getPassword()),
+                        "1521", panel.getIp().getText());
+                vendedor.iniciarConexion();
+                Reportes reporte = new Reportes(isAdmin);
+                OyenteReportes or = new OyenteReportes(reporte, vendedor);
+                or.setNombreVendedor(panel.getUsuario().getText());
+                reporte.addEventos(or);
+                ventanaLogin.dispose();
+
+            } catch (SQLException | NullPointerException ex) {
                 JOptionPane.showMessageDialog(panel, "Usuario y/o contraseña incorrectos");
                 limpiardatos();
+
             }
-            
-        } catch (SQLException | NullPointerException ex) {
-            JOptionPane.showMessageDialog(panel, "Ocurrió un error al conetarse al servidor", 
-                    "Error ", JOptionPane.ERROR_MESSAGE);
-        
         }
-
-
     }
 
     public void limpiardatos() {
         panel.getUsuario().setText("");
         panel.getContrasena().setText("");
+        panel.getIp().setText("");
         panel.getUsuario().requestFocus();
     }
 
@@ -111,7 +94,6 @@ public class OyenteLogin extends KeyAdapter implements ActionListener, WindowLis
     public void setVendedor(Conexion vendedor) {
         this.vendedor = vendedor;
     }
-    
 
     // Métodos sin usar de la implementación de WindowListener
     @Override

@@ -20,6 +20,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -83,22 +85,32 @@ public class OyenteModificarProducto implements ActionListener, KeyListener, Ite
                 
             case "Modificar":
                 System.out.println("Update1");
+        {
+            try {
                 if(ejecutarConsulta(true)){
                     JOptionPane.showMessageDialog(null, "Se modificó correctamente","Correcto", JOptionPane.INFORMATION_MESSAGE);
                 }
                 else
                     JOptionPane.showMessageDialog(null, "Error en la modificación", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (SQLException ex) {
+                Logger.getLogger(OyenteModificarProducto.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
                 mp.dispose();
                 break;
             
             case "Eliminar":
                 System.out.println("Drop1");
                 if(JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar?", "Aviso", JOptionPane.YES_NO_OPTION)==JOptionPane.OK_OPTION){
-                    if(ejecutarConsulta(false)){
+            try {
+                if(ejecutarConsulta(false)){
                     JOptionPane.showMessageDialog(null, "Se eliminó correctamente", "Correcto", JOptionPane.INFORMATION_MESSAGE);
-                    }
-                    else
-                        JOptionPane.showMessageDialog(null, "Error en la modificación", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Error en la modificación", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (SQLException ex) {
+                Logger.getLogger(OyenteModificarProducto.class.getName()).log(Level.SEVERE, null, ex);
+            }
                     mp.dispose();
             
                 }
@@ -108,7 +120,7 @@ public class OyenteModificarProducto implements ActionListener, KeyListener, Ite
         }
     }
     
-    public boolean ejecutarConsulta(boolean hacer){
+    public boolean ejecutarConsulta(boolean hacer) throws SQLException{
         String consulta, preconsulta="", preconsulta2="";
         c.iniciarConexion();
         if(hacer){
@@ -186,7 +198,11 @@ public class OyenteModificarProducto implements ActionListener, KeyListener, Ite
     @Override
     public void itemStateChanged(ItemEvent e) {
         if(e.getSource().equals(mp.getProductos())){
-            mp.agregarCampos(Integer.parseInt(mp.getIds().get(mp.getProductos().getSelectedIndex()).toString()));
+            try {
+                mp.agregarCampos(Integer.parseInt(mp.getIds().get(mp.getProductos().getSelectedIndex()).toString()));
+            } catch (SQLException ex) {
+                Logger.getLogger(OyenteModificarProducto.class.getName()).log(Level.SEVERE, null, ex);
+            }
             destino = mp.getRutaImagen();
             System.out.println("Destino: " + destino);
         }

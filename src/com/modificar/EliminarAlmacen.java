@@ -43,7 +43,7 @@ public class EliminarAlmacen extends JFrame{
     private ArrayList ids = new ArrayList<>();
     private ArrayList v = new ArrayList <String []> ();
     private Cliente cliente = new Cliente();
-    public EliminarAlmacen(Conexion c) {
+    public EliminarAlmacen(Conexion c) throws SQLException {
         
         this.setTitle("Eliminar Almacen");
         this.setSize(320, 120);
@@ -58,7 +58,7 @@ public class EliminarAlmacen extends JFrame{
     }
     
     
-    public void addComponentes(){
+    public void addComponentes() throws SQLException{
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
         panel.setBorder(BorderFactory.createLineBorder(this.getBackground(), 10));

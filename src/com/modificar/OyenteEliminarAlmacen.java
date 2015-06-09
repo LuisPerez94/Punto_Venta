@@ -9,6 +9,8 @@ import com.puntoVenta.Conexion;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -38,11 +40,15 @@ public class OyenteEliminarAlmacen implements ActionListener{
             case "Eliminar":
                 System.out.println("Drop1");
                 if(JOptionPane.showConfirmDialog(null, "Seguro que quieres eliminar", "Aviso", JOptionPane.YES_NO_OPTION)==JOptionPane.OK_OPTION){
-                    if(ejecutarConsulta()){
+            try {
+                if(ejecutarConsulta()){
                     JOptionPane.showMessageDialog(null, "Se elimino con exito", "Exito", JOptionPane.DEFAULT_OPTION);
-                    }
-                    else
-                        JOptionPane.showMessageDialog(null, "Error en la modificacion", "Alerta", JOptionPane.DEFAULT_OPTION);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Error en la modificacion", "Alerta", JOptionPane.DEFAULT_OPTION);
+            } catch (SQLException ex) {
+                Logger.getLogger(OyenteEliminarAlmacen.class.getName()).log(Level.SEVERE, null, ex);
+            }
                     aThis.dispose();
                 }
                 
@@ -52,7 +58,7 @@ public class OyenteEliminarAlmacen implements ActionListener{
     }
     
    
-    protected boolean ejecutarConsulta() {
+    protected boolean ejecutarConsulta() throws SQLException {
         String consulta, preconsulta="";
         c.iniciarConexion();
             preconsulta = "delete Guarda from Guarda, Almacen where Guarda.Almacen_idAlmacen = Almacen.idAlmacen\n" +

@@ -15,6 +15,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -46,11 +48,15 @@ public class OyenteEliminarVendedor implements ActionListener,KeyListener{
                 System.out.println("Update");
                 if(ev.validate(mv.getCorreo().getText())){
                      if(isDate(mv.getFechaIngreso().getText()) && isDate(mv.getFechanacimiento().getText())){
-                if(ejecutarConsulta(true)){
-                    JOptionPane.showConfirmDialog(null, "Se modificó correctamente", "Correcto", JOptionPane.INFORMATION_MESSAGE);
-                }
-                else
-                    JOptionPane.showMessageDialog(null, "Error en la modificación", "Error", JOptionPane.ERROR_MESSAGE);
+                         try {
+                             if(ejecutarConsulta(true)){
+                                 JOptionPane.showConfirmDialog(null, "Se modificó correctamente", "Correcto", JOptionPane.INFORMATION_MESSAGE);
+                             }
+                             else
+                                 JOptionPane.showMessageDialog(null, "Error en la modificación", "Error", JOptionPane.ERROR_MESSAGE);
+                         } catch (SQLException ex) {
+                             Logger.getLogger(OyenteEliminarVendedor.class.getName()).log(Level.SEVERE, null, ex);
+                         }
                 mv.dispose();
                 }else{
                            JOptionPane.showMessageDialog(mv, "Las Fechas no son validas");
@@ -65,11 +71,15 @@ public class OyenteEliminarVendedor implements ActionListener,KeyListener{
             case "Eliminar":
                 System.out.println("Drop");
                 if(JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar?", "Aviso", JOptionPane.YES_NO_OPTION)==JOptionPane.OK_OPTION){
-                    if(ejecutarConsulta(false)){
+            try {
+                if(ejecutarConsulta(false)){
                     JOptionPane.showMessageDialog(null, "Se elimino correctamente", "Correcto", JOptionPane.INFORMATION_MESSAGE);
-                    }
-                    else
-                        JOptionPane.showMessageDialog(null, "Error en la modificación", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Error en la modificación", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (SQLException ex) {
+                Logger.getLogger(OyenteEliminarVendedor.class.getName()).log(Level.SEVERE, null, ex);
+            }
                     mv.dispose();
                 }
                 
@@ -80,7 +90,7 @@ public class OyenteEliminarVendedor implements ActionListener,KeyListener{
         
     }
     
-    public boolean ejecutarConsulta(boolean hacer){
+    public boolean ejecutarConsulta(boolean hacer) throws SQLException{
         String consulta, preconsulta="", preconsulta2="";
         c.iniciarConexion();
         if(hacer){

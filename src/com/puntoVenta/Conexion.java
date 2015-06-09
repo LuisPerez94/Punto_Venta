@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import oracle.jdbc.OracleDriver;
 
 /**
  * @author Luis Created on 19/12/2014, 09:27:57 PM
@@ -17,43 +18,58 @@ import javax.swing.JOptionPane;
 public class Conexion {
     private final String usuario;
     private final String password;
+    private final String SID;
     private final String puerto;
     private final String host;
-    private final String bd;
     private final String url;
     private Connection conexion;
     private Statement stament;
     private ResultSet result;
 
-    public Conexion(String usuario, String password, String puerto, String host, String bd) {
+    public Conexion(String usuario, String password, String puerto, String host) {
         this.usuario = usuario;
         this.password = password;
         this.puerto = puerto;
         this.host = host;
-        this.bd = bd;
-        url = "jdbc:mysql://" + host + ":" + puerto + "/" + bd;
+        this.SID="XE";
+        url = "jdbc:oracle:thin:@" + host + ":" + puerto + ":" + SID;
     }
 
-    public boolean iniciarConexion() {
-        try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            conexion = DriverManager.getConnection(url, usuario, password);
-            stament = conexion.createStatement();
-            return conexion != null;
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException e) {
-            System.out.println(e);
+   
+     public void registrarDriver()throws SQLException{
+      OracleDriver oracleDriver=new OracleDriver();
+            DriverManager.registerDriver(oracleDriver);
+            
+     }
+    
+    public void iniciarConexion() throws SQLException {
+        if(conexion==null || conexion.isClosed()==true){
+        registrarDriver();
+        conexion = DriverManager.getConnection(url,usuario,password);
+        stament=conexion.createStatement();
         }
-        return false;
     }
 
-    public void cerrarConexion() {
-        try {
+    public void cerrarConexion() throws SQLException {
+         if (conexion != null && conexion.isClosed() == false) {
             conexion.close();
-        } catch (SQLException ex) {
-            System.out.println("Error" + ex);
         }
-    }
-
+    } 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     public void insertarDatos(String opcion, ArrayList<String> datos) {
         switch (opcion) {
             case "P":
@@ -110,5 +126,7 @@ public class Conexion {
     public void setResult(ResultSet result) {
         this.result = result;
     }
-
+ public Connection getConexion() {
+        return conexion;
+    }
 }

@@ -3,6 +3,8 @@ package com.puntoVenta;
 import java.awt.event.*;
 import java.io.*;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.*;
@@ -33,7 +35,13 @@ public class OyenteProductosMasVendidos extends WindowAdapter implements ActionL
         
         switch(etiqueta){
             case "comboBoxChanged":
+        {
+            try {
                 ajustarRango();
+            } catch (SQLException ex) {
+                Logger.getLogger(OyenteProductosMasVendidos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
                 break;
                 
             case "Exportar":
@@ -54,7 +62,7 @@ public class OyenteProductosMasVendidos extends WindowAdapter implements ActionL
         }
     }
     
-    public void ajustarRango(){
+    public void ajustarRango() throws SQLException{
         String rango = panel.getComboFechas().getSelectedItem()+"";
         String query = "AND Detalle_fact.fechaVenta < CURDATE() AND Detalle_fact.fechaVenta"
                 + " >= DATE_SUB(CURDATE(), INTERVAL";
@@ -147,13 +155,17 @@ public class OyenteProductosMasVendidos extends WindowAdapter implements ActionL
 //        System.out.println("Query: " + query);
         
         limpiarTabla();
-        productosMasVendidos(query);
+        try {
+            productosMasVendidos(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(OyenteProductosMasVendidos.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if(correcto){
             bpmv.dispose();
         }
     }
     
-    public void productosMasVendidos(String rangoFechas){
+    public void productosMasVendidos(String rangoFechas) throws SQLException{
         correcto = true;
         String consulta = "SELECT Producto.idProducto Codigo, Producto.nombreProducto Nombre, Producto.descripcionProducto Descripcion," +
                             "Producto.precio Precio, SUM(Detalle_fact.cantidadProducto) CantVendidos," +

@@ -20,6 +20,7 @@ public class PanelLogin extends PanelImagen{
     private JButton ok;
     private JTextField usuario;
     private JPasswordField contrasena;
+    private JTextField ip;
     
     public PanelLogin(){
         addComponentes();
@@ -32,14 +33,17 @@ public class PanelLogin extends PanelImagen{
         ok = new JButton("Ok");
         usuario = new JTextField(9);
         contrasena = new JPasswordField(9);
+        ip=new JTextField(15);
         
         JLabel etUsuario = new JLabel("Usuario");
         JLabel etPass = new JLabel("Contraseña");
-        
+        JLabel etIp=new JLabel("IP del servidor");
         sur.add(etUsuario);
         sur.add(usuario);
         sur.add(etPass);
         sur.add(contrasena);
+        sur.add(etIp);
+        sur.add(ip);
         sur.add(ok);
         
         this.add(sur, "South");
@@ -48,6 +52,7 @@ public class PanelLogin extends PanelImagen{
     public void addEventos(OyenteLogin oyente){
         ok.addActionListener(oyente);
         contrasena.addKeyListener(oyente);
+        ip.addKeyListener(oyente);
     }
     
     @Override
@@ -71,6 +76,10 @@ public class PanelLogin extends PanelImagen{
 
     public JPasswordField getContrasena() {
         return contrasena;
+    }
+
+    public JTextField getIp() {
+        return ip;
     }
     
     

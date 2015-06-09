@@ -46,7 +46,7 @@ public class EliminarProducto extends JFrame{
     private ArrayList Atributos;
     private ArrayList ids = new ArrayList<>();
     private ArrayList v = new ArrayList <String []> ();
-    public EliminarProducto(Conexion c) {
+    public EliminarProducto(Conexion c) throws SQLException {
        this.c = c;
        this.setTitle("Eliminar Producto");
        this.setSize(320, 120);
@@ -63,7 +63,7 @@ public class EliminarProducto extends JFrame{
     
     
     
-    public void addComponentes(){        
+    public void addComponentes() throws SQLException{        
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
         panel.setBorder(BorderFactory.createLineBorder(this.getBackground(), 10));

@@ -47,7 +47,7 @@ public class ModificarCliente extends JFrame{
     private ArrayList v = new ArrayList <String []> ();
     private Cliente cliente = new Cliente();
     
-    public ModificarCliente(Conexion c) {
+    public ModificarCliente(Conexion c) throws SQLException {
         this.setTitle("Modificar Cliente");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.c = c;
@@ -61,7 +61,7 @@ public class ModificarCliente extends JFrame{
         
     }
     
-    protected void addComponentes(){
+    protected void addComponentes() throws SQLException{
         c.iniciarConexion();
         String consulta = "select Cliente.idCliente, Cliente.nombreCliente, Cliente.apPaterno, Cliente.apMaterno from Cliente;";
         try {
@@ -276,7 +276,7 @@ public class ModificarCliente extends JFrame{
     
     
     
-    void agregarCampos (int ClienteActual){
+    void agregarCampos (int ClienteActual) throws SQLException{
         c.iniciarConexion();
             String consulta = "select * from Cliente where idCliente="+ClienteActual;
             System.out.println(consulta);

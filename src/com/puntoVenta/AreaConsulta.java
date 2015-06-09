@@ -15,6 +15,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -37,7 +39,7 @@ public class AreaConsulta extends JFrame {
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         addComponentes();
-        this.usuario = new Conexion("administrador", "123pass", "3306", "localhost", "punto_venta");
+        this.usuario = new Conexion("administrador", "123pass", "3306", "localhost");
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/img/sistema/pina.png")));
         this.setVisible(true);
         consultas = new ArrayList<>();
@@ -104,7 +106,7 @@ public class AreaConsulta extends JFrame {
         this.taConsulta = taConsulta;
     }
 
-   void ejecutarConsulta() throws IllegalComponentStateException {
+   void ejecutarConsulta() throws IllegalComponentStateException, SQLException {
         usuario.iniciarConexion();
         String query = getTaConsulta().getText();
         String queries[];
@@ -210,9 +212,15 @@ class OyenteAreaConsulta implements WindowListener, ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getActionCommand().equals("Ejecutar")){
-//            System.out.println(a.usuario);
+            try {
+                //            System.out.println(a.usuario);
 //            System.out.println("Ejecutando consulta");
-            a.ejecutarConsulta();
+                a.ejecutarConsulta();
+            } catch (IllegalComponentStateException ex) {
+                Logger.getLogger(OyenteAreaConsulta.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(OyenteAreaConsulta.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
     }

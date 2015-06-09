@@ -8,6 +8,8 @@ package com.modificar;
 import com.puntoVenta.Conexion;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -51,7 +53,11 @@ public class OyenteDetalle extends OyenteEliminarFactura{
     @Override
     protected boolean ejecutarConsulta() {
         String consulta;
-        c.iniciarConexion();
+        try {
+            c.iniciarConexion();
+        } catch (SQLException ex) {
+            Logger.getLogger(OyenteDetalle.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
             consulta = "delete from punto_venta.Detalle_fact where idDetalle_fact="
                     +super.aThis.ids.get(super.aThis.factura.getSelectedIndex()).toString()+";";

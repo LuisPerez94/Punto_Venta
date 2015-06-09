@@ -14,6 +14,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -45,11 +47,15 @@ public class OyenteModificarVendedor implements ActionListener,ItemListener , Ke
                 System.out.println("Update");
                 if(ev.validate(mv.getCorreo().getText())){
                      if(isDate(mv.getFechaIngreso().getText()) && isDate(mv.getFechanacimiento().getText())){
-                if(ejecutarConsulta(true)){
-                    JOptionPane.showMessageDialog(null, "Se modificó correctamente", "Correcto", JOptionPane.INFORMATION_MESSAGE);
-                }
-                else
-                    JOptionPane.showMessageDialog(null, "Error en la modificación", "Error", JOptionPane.ERROR_MESSAGE);
+                         try {
+                             if(ejecutarConsulta(true)){
+                                 JOptionPane.showMessageDialog(null, "Se modificó correctamente", "Correcto", JOptionPane.INFORMATION_MESSAGE);
+                             }
+                             else
+                                 JOptionPane.showMessageDialog(null, "Error en la modificación", "Error", JOptionPane.ERROR_MESSAGE);
+                         } catch (SQLException ex) {
+                             Logger.getLogger(OyenteModificarVendedor.class.getName()).log(Level.SEVERE, null, ex);
+                         }
                 mv.dispose();
                 }else{
                            JOptionPane.showMessageDialog(mv, "Las Fechas no son validas");
@@ -64,11 +70,15 @@ public class OyenteModificarVendedor implements ActionListener,ItemListener , Ke
             case "Eliminar":
                 System.out.println("Drop");
                 if(JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar?", "Aviso", JOptionPane.YES_NO_OPTION)==JOptionPane.OK_OPTION){
-                    if(ejecutarConsulta(false)){
+            try {
+                if(ejecutarConsulta(false)){
                     JOptionPane.showMessageDialog(null, "Se elimino correctamente", "Correcto", JOptionPane.INFORMATION_MESSAGE);
-                    }
-                    else
-                        JOptionPane.showMessageDialog(null, "Error en la modificación", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Error en la modificación", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (SQLException ex) {
+                Logger.getLogger(OyenteModificarVendedor.class.getName()).log(Level.SEVERE, null, ex);
+            }
                     mv.dispose();
                 }
                 
@@ -79,7 +89,7 @@ public class OyenteModificarVendedor implements ActionListener,ItemListener , Ke
         
     }
     
-    public boolean ejecutarConsulta(boolean hacer){
+    public boolean ejecutarConsulta(boolean hacer) throws SQLException{
         String consulta, preconsulta="", preconsulta2="";
         c.iniciarConexion();
         if(hacer){
@@ -176,7 +186,11 @@ public class OyenteModificarVendedor implements ActionListener,ItemListener , Ke
     public void itemStateChanged(ItemEvent e) {
         if(e.getSource().equals(mv.getVendedores())){
             
-            mv.c.iniciarConexion();
+            try {
+                mv.c.iniciarConexion();
+            } catch (SQLException ex) {
+                Logger.getLogger(OyenteModificarVendedor.class.getName()).log(Level.SEVERE, null, ex);
+            }
             String consulta = "select * from Vendedor where idVendedor="+(mv.getIds().get(mv.getVendedores().getSelectedIndex()).toString());
             System.out.println(consulta);
             try {
@@ -206,7 +220,11 @@ public class OyenteModificarVendedor implements ActionListener,ItemListener , Ke
             System.out.println(ex);
         }
         
-        c.cerrarConexion();
+            try {
+                c.cerrarConexion();
+            } catch (SQLException ex) {
+                Logger.getLogger(OyenteModificarVendedor.class.getName()).log(Level.SEVERE, null, ex);
+            }
         
         String sueldoString =  ""+mv.getVendedor().getSueldo();
         String isAdminChar, sexoString=""+mv.getVendedor().getSexo();

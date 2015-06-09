@@ -51,7 +51,7 @@ public class ModificarProducto extends JFrame{
     private ArrayList ids = new ArrayList<>();
     private ArrayList v = new ArrayList <String []> ();
     
-    public ModificarProducto(Conexion c) {
+    public ModificarProducto(Conexion c) throws SQLException {
         this.setTitle("Modificar Producto");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.c = c;
@@ -66,7 +66,7 @@ public class ModificarProducto extends JFrame{
     }
     
     
-    protected void addComponentes(){
+    protected void addComponentes() throws SQLException{
         c.iniciarConexion();
         String consulta = "select Producto.idProducto, Producto.nombreProducto from Producto;";
         try {
@@ -270,7 +270,7 @@ public class ModificarProducto extends JFrame{
     
     
     
-    void agregarCampos (int producto){
+    void agregarCampos (int producto) throws SQLException{
         c.iniciarConexion();
             String consulta = "select * from Producto where idProducto="+producto;
             System.out.println(consulta);
