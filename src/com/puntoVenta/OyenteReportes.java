@@ -278,13 +278,13 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
                 break;
 
             case "Productos":
-        {
+        
             try {
                 tablaCatalogo = generarCatalogoProductos();
             } catch (SQLException ex) {
                 Logger.getLogger(OyenteReportes.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
+        
                 catalogoProductos = new PanelCatalogoProductos(tablaCatalogo);
                 catalogoProductos.addEventos(this);
                 trsfiltro = new TableRowSorter(modelo);
@@ -428,10 +428,10 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
                 Logger.getLogger(OyenteReportes.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-                String consulta = "select Producto.idProducto, Producto.nombreProducto, Almacen.idAlmacen\n"
+                String consulta = "select Producto.idProducto, Producto.nomProducto, Almacen.idAlmacen\n"
                         + "from Producto, Almacen, Guarda\n"
-                        + "where Producto.idProducto = Guarda.Producto_idProducto\n"
-                        + "and Almacen.idAlmacen = Guarda.Almacen_idAlmacen";
+                        + "where Producto.idProducto = Guarda.idProducto\n"
+                        + "and Almacen.idAlmacen = Guarda.idAlmacen";
                 TablaConsulta tc = new TablaConsulta(usuario.getStament(), consulta, 1);
         {
             try {
@@ -452,7 +452,7 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
                             x = usuario.getResult().getInt(1);
 
                         }
-                        usuario.getStament().execute("INSERT INTO punto_venta.Almacen (idAlmacen) VALUES ('"
+                        usuario.getStament().execute("INSERT INTO Almacen (idAlmacen) VALUES ('"
                                 + (x + 1) + "');");
 
                     } catch (SQLException ex) {
@@ -545,8 +545,8 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
     private JTable generarCatalogoVendedores() throws SQLException {
         String query = "SELECT * FROM Vendedor";
         String[] columnas = {"ID", "Nombre", "Ap. paterno", "Ap. materno", "Fecha nacimiento",
-            "Correo electrónico", "Dirección", "Sexo", "Sueldo",
-            "Fecha ingreso", "Usuario", "Contraseña", "¿Admin?"};
+            "Correo electrónico", "Dirección", "Sueldo",
+            "Fecha ingreso", "Sexo"};
         Object[][] filas = {};
 
         modeloTabla = new DefaultTableModel(filas, columnas) {
@@ -566,11 +566,9 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
 
             while (usuario.getResult().next()) {
                 for (int i = 0; i < modeloTabla.getColumnCount(); i++) {
-                    if (i == 8 || i == 11) {
-                        auxFila[i] = "****";
-                    } else {
+                  
                         auxFila[i] = usuario.getResult().getObject((i + 1)) + "";
-                    }
+                   
                 }
                 modeloTabla.addRow(auxFila);
             }

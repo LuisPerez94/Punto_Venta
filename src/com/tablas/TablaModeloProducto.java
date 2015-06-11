@@ -6,6 +6,7 @@
 package com.tablas;
 
 import com.puntoVenta.Producto;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.table.AbstractTableModel;
@@ -16,8 +17,8 @@ import javax.swing.table.AbstractTableModel;
  */
 public class TablaModeloProducto extends AbstractTableModel {
 
-    private String[] nombreColumnas = {"Código", "Nombre", "Precio", "Imagen",
-        "Descripción", "Existencia"};
+    private String[] nombreColumnas = {"Código", "Nombre", "Precio", 
+        "Descripción", "Imagen","Existencia"};
     ArrayList<Producto> productos = new ArrayList<>();
 
     public void agregarProducto(Producto producto) {
@@ -93,12 +94,12 @@ public class TablaModeloProducto extends AbstractTableModel {
         Producto producto = productos.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                producto.setIdProducto((Integer) value);
+                producto.setIdProducto((String) value);
 
             case 1:
                 producto.setNombreProducto((String) value);
             case 2:
-                producto.setPrecio((Float) value);
+                producto.setPrecio((BigDecimal) value);
             case 3:
                 producto.setImg((ImageIcon) value);
             case 4:

@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
@@ -278,10 +279,10 @@ public class ModificarProducto extends JFrame{
             c.setResult(c.getStament().executeQuery(consulta));
             while(c.getResult().next()){
                 getProducto().setNombreProducto(c.getResult().getString(2));
-                getProducto().setPrecio(Float.parseFloat(c.getResult().getString(3)));
+                getProducto().setPrecio(new BigDecimal(c.getResult().getString(3)));
                 
                 getProducto().setDescripcion(c.getResult().getString(5));
-                getProducto().setExistencia(Integer.parseInt(c.getResult().getString(6)));
+                getProducto().setExistencia(new BigDecimal(c.getResult().getString(6)));
 
                 this.rutaImagen = c.getResult().getObject(4)+"";
                 

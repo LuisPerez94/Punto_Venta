@@ -6,6 +6,8 @@
 package com.puntoVenta;
 
 import java.awt.Image;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import javax.swing.ImageIcon;
 
 /**
@@ -13,16 +15,16 @@ import javax.swing.ImageIcon;
  * @author JR
  */
 public class Producto {
-    private int idProducto;
+    private String idProducto;
     private String nombreProducto;
-    private float precio;
+    private BigDecimal precio;
     private String ruta;
     private ImageIcon img;
     private String descripcion;
-    private int existencia;
+    private BigDecimal existencia;
 
-    public Producto(int idProducto, String nombreProducto, float precio, String ruta, String descripcion
-                    , int existencia) {
+    public Producto(String idProducto, String nombreProducto, BigDecimal precio, String ruta, String descripcion
+                    , BigDecimal existencia) {
         this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
         this.precio = precio;
@@ -32,13 +34,13 @@ public class Producto {
         this.existencia = existencia;
     }
    public Producto(Object []array){
-       this.idProducto=(int) array[0];
+       this.idProducto=(String)array[0];
        this.nombreProducto=(String)array[1];
-       this.precio=(float)array[2];
-       this.ruta=(String)array[3];
+       this.precio=(BigDecimal)array[2];
+       this.ruta=(String)array[4];
        img=new ImageIcon(ruta);
-       this.descripcion=(String)array[4];
-       this.existencia = (int) array[5];
+       this.descripcion=(String)array[3];
+       this.existencia = (BigDecimal) array[5];
    }
 
     public Producto() {
@@ -48,7 +50,7 @@ public class Producto {
         return nombreProducto;
     }
 
-    public float getPrecio() {
+    public BigDecimal getPrecio() {
         return precio;
     }
 
@@ -60,11 +62,11 @@ public class Producto {
         return descripcion;
     }
 
-    public int getIdProducto() {
+    public String getIdProducto() {
         return idProducto;
     }
 
-    public void setIdProducto(int idProducto) {
+    public void setIdProducto(String idProducto) {
         this.idProducto = idProducto;
     }
 
@@ -72,7 +74,7 @@ public class Producto {
         this.nombreProducto = nombreProducto;
     }
 
-    public void setPrecio(float precio) {
+    public void setPrecio(BigDecimal precio) {
         this.precio = precio;
     }
 
@@ -93,11 +95,11 @@ public class Producto {
         this.img = img;
     }
 
-    public int getExistencia() {
+    public BigDecimal getExistencia() {
         return existencia;
     }
 
-    public void setExistencia(int existencia) {
+    public void setExistencia(BigDecimal existencia) {
         this.existencia = existencia;
     }
    

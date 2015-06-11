@@ -268,7 +268,7 @@ public class PanelNuevaVenta extends JPanel{
     
     // Colocamos el nombre de la persona que atiende y el número de partida...
     public final void colocarEncabezado() throws SQLException{
-        String consulta = "SELECT MAX(idCab_fact) FROM Cab_fact";
+        String consulta = "SELECT MAX(to_number(idCabfactura)) FROM CABFACTURA";
         int idPartida = 0;
         
         try{
@@ -283,7 +283,7 @@ public class PanelNuevaVenta extends JPanel{
                 // Pero si no hay partidas guardadas tratará de parsea un null...
                 // entonces lo tomaríamos como un 1.
                 try{
-                    idPartida = Integer.parseInt(conexion.getResult().getObject(1)+"") + 1;
+                    idPartida = Integer.parseInt((conexion.getResult().getObject(1)+"").trim()) + 1;
                 }catch(NumberFormatException e){
                     idPartida = 1;
                 }finally{

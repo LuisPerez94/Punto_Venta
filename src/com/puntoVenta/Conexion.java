@@ -129,4 +129,11 @@ public class Conexion {
  public Connection getConexion() {
         return conexion;
     }
+
+    /**
+     * @return the puerto
+     */
+    public String getPuerto() {
+        return puerto;
+    }
 }

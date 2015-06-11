@@ -51,10 +51,10 @@ public class OyenteReporteVentas implements ActionListener {
         if (accion.equals("Ver el reporte")) {
             if (isDate(fecha1) && isDate(fecha2)) {
                 //CONSULTA DE VENTAS POR DIA 
-                String query = "SELECT Producto.idProducto, Producto.nombreProducto,Producto.precio, SUM(Detalle_fact.cantidadProducto) vendidos,"
-                        + "SUM(Producto.precio * Detalle_fact.cantidadProducto) ventaPorProducto " + "FROM Cab_fact, Detalle_fact, Producto"
-                        + " WHERE Cab_fact.idCab_fact = Detalle_fact.Cab_fact_idCab_fact AND Detalle_fact.Producto_idProducto = Producto.idProducto "
-                        + "AND Detalle_fact.fechaVenta BETWEEN '" + fecha1 + "' AND '" + fecha2 + "' GROUP BY Producto.idProducto";
+                String query = "SELECT Producto.idProducto, Producto.nomProducto,Producto.precioproducto, SUM(Detallefactura.cantidadProducto) vendidos,"
+                        + "SUM(Producto.precioproducto * Detallefactura.cantidadProducto) ventaPorProducto " + "FROM Cabfactura, Detallefactura, Producto"
+                        + " WHERE Cabfactura.idCabfactura = Detallefactura.idCabfactura AND Detallefactura.idProducto = Producto.idProducto "
+                        + "AND Detallefactura.fechaVenta BETWEEN '" + fecha1 + "' AND '" + fecha2 + "'GROUP BY 1 ORDER BY 1,2,3 DESC";
 
                 generarTabla(query);
                 

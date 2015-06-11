@@ -322,7 +322,7 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
    public boolean agregarAlTicket(MouseEvent e) throws SQLException{
         ProductoNuevaVenta aux = (ProductoNuevaVenta)e.getSource();
         DefaultTableModel modelo = (DefaultTableModel) panel.getTicket().getModel();
-        int id, existencia=0;
+        int id , existencia=0;
         boolean enTicket = false;
         int indice = 0;
         DecimalFormat dc = new DecimalFormat("####.##");
@@ -330,19 +330,17 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
         
         
         c.iniciarConexion();
-        try {
-            id = Integer.parseInt(aux.getId().getText());
-        } catch (Exception ex) {
-            return false;
-        }
+        
+        id = Integer.parseInt(aux.getId().getText().trim());
+       System.out.println(id);
         
         try {
-            c.setResult(c.getStament().executeQuery("select Producto.existencias\n" +
+            c.setResult(c.getStament().executeQuery("select existencia\n" +
                     "from Producto\n" +
                     "where idProducto="+id));
             while(c.getResult().next()){
                 existencia = Integer.parseInt(c.getResult().getString(1));
-//                System.out.println("Existencias: "+existencia);
+                System.out.println("Existencias: "+existencia);
             }
             
             
@@ -464,9 +462,8 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
     public void guardarVenta() throws SQLException{
         Conexion conexion = panel.getConexion();
         JTable ticket = panel.getTicket();
-
-        String selectIdVendedor = "SELECT idVendedor FROM Vendedor WHERE usuario = " +
-                "'" + panel.getTextAtiende().getText().trim() + "'";
+        System.out.println(panel.getTextAtiende().getText().trim());
+        String selectIdVendedor = "SELECT idVendedor FROM Vendedor WHERE nomVendedor = 'Luis'";
         
         String insertarEnCab_fact, insertarEnDetalle_fact;
         int idVendedor;
@@ -490,11 +487,12 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
             
             // Insertamos en Cab_fact...
             if(conexion.getResult().next()){
-                idVendedor = Integer.parseInt(conexion.getResult().getObject(1) + "");
+                System.out.println(conexion.getResult().getObject(1) + "");
+                idVendedor = Integer.parseInt((conexion.getResult().getObject(1) + "").trim());
                 
 //                System.out.println("Tienes el ID: " + idVendedor);
 
-                insertarEnCab_fact = "INSERT INTO Cab_fact VALUES(" + 
+                insertarEnCab_fact = "INSERT INTO Cabfactura VALUES(" + 
                                         idCab_fact + "," +
                                         datosCliente[1] + "," +
                                         idVendedor+
@@ -508,30 +506,26 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
             }
             
             // Luego los detalles en Detalle_fact...
-            conexion.setResult(conexion.getStament().executeQuery("SELECT MAX(idDetalle_fact) from Detalle_fact"));
+            conexion.setResult(conexion.getStament().executeQuery("SELECT MAX(to_number(idDetallefact)) from Detallefactura"));
             if(conexion.getResult().next()){
-                idDetalle_fact = Integer.parseInt(conexion.getResult().getObject(1)  + "");
+                idDetalle_fact = Integer.parseInt((conexion.getResult().getObject(1)  + "").trim());
                 // Agregamos uno porque va a ser el id siguiente...
                 idDetalle_fact ++;
             }
             
-            conexion.setResult(conexion.getStament().executeQuery("SELECT CURDATE()"));
-            if(conexion.getResult().next()){
-                fechaVenta = conexion.getResult().getObject(1) + "";
-            }
             
-//            System.out.println("FECHA: " + fechaVenta);
+            System.out.println("FECHA: " + fechaVenta);
             
             // Insertamos ahora sí...
             for(int i = 0; i < ticket.getRowCount(); i++){
-                insertarEnDetalle_fact = "INSERT INTO Detalle_fact VALUES(" +
+                insertarEnDetalle_fact = "INSERT INTO Detallefactura VALUES(" +
                                                 idDetalle_fact + "," +
                                                 idCab_fact + "," +
-                                                Integer.parseInt(ticket.getValueAt(i, 0)+"") + "," +
-                                                "'"+fechaVenta+"'" + "," +
-                                                Integer.parseInt(ticket.getValueAt(i,3)+"") +
+                                                Integer.parseInt((ticket.getValueAt(i, 0)+"").trim()) + "," 
+                                                + Integer.parseInt((ticket.getValueAt(i,3)+"").trim()) + "," +
+                                                "to_date(sysdate)" +
                                                 ")";
-//                System.out.println("Consula: " + insertarEnDetalle_fact);
+                System.out.println("Consulta: " + insertarEnDetalle_fact);
                 
                 conexion.getStament().execute(insertarEnDetalle_fact);
                 idDetalle_fact ++;
@@ -541,17 +535,16 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
                     "Compra realizada", JOptionPane.INFORMATION_MESSAGE);
                         /*Se crea una conexion para evitar darle permisos no necesarios a vendedor, ya que no puede modificar 
             en producto*/
-            Conexion actualizarProducto = new Conexion ("poslogin", "poslogin", "3306", "localhost");
-            actualizarProducto.iniciarConexion();
+          
             
             for (int i = 0; i < ticket.getRowCount(); i++) {
-                c.iniciarConexion();
+               
                 int existencia=0;
                 try {
-                    c.setResult(c.getStament().executeQuery("select Producto.existencias\n" +
+                    c.setResult(c.getStament().executeQuery("select Producto.existencia\n" +
                             "from Producto\n" +
-                            "where idProducto="+ticket.getValueAt(i, 0)));
-                    System.out.println("select Producto.existencias\n" +
+                            "where idProducto="+(ticket.getValueAt(i, 0))));
+                    System.out.println("select Producto.existencia\n" +
                             "from Producto\n" +
                             "where idProducto="+ticket.getValueAt(i, 0));
                     while(c.getResult().next()){
@@ -563,16 +556,14 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
                 } catch (SQLException ex) {
                             System.out.println(ex);
                 }
-                c.cerrarConexion();
+
                 int quitar = Integer.parseInt(ticket.getValueAt(i,3).toString());
-                System.out.println("UPDATE punto_venta.Producto SET existencias="+(existencia-quitar)+" WHERE idProducto="+ticket.getValueAt(i, 0).toString());
-                actualizarProducto.getStament().execute
-               
-               ("UPDATE punto_venta.Producto SET existencias="+(existencia-quitar)+" WHERE idProducto="+ticket.getValueAt(i, 0).toString());
+                System.out.println("UPDATE Producto SET existencia="+(existencia-quitar)+" WHERE idProducto="+ticket.getValueAt(i, 0).toString().trim());
+                conexion.getStament().execute("UPDATE Producto SET existencia="+(existencia-quitar)+" WHERE idProducto="+ticket.getValueAt(i, 0).toString().trim());
                 
 
             }
-            actualizarProducto.cerrarConexion();
+       
 
 
 
@@ -596,7 +587,7 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
     
     
     public void validarNuevaVenta() throws SQLException{
-        String datosCliente = JOptionPane.showInputDialog(panel, "Identificar cliente: ", "ID o email");
+        String datosCliente = JOptionPane.showInputDialog(panel, "Identificar cliente: ", "ID ");
         String cliente, buscar, query;
 
         try{
@@ -608,7 +599,7 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
                     buscar = "correoCliente";
                 }
 
-                query = "SELECT * FROM Cliente WHERE " + buscar + " = " + "\""+datosCliente+"\"";
+                query = "SELECT * FROM Cliente WHERE  Cliente." + buscar + " = " +datosCliente;
 //                System.out.println("Query: " + query);
                 cliente = buscarCliente(query);
 
