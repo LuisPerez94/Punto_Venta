@@ -78,6 +78,7 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        OyenteProductosMasVendidos oppmv;
         switch (e.getActionCommand()) {
             case "Ventas":
                 p = new PanelVentas();
@@ -97,24 +98,34 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
                 break;
 
             case "Ventas por vendedor":
-        {
-            try {
-                BuscarVendedor busqueda = new BuscarVendedor();
-            } catch (SQLException ex) {
-                Logger.getLogger(OyenteReportes.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+         ppmv = new PanelProductosMasVendidos("ventasXVendedor");
+
+                ventana = new VentanaEmergente("Ventas por vendedor");
+                 oppmv = new OyenteProductosMasVendidos(ppmv, usuario,"ventasXVendedor");
+                ppmv.addEventos(oppmv);
+
+                ventana.setSize(850, 450);
+                ventana.setLocationRelativeTo(null);
+                ventana.setResizable(false);
+                ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                ventana.add(ppmv);
+
+                ventana.addWindowListener(oppmv);
+                ventana.setVisible(true);
+
+                SwingUtilities.updateComponentTreeUI(ventanaReporte);
+                ventanaReporte.validate();
 
                 break;
 
             case "Productos más vendidos":
 
-                System.out.println("Aqui se muestran los productos mas vendidos");
+               
 
-                ppmv = new PanelProductosMasVendidos();
+                ppmv = new PanelProductosMasVendidos("masVendidos");
 
                 ventana = new VentanaEmergente("Productos más vendidos");
-                OyenteProductosMasVendidos oppmv = new OyenteProductosMasVendidos(ppmv, usuario);
+                 oppmv = new OyenteProductosMasVendidos(ppmv, usuario,"masVendidos");
                 ppmv.addEventos(oppmv);
 
                 ventana.setSize(850, 450);
@@ -176,17 +187,17 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
 
                 break;
 
-            case "Acerca de":
+             case "Acerca de":
                 System.out.println("Mostrara acerca del programa");
                 JOptionPane.showMessageDialog(null, "PiñaSports®"
-                        + "\nVersión 1.0.0"
-                        + "\nCopyright© 2014 - 2015"
+                        + "\nVersión 2.0.0"
+                        + "\nCopyright© 2015"
                         + "\nTodos los derechos reservados"
                         + "\nEste software fue desarrollado por:"
-                        + "\n     Bobadilla Contreras Miguel Fernando"
-                        + "\n     Márquez Solano José Ramón"
                         + "\n     Pérez Muñoz Luis Ángel"
-                        + "\n     Pérez Rodríguez José Rubén",
+                        + "\n     Rey Mendez José Alfredo"
+                        + "\n     Márquez Solano José Ramón"
+                        + "\n     Powered by Genaro industries",
                         "Acerca de", JOptionPane.INFORMATION_MESSAGE,
                         new ImageIcon("src/img/sistema/acercaDe.png"));
 
@@ -587,7 +598,7 @@ public class OyenteReportes implements KeyListener, ActionListener, WindowListen
     }
 
     private JTable generarCatalogoProductos() throws SQLException {
-        String query = "SELECT * FROM Producto";
+        String query = "SELECT * FROM luis.Producto";
 
         modelo = new TablaModeloProducto() {
             @Override

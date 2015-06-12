@@ -103,12 +103,12 @@ public class Reportes extends JFrame {
 //            procesos.add(devoluciones);
             
             // Reportes..
-            ventas = new JMenuItem("Ventas");
+         //   ventas = new JMenuItem("Ventas");
             ventasVendedor = new JMenuItem("Ventas por vendedor");
             productosMas = new JMenuItem("Productos más vendidos");
             
-            reportes.add(ventas);
-            reportes.add(new JSeparator());
+           // reportes.add(ventas);
+            //reportes.add(new JSeparator());
             reportes.add(ventasVendedor);
             reportes.add(new JSeparator());
             reportes.add(productosMas);
@@ -118,34 +118,34 @@ public class Reportes extends JFrame {
             agregarCliente = new JMenuItem("Agregar un cliente");
             agregarVendedor = new JMenuItem("Agregar un vendedor");
             agregarProducto = new JMenuItem("Agregar un producto");
-            modificarCliente = new JMenuItem("Modificar un cliente");
-            modificarVendedor = new JMenuItem("Modificar un vendedor");
-            modificarProducto = new JMenuItem("Modificar un producto");
-            eliminarCliente = new JMenuItem("Eliminar un cliente");
-            eliminarVendedor = new JMenuItem("Eliminar un vendedor");
-            eliminarProducto = new JMenuItem("Eliminar un producto");
-            eliminarCabeceraFactura = new JMenuItem("Eliminar cabecera factura");
-            eliminarDetalleFactura = new JMenuItem("Eliminar detalle factura");
-            agregarAlmacen = new JMenuItem("Agregar almacen");
-            eliminarAlmacen = new JMenuItem("Eliminar almacen");
+//            modificarCliente = new JMenuItem("Modificar un cliente");
+//            modificarVendedor = new JMenuItem("Modificar un vendedor");
+//            modificarProducto = new JMenuItem("Modificar un producto");
+//            eliminarCliente = new JMenuItem("Eliminar un cliente");
+//            eliminarVendedor = new JMenuItem("Eliminar un vendedor");
+//            eliminarProducto = new JMenuItem("Eliminar un producto");
+//            eliminarCabeceraFactura = new JMenuItem("Eliminar cabecera factura");
+//            eliminarDetalleFactura = new JMenuItem("Eliminar detalle factura");
+//            agregarAlmacen = new JMenuItem("Agregar almacen");
+//            eliminarAlmacen = new JMenuItem("Eliminar almacen");
             
             administrar.add(agregarCliente);
             administrar.add(agregarProducto);
             administrar.add(agregarVendedor);
-            administrar.add(new JSeparator());
-            administrar.add(modificarCliente);
-            administrar.add(modificarProducto);
-            administrar.add(modificarVendedor);
-            administrar.add(new JSeparator());
-            administrar.add(eliminarCliente);
-            administrar.add(eliminarProducto);
-            administrar.add(eliminarVendedor);
-            administrar.add(new JSeparator());
-            administrar.add(eliminarCabeceraFactura);
-            administrar.add(eliminarDetalleFactura);
-            administrar.add(new JSeparator());
-            administrar.add(agregarAlmacen);
-            administrar.add(eliminarAlmacen);
+//            administrar.add(new JSeparator());
+//            administrar.add(modificarCliente);
+//            administrar.add(modificarProducto);
+//            administrar.add(modificarVendedor);
+//            administrar.add(new JSeparator());
+//            administrar.add(eliminarCliente);
+//            administrar.add(eliminarProducto);
+//            administrar.add(eliminarVendedor);
+//            administrar.add(new JSeparator());
+//            administrar.add(eliminarCabeceraFactura);
+//            administrar.add(eliminarDetalleFactura);
+//            administrar.add(new JSeparator());
+//            administrar.add(agregarAlmacen);
+//            administrar.add(eliminarAlmacen);
             
             
             menuP = new JMenuBar();
@@ -194,24 +194,24 @@ public class Reportes extends JFrame {
            vendedores.addActionListener(o);
            devoluciones.addActionListener(o);
            
-           ventas.addActionListener(o);
+           //ventas.addActionListener(o);
            ventasVendedor.addActionListener(o);
            productosMas.addActionListener(o);
            agregarCliente.addActionListener(o);
            agregarProducto.addActionListener(o);
            agregarVendedor.addActionListener(o);
-          
-           modificarCliente.addActionListener(o);
-           modificarVendedor.addActionListener(o);
-           modificarProducto.addActionListener(o);
-           
-           eliminarCliente.addActionListener(o);
-           eliminarVendedor.addActionListener(o);
-           eliminarProducto.addActionListener(o);
-           eliminarCabeceraFactura.addActionListener(o);
-           eliminarDetalleFactura.addActionListener (o);
-           agregarAlmacen.addActionListener (o);
-           eliminarAlmacen.addActionListener (o);
+//          
+//           modificarCliente.addActionListener(o);
+//           modificarVendedor.addActionListener(o);
+//           modificarProducto.addActionListener(o);
+//           
+//           eliminarCliente.addActionListener(o);
+//           eliminarVendedor.addActionListener(o);
+//           eliminarProducto.addActionListener(o);
+//           eliminarCabeceraFactura.addActionListener(o);
+//           eliminarDetalleFactura.addActionListener (o);
+//           agregarAlmacen.addActionListener (o);
+//           eliminarAlmacen.addActionListener (o);
            this.addKeyListener(new OyenteReportes());
            
         } else if (isAdmin.equals("F")) {

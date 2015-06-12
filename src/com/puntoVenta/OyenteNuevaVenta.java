@@ -336,7 +336,7 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
         
         try {
             c.setResult(c.getStament().executeQuery("select existencia\n" +
-                    "from Producto\n" +
+                    "from Luis.Producto\n" +
                     "where idProducto="+id));
             while(c.getResult().next()){
                 existencia = Integer.parseInt(c.getResult().getString(1));
@@ -463,7 +463,7 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
         Conexion conexion = panel.getConexion();
         JTable ticket = panel.getTicket();
         System.out.println(panel.getTextAtiende().getText().trim());
-        String selectIdVendedor = "SELECT idVendedor FROM Vendedor WHERE nomVendedor = 'Luis'";
+        String selectIdVendedor = "SELECT idVendedor FROM Luis.Vendedor WHERE nomVendedor = 'Luis'";
         
         String insertarEnCab_fact, insertarEnDetalle_fact;
         int idVendedor;
@@ -492,7 +492,7 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
                 
 //                System.out.println("Tienes el ID: " + idVendedor);
 
-                insertarEnCab_fact = "INSERT INTO Cabfactura VALUES(" + 
+                insertarEnCab_fact = "INSERT INTO Luis.Cabfactura VALUES(" + 
                                         idCab_fact + "," +
                                         datosCliente[1] + "," +
                                         idVendedor+
@@ -506,7 +506,7 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
             }
             
             // Luego los detalles en Detalle_fact...
-            conexion.setResult(conexion.getStament().executeQuery("SELECT MAX(to_number(idDetallefact)) from Detallefactura"));
+            conexion.setResult(conexion.getStament().executeQuery("SELECT MAX(to_number(idDetallefact)) from Luis.Detallefactura"));
             if(conexion.getResult().next()){
                 idDetalle_fact = Integer.parseInt((conexion.getResult().getObject(1)  + "").trim());
                 // Agregamos uno porque va a ser el id siguiente...
@@ -518,7 +518,7 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
             
             // Insertamos ahora sí...
             for(int i = 0; i < ticket.getRowCount(); i++){
-                insertarEnDetalle_fact = "INSERT INTO Detallefactura VALUES(" +
+                insertarEnDetalle_fact = "INSERT INTO Luis.Detallefactura VALUES(" +
                                                 idDetalle_fact + "," +
                                                 idCab_fact + "," +
                                                 Integer.parseInt((ticket.getValueAt(i, 0)+"").trim()) + "," 
@@ -542,7 +542,7 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
                 int existencia=0;
                 try {
                     c.setResult(c.getStament().executeQuery("select Producto.existencia\n" +
-                            "from Producto\n" +
+                            "from Luis.Producto\n" +
                             "where idProducto="+(ticket.getValueAt(i, 0))));
                     System.out.println("select Producto.existencia\n" +
                             "from Producto\n" +
@@ -558,8 +558,8 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
                 }
 
                 int quitar = Integer.parseInt(ticket.getValueAt(i,3).toString());
-                System.out.println("UPDATE Producto SET existencia="+(existencia-quitar)+" WHERE idProducto="+ticket.getValueAt(i, 0).toString().trim());
-                conexion.getStament().execute("UPDATE Producto SET existencia="+(existencia-quitar)+" WHERE idProducto="+ticket.getValueAt(i, 0).toString().trim());
+                System.out.println("UPDATE Luis.Producto SET existencia="+(existencia-quitar)+" WHERE idProducto="+ticket.getValueAt(i, 0).toString().trim());
+                conexion.getStament().execute("UPDATE Luis.Producto SET existencia="+(existencia-quitar)+" WHERE idProducto="+ticket.getValueAt(i, 0).toString().trim());
                 
 
             }
@@ -599,7 +599,7 @@ public class OyenteNuevaVenta extends KeyAdapter implements ActionListener, Mous
                     buscar = "correoCliente";
                 }
 
-                query = "SELECT * FROM Cliente WHERE  Cliente." + buscar + " = " +datosCliente;
+                query = "SELECT * FROM Luis.Cliente WHERE  Cliente." + buscar + " = " +datosCliente;
 //                System.out.println("Query: " + query);
                 cliente = buscarCliente(query);
 

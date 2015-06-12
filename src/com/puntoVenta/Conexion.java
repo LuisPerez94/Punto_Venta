@@ -63,16 +63,6 @@ public class Conexion {
             case "P":
                 //insertar producto
                 try {
-//                    int i = stament.executeUpdate("INSERT INTO Producto (nombreProducto,precio,rutaImagen,descripcionProducto,existencias) VALUES"
-//                            + " ('" + datos.get(0) + "','" + datos.get(1) + "','" + datos.get(2) + "','" + datos.get(3) + "','" + datos.get(4) + "')");
-//
-//                    JOptionPane.showMessageDialog(null, "Producto agregado correctamente", "Correcto",
-//                            JOptionPane.INFORMATION_MESSAGE);
-//
-//                } catch (SQLException | HeadlessException e) {
-//                    JOptionPane.showMessageDialog(null, e);
-//                }
-
                     cst = conexion.prepareCall("{call producto_ins (?,?,?,?,?,?)}");
                     cst.setString(1, idMax(opcion));
                     cst.setString(2, datos.get(0));
@@ -90,17 +80,6 @@ public class Conexion {
                 break;
             case "C": {
                 try {
-                    //
-//                try {
-//                    int i = stament.executeUpdate("INSERT INTO Cliente (nombreCliente,apPaterno,apMaterno,direccionCliente,correoCliente,telefono,sexo) VALUES"
-//                            + " ('" + datos.get(0) + "','" + datos.get(1) + "','" + datos.get(2) + "','" + datos.get(3) +"','"+datos.get(4)+"','"+datos.get(5)+"','"+datos.get(6)+"')");
-//                } catch (SQLException ex) {
-//                    Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//
-//                JOptionPane.showMessageDialog(null, "Cliente agregado correctamente", "Correcto",
-//                        JOptionPane.INFORMATION_MESSAGE);
-
                     cst = conexion.prepareCall("{call cliente_ins (?,?,?,?,?,?,?,?)}");
                     cst.setString(1, idMax(opcion));
                     cst.setString(2, datos.get(0));
@@ -123,15 +102,6 @@ public class Conexion {
             break;
             case "V": {
                 try {
-//                int i=stament.executeUpdate("INSERT INTO punto_venta.Vendedor (nombreVendedor, apPaterno,apMaterno,fechaNac,correoVendedor,direccionVendedor, sexo,sueldo,fechaIngresoVendedor, usuario,contrasena, isAdmin) VALUES "
-//                        + "('"+datos.get(0)+"','"+datos.get(1)+"','"+datos.get(2)+"','"+datos.get(3)+"','"+datos.get(4)+"','"+datos.get(5)+"','"+datos.get(6)+"','"+datos.get(7)+"','"+datos.get(8)+"','"+datos.get(9)+"','"+datos.get(10)+"','"+datos.get(11)+"')");
-//                
-//                JOptionPane.showMessageDialog(null, "Vendedor agregado correctamente", "Correcto",
-//                        JOptionPane.INFORMATION_MESSAGE);
-//            } catch (SQLException ex) {
-//                Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
                     cst = conexion.prepareCall("{call vendedor_ins (?,?,?,?,?,?,?,?,?)}");
                     cst.setString(1, idMax(opcion));
                     cst.setString(2, datos.get(0));
@@ -147,36 +117,13 @@ public class Conexion {
                     cst.close();
                     JOptionPane.showMessageDialog(null, "Consulta realizada con exito");
 
-                    //FALTA DARLE PERMISOS 
+           
                 } catch (SQLException ex) {
                     Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 break;
             }
         }
-    }
-
-    public Statement getStament() {
-        return stament;
-    }
-
-    public ResultSet getResult() {
-        return result;
-    }
-
-    public void setResult(ResultSet result) {
-        this.result = result;
-    }
-
-    public Connection getConexion() {
-        return conexion;
-    }
-
-    /**
-     * @return the puerto
-     */
-    public String getPuerto() {
-        return puerto;
     }
 
     private String idMax(String opcion) throws SQLException {
@@ -201,5 +148,28 @@ public class Conexion {
         }
         System.out.println(id);
         return id + "";
+    }
+    
+    public Statement getStament() {
+        return stament;
+    }
+
+    public ResultSet getResult() {
+        return result;
+    }
+
+    public void setResult(ResultSet result) {
+        this.result = result;
+    }
+
+    public Connection getConexion() {
+        return conexion;
+    }
+
+    /**
+     * @return the puerto
+     */
+    public String getPuerto() {
+        return puerto;
     }
 }

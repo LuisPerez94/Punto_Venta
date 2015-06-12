@@ -268,7 +268,7 @@ public class PanelNuevaVenta extends JPanel{
     
     // Colocamos el nombre de la persona que atiende y el número de partida...
     public final void colocarEncabezado() throws SQLException{
-        String consulta = "SELECT MAX(to_number(idCabfactura)) FROM CABFACTURA";
+        String consulta = "SELECT MAX(to_number(idCabfactura)) FROM Luis.CABFACTURA";
         int idPartida = 0;
         
         try{

@@ -7,7 +7,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.sql.SQLException;
-import java.util.Arrays;
 import javax.swing.JOptionPane;
 
 /**
@@ -56,13 +55,10 @@ public class OyenteLogin extends KeyAdapter implements ActionListener, WindowLis
             JOptionPane.showMessageDialog(panel, "Debes acompletar todos los campos");
         } else {
             
-            if ("Luis".equals(isAdmin)) {
-                isAdmin = "T";
-            } else {
-                isAdmin = "";
-            }
+           
             try {
-
+                 if ("Luis".equals(isAdmin)) {
+                isAdmin = "T";
                 vendedor = new Conexion(panel.getUsuario().getText(), new String(panel.getContrasena().getPassword()),
                         "1521", panel.getIp().getText());
                 vendedor.iniciarConexion();
@@ -71,9 +67,22 @@ public class OyenteLogin extends KeyAdapter implements ActionListener, WindowLis
                 or.setNombreVendedor(panel.getUsuario().getText());
                 reporte.addEventos(or);
                 ventanaLogin.dispose();
+            } else {
+                isAdmin = "F";
+                vendedor = new Conexion(panel.getUsuario().getText(), new String(panel.getContrasena().getPassword()),
+                        "1521", panel.getIp().getText());
+                vendedor.iniciarConexion();
+                Reportes reporte = new Reportes(isAdmin);
+                OyenteReportes or = new OyenteReportes(reporte, vendedor);
+                or.setNombreVendedor(panel.getUsuario().getText());
+                reporte.addEventos(or);
+                ventanaLogin.dispose();
+            }
+                
 
             } catch (SQLException | NullPointerException ex) {
                 JOptionPane.showMessageDialog(panel, "Usuario y/o contraseña incorrectos");
+                System.out.println(ex);
                 limpiardatos();
 
             }

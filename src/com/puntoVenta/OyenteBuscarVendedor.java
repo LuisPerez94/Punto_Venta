@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -37,6 +38,10 @@ class OyenteBuscarVendedor implements ActionListener, WindowListener, KeyListene
         this.usuario = busqueda.getConexion();
     }
 
+    OyenteBuscarVendedor() {
+        actionPerformed(new ActionEvent(new JMenuItem(), 1, "Buscar"));
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getActionCommand().equals("Buscar")){
@@ -44,12 +49,12 @@ class OyenteBuscarVendedor implements ActionListener, WindowListener, KeyListene
             JPanel p2 = new JPanel();
             p2.setLayout(new BorderLayout());
             p2.setBorder(BorderFactory.createLineBorder(p2.getBackground(), 10));
-            String busca = busqueda.getIds().get(busqueda.getVendedores().getSelectedIndex()).toString();
-            
-            fecha1 = busqueda.getAnio2().getSelectedItem() + "-" + busqueda.getMes2().getSelectedItem() + "-" + 
-                    busqueda.getDia2().getSelectedItem();
-            fecha2 = busqueda.getAnio().getSelectedItem() + "-" + busqueda.getMes().getSelectedItem() + "-" + 
-                    busqueda.getDia().getSelectedItem();
+//            String busca = busqueda.getIds().get(busqueda.getVendedores().getSelectedIndex()).toString();
+//            
+//            fecha1 = busqueda.getAnio2().getSelectedItem() + "-" + busqueda.getMes2().getSelectedItem() + "-" + 
+//                    busqueda.getDia2().getSelectedItem();
+//            fecha2 = busqueda.getAnio().getSelectedItem() + "-" + busqueda.getMes().getSelectedItem() + "-" + 
+//                    busqueda.getDia().getSelectedItem();
             try {
                 busqueda.getConexion().iniciarConexion();
             } catch (SQLException ex) {
@@ -58,12 +63,10 @@ class OyenteBuscarVendedor implements ActionListener, WindowListener, KeyListene
             
             
             
-            String consulta = "select vendedor.idVendedor, vendedor.nombreVendedor, vendedor.apPaterno, vendedor.apMaterno"
-                    + " from vendedor"
-                    + " where vendedor.idVendedor=" + busca + ";";
+            String consulta = "select * from vendedores_mas_ventas";
             
                 try {
-//                    System.out.println("haciendo consulta");
+//                   
                     busqueda.getConexion().setResult(busqueda.getConexion().getStament().executeQuery(consulta));
                     while (busqueda.getConexion().getResult().next()) {
 //                        System.out.println("buscando resultado");
@@ -95,11 +98,6 @@ class OyenteBuscarVendedor implements ActionListener, WindowListener, KeyListene
             p2.add(norte, "North");
             
             PanelVendedores p1 = null;
-            try {
-                p1 = new PanelVendedores(vVendedor(busca), p2);
-            } catch (SQLException ex) {
-                Logger.getLogger(OyenteBuscarVendedor.class.getName()).log(Level.SEVERE, null, ex);
-            }
             
             busqueda.dispose();
             ventana = new VentanaEmergente("Ventas por vendedor");

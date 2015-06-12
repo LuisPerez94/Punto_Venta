@@ -14,7 +14,7 @@ public class Login extends JFrame{
     public Login() {
         
         super("PiñaSports");
-        setSize(900, 590);
+        setSize(510, 600);
         setLocationRelativeTo(null);
         setResizable(false);
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/img/sistema/pina.png")));
