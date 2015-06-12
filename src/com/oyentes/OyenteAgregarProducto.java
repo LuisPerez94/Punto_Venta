@@ -65,8 +65,9 @@ public class OyenteAgregarProducto extends KeyAdapter implements ActionListener 
             if(verificar()){
             datos.add(a.getTnombre().getText());
             datos.add(a.getTprecio().getText());
+             datos.add(a.getDescripcion().getText());
             datos.add("src/img/productos/" + nombreArchivo);
-            datos.add(a.getDescripcion().getText());
+           
             datos.add(a.getTexistencia().getText());
             
             for(int i = 0; i < datos.size(); i++){

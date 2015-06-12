@@ -34,9 +34,7 @@ public class AgregarVendedor extends JFrame {
     protected JTextField sexo;
     protected JTextField fechaIngreso;
     protected JTextField sueldo;
-    protected JTextField usuario;
-    protected JPasswordField contraseña;
-    protected JTextField Admin;
+   
     
     public AgregarVendedor() {
         super("Agregar Vendedor");
@@ -73,10 +71,7 @@ public class AgregarVendedor extends JFrame {
         fechaIngreso.setName("fechaIngreso");
         sueldo = new JTextField();
         sueldo.setName("sueldo");
-        usuario = new JTextField();
-        contraseña = new JPasswordField();
-        Admin = new JTextField();
-        Admin.setName("admin");
+        
         
         panelCentro.add(new JLabel("Nombre:"));
         panelCentro.add(nombre);
@@ -94,14 +89,8 @@ public class AgregarVendedor extends JFrame {
         panelCentro.add(sexo);
         panelCentro.add(new JLabel("Sueldo: "));
         panelCentro.add(sueldo);
-        panelCentro.add(new JLabel("Fecha de ingreso :  YYYY/MM/dd"));
-        panelCentro.add(fechaIngreso);
-        panelCentro.add(new JLabel("Usuario :"));
-        panelCentro.add(usuario);
-        panelCentro.add(new JLabel("Contraseña :"));
-        panelCentro.add(contraseña);
-        panelCentro.add(new JLabel("¿Administrador?: (T/F)"));
-        panelCentro.add(Admin);
+        
+        
         
         panelSur.add(cancelar);
         panelSur.add(registrar);
@@ -116,7 +105,7 @@ public class AgregarVendedor extends JFrame {
         cancelar.addActionListener(o);
         sexo.addKeyListener(o);
         sueldo.addKeyListener(o);
-        Admin.addKeyListener(o);
+       
     }
    
     public JButton getRegistrar() {
@@ -207,29 +196,7 @@ public class AgregarVendedor extends JFrame {
         this.sueldo = sueldo;
     }
 
-    public JTextField getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(JTextField usuario) {
-        this.usuario = usuario;
-    }
-
-    public JPasswordField getContraseña() {
-        return contraseña;
-    }
-
-    public void setContraseña(JPasswordField contraseña) {
-        this.contraseña = contraseña;
-    }
-
-    public JTextField getAdmin() {
-        return Admin;
-    }
-
-    public void setAdmin(JTextField Admin) {
-        this.Admin = Admin;
-    }
+   
     
     
     

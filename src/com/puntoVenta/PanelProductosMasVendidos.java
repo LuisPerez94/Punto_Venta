@@ -68,8 +68,8 @@ public class PanelProductosMasVendidos extends JPanel{
         productos.getColumnModel().getColumn(5).setPreferredWidth(140);
         /** **/
         
-        norteO.add(labelFechas);
-        norteO.add(comboFechas);
+//        norteO.add(labelFechas);
+//        norteO.add(comboFechas);
         
         norteE.add(new JLabel(new ImageIcon("src/img/sistema/excel.png")));
         norteE.add(guardar);

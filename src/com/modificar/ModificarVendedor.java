@@ -41,9 +41,7 @@ public class ModificarVendedor extends JFrame{
     private JTextField sexo;
     private JTextField fechaIngreso;
     private JTextField sueldo;
-    private JTextField usuario;
-    private JPasswordField contraseña;
-    private JTextField Admin;
+   
     private ArrayList Atributos;
     private ArrayList ids = new ArrayList<>();
     private ArrayList v = new ArrayList <String []> ();
@@ -98,16 +96,10 @@ public class ModificarVendedor extends JFrame{
                 vendedor.setSexo(c.getResult().getString(8).charAt(0));
                 vendedor.setSueldo(Float.parseFloat(c.getResult().getString(9)));
                 vendedor.setFechaIngresoVendedor(c.getResult().getString(10).replace("-", "/"));
-                vendedor.setNombUsuario(c.getResult().getString(11));
-                vendedor.setContrasena(c.getResult().getString(12));
-               
+         
                 
                 
-                if(c.getResult().getString(13).equals("T")){
-                    vendedor.setIsAdministrador(true);
-                }else{
-                    vendedor.setIsAdministrador(false);
-                }
+                
             }
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -142,14 +134,7 @@ public class ModificarVendedor extends JFrame{
         fechaIngreso.setName("fechaIngreso");
         sueldo = new JTextField(sueldoString);
         sueldo.setName("sueldo");
-        usuario = new JTextField(vendedor.getNombUsuario());
-        contraseña = new JPasswordField(vendedor.getContrasena());
-        if(vendedor.isIsAdministrador())
-            isAdminChar = "T";
-        else
-            isAdminChar = "F";
-        Admin = new JTextField(isAdminChar);
-        Admin.setName("admin");
+       
         
         panelCentro.add(new JLabel("Modificar a:"));
         panelCentro.add(vendedores);
@@ -173,11 +158,8 @@ public class ModificarVendedor extends JFrame{
         panelCentro.add(new JLabel("Fecha de ingreso:  YYYY/MM/dd"));
         panelCentro.add(fechaIngreso);
         panelCentro.add(new JLabel("Usuario: "));
-        panelCentro.add(usuario);
-        panelCentro.add(new JLabel("Contraseña: "));
-        panelCentro.add(contraseña);
-        panelCentro.add(new JLabel("¿Administrador? : (T/F)"));
-        panelCentro.add(Admin);
+       
+        
         
         panelSur.add(cancelar);
         panelSur.add(registrar);
@@ -191,7 +173,7 @@ public class ModificarVendedor extends JFrame{
         registrar.addActionListener(oyenteModificarVendedor);
         sexo.addKeyListener(oyenteModificarVendedor);
         sueldo.addKeyListener(oyenteModificarVendedor);
-        Admin.addKeyListener(oyenteModificarVendedor);
+        
         vendedores.addItemListener(oyenteModificarVendedor);
     }
     
@@ -307,30 +289,9 @@ public class ModificarVendedor extends JFrame{
         this.sueldo = sueldo;
     }
 
-    public JTextField getUsuario() {
-        return usuario;
-    }
+   
 
-    public void setUsuario(JTextField usuario) {
-        this.usuario = usuario;
-    }
-
-    public JPasswordField getContraseña() {
-        return contraseña;
-    }
-
-    public void setContraseña(JPasswordField contraseña) {
-        this.contraseña = contraseña;
-    }
-
-    public JTextField getAdmin() {
-        return Admin;
-    }
-
-    public void setAdmin(JTextField Admin) {
-        this.Admin = Admin;
-    }
-
+ 
     public ArrayList getAtributos() {
         return Atributos;
     }

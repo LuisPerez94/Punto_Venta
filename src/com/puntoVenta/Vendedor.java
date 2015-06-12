@@ -20,10 +20,7 @@ public class Vendedor {
     private char sexo;
     private float sueldo;
     private String fechaIngresoVendedor;
-    private String nombUsuario;
-    private String contrasena;
-    private boolean isAdministrador;
-    
+   
     
 
     public Vendedor() {
@@ -105,29 +102,7 @@ public class Vendedor {
         this.fechaIngresoVendedor = fechaIngresoVendedor;
     }
 
-    public String getNombUsuario() {
-        return nombUsuario;
-    }
-
-    public void setNombUsuario(String nombUsuario) {
-        this.nombUsuario = nombUsuario;
-    }
-
-    public String getContrasena() {
-        return contrasena;
-    }
-
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
-    }
-
-    public boolean isIsAdministrador() {
-        return isAdministrador;
-    }
-
-    public void setIsAdministrador(boolean isAdministrador) {
-        this.isAdministrador = isAdministrador;
-    }
+   
 
     public String getDireccion() {
         return direccion;

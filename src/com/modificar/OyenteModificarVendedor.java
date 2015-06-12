@@ -98,8 +98,7 @@ public class OyenteModificarVendedor implements ActionListener,ItemListener , Ke
                     "', apMaterno='"+mv.getApMaterno().getText()+"', fechaNac='"+mv.getFechanacimiento().getText()+
                     "', correoVendedor='"+mv.getCorreo().getText()+"', direccionVendedor='"+mv.getDireccion().getText()+
                     "', sexo='"+mv.getSexo().getText()+"', sueldo='"+mv.getSueldo().getText()+"', fechaIngresoVendedor='"+
-                    mv.getFechaIngreso().getText()+"', usuario='"+mv.getUsuario().getText()+"', contrasena='"+mv.getContraseña().getText()+
-                    "', isAdmin='"+mv.getAdmin().getText()+"' where idVendedor ="
+                    mv.getFechaIngreso().getText()+"' where idVendedor ="
                     +mv.getIds().get(mv.getVendedores().getSelectedIndex()).toString()+";";
         }
         else{
@@ -162,13 +161,7 @@ public class OyenteModificarVendedor implements ActionListener,ItemListener , Ke
                     e.consume();
                 }
                 break;
-            case "admin":
-                if(mv.getAdmin().getText().length()==1)e.consume();
-               if(car=='t'||(car=='T')||(car=='f')||(car=='F')) {
-        } else {
-                   e.consume();
-        }
-                break;
+           
         }
     }
 
@@ -205,16 +198,7 @@ public class OyenteModificarVendedor implements ActionListener,ItemListener , Ke
                 mv.getVendedor().setSexo(c.getResult().getString(8).charAt(0));
                 mv.getVendedor().setSueldo(Float.parseFloat(c.getResult().getString(9)));
                 mv.getVendedor().setFechaIngresoVendedor(c.getResult().getString(10).replace("-", "/"));
-                mv.getVendedor().setNombUsuario(c.getResult().getString(11));
-                mv.getVendedor().setContrasena(c.getResult().getString(12));
-               
                 
-                
-                if(c.getResult().getString(13).equals("T")){
-                    mv.getVendedor().setIsAdministrador(true);
-                }else{
-                    mv.getVendedor().setIsAdministrador(false);
-                }
             }
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -237,16 +221,9 @@ public class OyenteModificarVendedor implements ActionListener,ItemListener , Ke
         mv.getSexo().setText(sexoString);
         mv.getFechaIngreso().setText(mv.getVendedor().getFechaIngresoVendedor());
         mv.getSueldo().setText(sueldoString);
-        mv.getUsuario().setText(mv.getVendedor().getNombUsuario());
-        mv.getContraseña().setText(mv.getVendedor().getContrasena());
+       
         
-        if(mv.getVendedor().isIsAdministrador()){
-            isAdminChar = "T";
-        }else{
-            isAdminChar = "F";
-        }
-                
-        mv.getAdmin().setText(isAdminChar);
+        
         }
     }
     

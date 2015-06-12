@@ -49,29 +49,24 @@ public class OyenteAgregarVendedor extends KeyAdapter implements ActionListener 
                 System.out.println("Registrar");
                  EmailValidator ev=new EmailValidator();
                  if(ev.validate(a.getCorreo().getText())){
-                     if(isDate(a.getFechaIngreso().getText()) && isDate(a.getFechanacimiento().getText())){
+                    
                          datos.add(a.getNombre().getText());
                          datos.add(a.getApPaterno().getText());
                          datos.add(a.getApMaterno().getText());
                          datos.add(a.getFechanacimiento().getText());
                          datos.add(a.getCorreo().getText());
                          datos.add(a.getDireccion().getText());
-                         datos.add(a.getSexo().getText());
+                          datos.add(a.getSexo().getText());
                          datos.add(a.getSueldo().getText());
-                         datos.add(a.getFechaIngreso().getText());
-                         datos.add(a.getUsuario().getText());
-                         datos.add(a.getContraseña().getText());
-                         datos.add(a.getAdmin().getText());
+                        
+                        
                          
                          usuario.insertarDatos("V", datos);
                          limpiardatos();
                          datos.clear();
-                     }else{
-                           JOptionPane.showMessageDialog(a, "Las Fechas no son validas");
-                         
                      }
                      
-                 }else{
+                 else{
                          JOptionPane.showMessageDialog(a, "El Correo no es valido");
                  }
                 break;
@@ -85,10 +80,9 @@ public class OyenteAgregarVendedor extends KeyAdapter implements ActionListener 
         a.getCorreo().setText("");
         a.getSexo().setText("");
         a.getDireccion().setText("");
-        a.getAdmin().setText("");
-        a.getUsuario().setText("");
+      
         a.getSueldo().setText("");
-        a.getContraseña().setText("");
+        
         a.getFechaIngreso().setText("");
         a.getFechanacimiento().setText("");
 
@@ -118,25 +112,10 @@ public class OyenteAgregarVendedor extends KeyAdapter implements ActionListener 
                     e.consume();
                 }
                 break;
-            case "admin":
-                if(a.getAdmin().getText().length()==1)e.consume();
-               if(car=='t'||(car=='T')||(car=='f')||(car=='F')) {
-        } else {
-                   e.consume();
-        }
-                break;
+            
         }
     }
-     public boolean isDate(String fechax) {
-        try {
-            SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy/MM/dd");
-            formatoFecha.setLenient(false);
-            java.util.Date fecha = formatoFecha.parse(fechax);
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
-    }
+     
 
 }
 

@@ -167,21 +167,7 @@ public class OyenteProductosMasVendidos extends WindowAdapter implements ActionL
     
     public void productosMasVendidos(String rangoFechas) throws SQLException{
         correcto = true;
-        String consulta = "SELECT Producto.idProducto Codigo, Producto.nombreProducto Nombre, Producto.descripcionProducto Descripcion," +
-                            "Producto.precio Precio, SUM(Detalle_fact.cantidadProducto) CantVendidos," +
-                                "SUM(Producto.precio*Detalle_fact.cantidadProducto) IngresosPorProducto " +
-
-                          "FROM Cab_fact, Detalle_fact, Producto " +
-
-                          "WHERE Cab_fact.idCab_fact = Detalle_fact.Cab_fact_idCab_fact " +
-                          "AND	Detalle_fact.Producto_idProducto = Producto.idProducto " +
-                          rangoFechas + " " +
-                          
-                          "GROUP BY Producto.idProducto " +
-    
-                          "ORDER BY CantVendidos DESC " +
-
-                          "LIMIT 10";
+        String consulta = "Select * from ProductoMasVendidos";
         
         try{
             conexion.iniciarConexion();
